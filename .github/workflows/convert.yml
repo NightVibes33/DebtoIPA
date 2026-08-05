@@ -49,7 +49,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout converter
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install archive tools
         run: |
@@ -132,7 +132,7 @@ jobs:
 
       - name: Upload IPA and report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: DebtoIPA-${{ inputs.job_id }}
           path: output/
