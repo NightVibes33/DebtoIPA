@@ -39,18 +39,25 @@ jobs:
 
       - name: Validate runner workflow YAML
         run: |
-          ruby -e "require 'yaml'; YAML.load_file('.github/workflows/convert.yml', aliases: true); puts 'convert.yml parsed'"
+          ruby -e "require 'yaml'; %w[.github/workflows/convert.yml .github/workflows/public-convert.yml].each { |path| YAML.load_file(path, aliases: true); puts \"#{path} parsed\" }"
 
       - name: Validate shipped browser JavaScript
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const html = fs.readFileSync('public/github-runner.html', 'utf8');
-          const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
-          if (scripts.length !== 1) throw new Error(`Expected one inline script, found ${scripts.length}`);
-          new Function(scripts[0]);
-          for (const required of ['Build on GitHub macOS', 'source_kind', 'git_chunks', 'actions/workflows/convert.yml/dispatches']) {
-            if (!html.includes(required)) throw new Error(`Missing static client contract marker: ${required}`);
+          for (const [path, markers] of [
+            ['public/github-runner.html', ['Build on GitHub macOS', 'actions/workflows/convert.yml/dispatches']],
+            ['public/public-runner.html', ['Continue with GitHub', '/api/oauth/device', 'debtoipa-uploads', 'public-convert.yml']],
+          ]) {
+            const html = fs.readFileSync(path, 'utf8');
+            const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
+            if (scripts.length !== 1) throw new Error(`${path}: expected one inline script, found ${scripts.length}`);
+            new Function(scripts[0]);
+            for (const required of markers) {
+              if (!html.includes(required)) throw new Error(`${path}: missing contract marker ${required}`);
+            }
           }
-          console.log('Static GitHub runner client parsed successfully.');
+          const config = JSON.parse(fs.readFileSync('public/oauth-config.json', 'utf8'));
+          if (!Array.isArray(config.scopes) || !config.scopes.includes('public_repo')) throw new Error('OAuth config must request public_repo.');
+          console.log('Static runner clients parsed successfully.');
           NODE

@@ -1,5 +1,5 @@
-import { GitHubDirectRunnerApp } from '@/components/GitHubDirectRunnerApp';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <GitHubDirectRunnerApp />;
+  redirect('/public-runner.html');
 }
