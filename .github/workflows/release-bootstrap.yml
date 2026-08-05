@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build consolidated release commit
+      - name: Build consolidated release commit object
         env:
           GH_TOKEN: ${{ github.token }}
           ARCHIVE_SHA256: 12988cfa5585c962cd188211620608640c1ae1095ce3a0bc38bc1a6e692babb0
@@ -44,12 +44,66 @@ jobs:
           tar -xzf /tmp/debtoipa-release.tar.gz -C .
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
 
-          git config user.name "DebToIPA Release Bot"
-          git config user.email "actions@users.noreply.github.com"
           git add .github/workflows/ci.yml .github/workflows/convert.yml .github/workflows/public-convert.yml README.md public/github-runner.html public/public-runner.html scripts/adapter_sdk.py scripts/binary_shim.py scripts/capability_graph.py scripts/runner_full_auto.py scripts/source_port.py tests/macos_full_matrix.py tests/test_capability_graph.py
-
           git diff --cached --check
           test "$(git rev-list --count origin/main..HEAD)" -eq 0
-          git commit -m "Add full multi-profile jailbreak-to-stock iOS conversion"
-          test "$(git rev-list --count origin/main..HEAD)" -eq 1
-          git push --force origin HEAD:refs/heads/feature/multi-profile-stock-ios
+
+          python3 <<'PY'
+          import base64
+          import json
+          import os
+          import pathlib
+          import urllib.request
+
+          repository = os.environ['GITHUB_REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          root = pathlib.Path.cwd()
+          paths = [
+              '.github/workflows/ci.yml',
+              '.github/workflows/convert.yml',
+              '.github/workflows/public-convert.yml',
+              'README.md',
+              'public/github-runner.html',
+              'public/public-runner.html',
+              'scripts/adapter_sdk.py',
+              'scripts/binary_shim.py',
+              'scripts/capability_graph.py',
+              'scripts/runner_full_auto.py',
+              'scripts/source_port.py',
+              'tests/macos_full_matrix.py',
+              'tests/test_capability_graph.py',
+          ]
+
+          def request(method, path, payload=None):
+              data = None if payload is None else json.dumps(payload).encode('utf-8')
+              req = urllib.request.Request(
+                  f'https://api.github.com/repos/{repository}{path}',
+                  data=data,
+                  method=method,
+                  headers={
+                      'Accept': 'application/vnd.github+json',
+                      'Authorization': f'Bearer {token}',
+                      'X-GitHub-Api-Version': '2022-11-28',
+                      'Content-Type': 'application/json',
+                  },
+              )
+              with urllib.request.urlopen(req) as response:
+                  return json.load(response)
+
+          main_sha = request('GET', '/git/ref/heads/main')['object']['sha']
+          base_commit = request('GET', f'/git/commits/{main_sha}')
+          entries = []
+          for path in paths:
+              content = base64.b64encode((root / path).read_bytes()).decode('ascii')
+              blob = request('POST', '/git/blobs', {'content': content, 'encoding': 'base64'})
+              entries.append({'path': path, 'mode': '100644', 'type': 'blob', 'sha': blob['sha']})
+          tree = request('POST', '/git/trees', {'base_tree': base_commit['tree']['sha'], 'tree': entries})
+          commit = request('POST', '/git/commits', {
+              'message': 'Add full multi-profile jailbreak-to-stock iOS conversion',
+              'tree': tree['sha'],
+              'parents': [main_sha],
+          })
+          print(f'DEBTOIPA_FEATURE_COMMIT={commit["sha"]}')
+          print(f'DEBTOIPA_FEATURE_PARENT={main_sha}')
+          print(f'DEBTOIPA_FEATURE_TREE={tree["sha"]}')
+          PY
