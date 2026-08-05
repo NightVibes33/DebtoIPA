@@ -1,0 +1,6 @@
+{
+  "clientId": "",
+  "flow": "device",
+  "scopes": ["read:user", "public_repo"],
+  "setup": "Create a GitHub OAuth App owned by NightVibes33, enable Device Flow, then place its public client ID in this file."
+}
