@@ -18,7 +18,7 @@ jobs:
           ref: feature/multi-profile-stock-ios
           fetch-depth: 1
 
-      - name: Patch and upload corrected adapter blob
+      - name: Patch and upload corrected source compiler blob
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -26,20 +26,22 @@ jobs:
           python3 <<'PY'
           from pathlib import Path
 
-          path = Path('scripts/adapter_sdk.py')
+          path = Path('scripts/source_port.py')
           text = path.read_text(encoding='utf-8')
-          old = '''    public var body: some View { NavigationStack { content.navigationTitle("__APP_NAME__") } }'''
-          new = '''    public var body: some View {
-              NavigationView { content.navigationTitle("__APP_NAME__") }
-                  .navigationViewStyle(StackNavigationViewStyle())
-          }'''
+          old = '''            elif module not in {"Darwin", "Glibc", "ObjectiveC"}:
+                raise SourcePortError(f"Source imports unsupported module {module}.")'''
+          new = '''            elif module not in {
+                "Darwin", "Glibc", "ObjectiveC",
+                "arpa", "dispatch", "mach", "net", "netinet", "objc", "os", "sys",
+            }:
+                raise SourcePortError(f"Source imports unsupported module {module}.")'''
           if text.count(old) != 1:
-              raise SystemExit(f'expected one NavigationStack wrapper, found {text.count(old)}')
+              raise SystemExit(f'expected one framework scanner branch, found {text.count(old)}')
           path.write_text(text.replace(old, new), encoding='utf-8')
           PY
 
-          python3 -m py_compile scripts/adapter_sdk.py
-          python3 -m unittest tests.test_capability_graph
+          python3 -m py_compile scripts/source_port.py
+          python3 -m unittest tests.test_source_port tests.test_capability_graph
 
           blob_sha="$(python3 - <<'PY'
           import base64
@@ -48,7 +50,7 @@ jobs:
           import pathlib
           import urllib.request
 
-          content = base64.b64encode(pathlib.Path('scripts/adapter_sdk.py').read_bytes()).decode('ascii')
+          content = base64.b64encode(pathlib.Path('scripts/source_port.py').read_bytes()).decode('ascii')
           request = urllib.request.Request(
               f'https://api.github.com/repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs',
               data=json.dumps({'content': content, 'encoding': 'base64'}).encode('utf-8'),
@@ -64,4 +66,4 @@ jobs:
               print(json.load(response)['sha'])
           PY
           )"
-          echo "DEBTOIPA_ADAPTER_BLOB=${blob_sha}"
+          echo "DEBTOIPA_SOURCE_PORT_BLOB=${blob_sha}"
