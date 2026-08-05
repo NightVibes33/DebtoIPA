@@ -48,6 +48,7 @@ jobs:
           for (const [path, markers] of [
             ['public/github-runner.html', ['Build on GitHub macOS', 'actions/workflows/convert.yml/dispatches']],
             ['public/public-runner.html', ['Continue with GitHub', '/api/oauth/device', 'debtoipa-uploads', 'public-convert.yml']],
+            ['public/user-runner.html', ['Build my IPA', 'DebToIPA handles the secure temporary upload', '/public-runner.html?entry=user-facing-v1']],
           ]) {
             const html = fs.readFileSync(path, 'utf8');
             const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
@@ -59,5 +60,7 @@ jobs:
           }
           const config = JSON.parse(fs.readFileSync('public/oauth-config.json', 'utf8'));
           if (!Array.isArray(config.scopes) || !config.scopes.includes('public_repo')) throw new Error('OAuth config must request public_repo.');
-          console.log('Static runner clients parsed successfully.');
+          if (!/^[A-Za-z0-9]{16,40}$/.test(String(config.clientId || ''))) throw new Error('OAuth client ID is missing or invalid.');
+          if (config.clientId !== 'Ov23liak4HeKInsXBpvB') throw new Error('Unexpected DebToIPA OAuth client ID.');
+          console.log('Activated user-facing runner clients parsed successfully.');
           NODE
