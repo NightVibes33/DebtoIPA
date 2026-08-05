@@ -58,7 +58,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  smart-auto:
+  full-auto:
     runs-on: macos-15
     timeout-minutes: 60
     steps:
@@ -112,7 +112,6 @@ jobs:
           if expected <= 0 or expected > 750 * 1024 * 1024:
               raise SystemExit('Upload manifest size is invalid.')
           output = pathlib.Path('work/input.deb')
-          written = 0
           with output.open('wb') as handle:
               for index, item in enumerate(parts):
                   path = str(item.get('path') if isinstance(item, dict) else '')
@@ -148,10 +147,10 @@ jobs:
           print(f'Validated Debian archive: {size} bytes')
           PY
 
-      - name: Audit package and choose build path
-        run: echo "Smart Auto will attempt Direct IPA, then compile a replacement host when the original binary is blocked."
+      - name: Explain conversion paths
+        run: echo "Full Auto will try a compatible original app, then a constrained package-provided source rebuild. It never generates a generic compatibility shell."
 
-      - name: Build and validate IPA
+      - name: Analyze binary or rebuild package source
         id: convert
         continue-on-error: true
         env:
@@ -163,7 +162,7 @@ jobs:
           JOB_ID: ${{ inputs.job_id }}
         run: |
           set +e
-          python3 scripts/runner_smart_auto.py \
+          python3 scripts/runner_full_auto.py \
             --deb work/input.deb \
             --output-dir output \
             --job-id "$JOB_ID" \
@@ -173,21 +172,34 @@ jobs:
             --bundle-id "$BUNDLE_ID" \
             --display-name "$DISPLAY_NAME"
           code=$?
+          result_kind=$(python3 - <<'PY'
+          import json
+          try:
+              print(json.load(open('output/runner-summary.json')).get('resultKind', 'unsupported'))
+          except Exception:
+              print('unsupported')
+          PY
+          )
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "result_kind=$result_kind" >> "$GITHUB_OUTPUT"
           exit "$code"
 
       - name: Publish runner summary
         if: always()
+        env:
+          JOB_ID: ${{ inputs.job_id }}
         run: |
           python3 - <<'PY'
           import json, pathlib, os
           path = pathlib.Path('output/runner-summary.json')
           summary = json.loads(path.read_text()) if path.exists() else {'verdict':'failed','error':'Runner produced no summary.'}
           lines = [
-              '# DebToIPA Smart Auto',
+              '# DebToIPA Full Auto',
               f"- Job: `{os.environ.get('JOB_ID', '')}`",
               f"- Verdict: **{summary.get('verdict', 'unknown')}**",
-              f"- Feature complete: **{summary.get('featureComplete', False)}**",
+              f"- Result kind: **{summary.get('resultKind', 'unknown')}**",
+              f"- Stock-iOS compile verified: **{summary.get('stockIOSCompileVerified', False)}**",
+              f"- Behavioral parity verified: **{summary.get('behavioralParityVerified', False)}**",
               f"- Generated IPA files: **{len(summary.get('ipas') or [])}**",
           ]
           if summary.get('error'):
@@ -197,10 +209,8 @@ jobs:
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
               handle.write('\n'.join(lines) + '\n')
           PY
-        env:
-          JOB_ID: ${{ inputs.job_id }}
 
-      - name: Upload IPA, Port Project, and reports
+      - name: Upload IPAs, source-port output, and reports
         if: always()
         uses: actions/upload-artifact@v6
         with:
@@ -225,6 +235,6 @@ jobs:
               "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/refs/heads/${UPLOAD_REF}" || true
           fi
 
-      - name: Fail unusable build
+      - name: Fail non-usable build
         if: steps.convert.outputs.exit_code != '0'
         run: exit 1
