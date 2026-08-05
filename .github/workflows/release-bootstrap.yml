@@ -28,13 +28,11 @@ jobs:
 
           path = Path('scripts/source_port.py')
           text = path.read_text(encoding='utf-8')
-          old = '''            elif module not in {"Darwin", "Glibc", "ObjectiveC"}:
-                raise SourcePortError(f"Source imports unsupported module {module}.")'''
-          new = '''            elif module not in {
+          old = 'elif module not in {"Darwin", "Glibc", "ObjectiveC"}:'
+          new = '''elif module not in {
                 "Darwin", "Glibc", "ObjectiveC",
                 "arpa", "dispatch", "mach", "net", "netinet", "objc", "os", "sys",
-            }:
-                raise SourcePortError(f"Source imports unsupported module {module}.")'''
+            }:'''
           if text.count(old) != 1:
               raise SystemExit(f'expected one framework scanner branch, found {text.count(old)}')
           path.write_text(text.replace(old, new), encoding='utf-8')
@@ -42,6 +40,25 @@ jobs:
 
           python3 -m py_compile scripts/source_port.py
           python3 -m unittest tests.test_source_port tests.test_capability_graph
+          python3 <<'PY'
+          import tempfile
+          from pathlib import Path
+          from scripts.source_port import PortManifest, SourcePortError, _discover_frameworks
+
+          manifest = PortManifest(2, 'uikit-objc-app', 'Test', 'app.test.normal', '15.0', 'universal', [], [])
+          with tempfile.TemporaryDirectory() as temporary:
+              source = Path(temporary) / 'main.m'
+              source.write_text('#include <sys/types.h>\n#import <UIKit/UIKit.h>\n', encoding='utf-8')
+              frameworks = _discover_frameworks(manifest, [source])
+              assert 'UIKit' in frameworks and 'Foundation' in frameworks
+              source.write_text('#import <DefinitelyPrivate/Thing.h>\n', encoding='utf-8')
+              try:
+                  _discover_frameworks(manifest, [source])
+              except SourcePortError:
+                  pass
+              else:
+                  raise AssertionError('unknown framework namespace was not rejected')
+          PY
 
           blob_sha="$(python3 - <<'PY'
           import base64
