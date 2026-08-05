@@ -1,0 +1,27 @@
+name: Bootstrap project
+
+on:
+  push:
+    branches: [feature/full-converter-app]
+    paths: [bootstrap_payload.b64]
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack project payload
+        run: |
+          base64 -d bootstrap_payload.b64 > /tmp/project.tgz
+          tar -xzf /tmp/project.tgz
+          rm -f bootstrap_payload.b64 .github/workflows/bootstrap.yml
+      - name: Commit project
+        run: |
+          git config user.name "DebtoIPA Builder"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: build full DebtoIPA web app and conversion runner"
+          git push origin HEAD:${GITHUB_REF_NAME}
