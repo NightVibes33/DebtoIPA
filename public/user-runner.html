@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070914">
+  <title>DebToIPA — Build Your IPA</title>
+  <style>
+    html,body{margin:0;min-height:100%;background:#070914;color:#f8f8ff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif}
+    .loading{min-height:100dvh;display:grid;place-items:center;padding:28px;text-align:center;background:radial-gradient(circle at 75% 0,rgba(113,73,255,.27),transparent 42%),#070914}
+    .card{width:min(100%,430px);padding:28px;border:1px solid rgba(255,255,255,.1);border-radius:28px;background:rgba(19,23,46,.86);box-shadow:0 28px 90px rgba(0,0,0,.4)}
+    .mark{width:64px;height:64px;margin:0 auto 16px;border-radius:21px;display:grid;place-items:center;font-size:30px;background:linear-gradient(145deg,rgba(130,101,255,.7),rgba(84,221,255,.2));border:1px solid rgba(255,255,255,.1)}
+    h1{margin:0;font-size:28px;letter-spacing:-.03em}p{color:#9ca5c9;line-height:1.6}.error{color:#ffb5c6}
+  </style>
+</head>
+<body>
+  <main class="loading"><section class="card"><div class="mark">✦</div><h1>Loading DebToIPA</h1><p id="status">Preparing the secure GitHub sign-in and macOS build service…</p></section></main>
+  <script>
+    (() => {
+      'use strict';
+      const status = document.getElementById('status');
+      const replacements = [
+        ['<title>DebToIPA — Public GitHub Runner</title>', '<title>DebToIPA — Build Your IPA</title>'],
+        ['<small>Public GitHub macOS queue</small>', '<small>Secure hosted macOS builds</small>'],
+        ['<p class="eye">GITHUB-AUTHENTICATED BUILDS</p><h1>Anyone can submit. <span>Your repo runs the build.</span></h1><p>Users sign in through GitHub, upload the package to a temporary branch they own, and submit an authenticated queue issue. Your public DebToIPA repository performs the macOS/Xcode build.</p>', '<p class="eye">BUILD WITH DEBTOIPA</p><h1>Turn your DEB into a <span>sideloadable iOS build.</span></h1><p>Sign in with GitHub, choose your package, and DebToIPA handles the secure temporary upload, compatibility audit, macOS/Xcode build, validation, and result delivery.</p>'],
+        ['No personal token field. GitHub verifies the account and grants access only to public repositories needed for upload and job submission.', 'Sign in securely through GitHub. DebToIPA never asks you to paste a personal access token, and your authorization stays in the current browser tab.'],
+        ['iPhone Files · public limit 250 MB', 'Choose from Files · 250 MB limit'],
+        ['⚡ Submit to public macOS queue', '⚡ Build my IPA'],
+        ['<strong>Public queue limits:</strong>', '<strong>Service limits:</strong>'],
+        ['Waiting for your GitHub macOS runner', 'Waiting for a DebToIPA macOS builder'],
+        ['Waiting for GitHub to create the public runner job', 'Waiting for DebToIPA to start the build'],
+        ['Public build failed', 'Build failed'],
+        ['Could not submit public build', 'Could not start the build'],
+        ['Public packages are limited to 250 MB.', 'Packages are limited to 250 MB.'],
+        ['Public packages must be between 1 byte and 250 MB.', 'Packages must be between 1 byte and 250 MB.'],
+        ['Public GitHub Runner', 'DebToIPA Build Service'],
+        ['Public GitHub macOS queue', 'Hosted macOS build service']
+      ];
+
+      fetch('/public-runner.html?entry=user-facing-v1', { cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) throw new Error(`UI request failed with HTTP ${response.status}`);
+          return response.text();
+        })
+        .then((html) => {
+          for (const [from, to] of replacements) html = html.split(from).join(to);
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch((error) => {
+          status.className = 'error';
+          status.textContent = `DebToIPA could not load: ${error instanceof Error ? error.message : String(error)}`;
+        });
+    })();
+  </script>
+</body>
+</html>
