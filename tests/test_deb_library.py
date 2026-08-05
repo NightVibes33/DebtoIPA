@@ -105,5 +105,22 @@ class DebLibraryTests(unittest.TestCase):
         self.assertIsNone(item["downloadUrl"])
 
 
+    def test_compression_detection_uses_magic_not_suffix(self) -> None:
+        html = b"<html><body>not an xz stream</body></html>"
+        self.assertEqual(
+            library.decompress_index("https://repo.example/Packages.xz", html),
+            html,
+        )
+
+    def test_candidate_urls_include_zstandard_indexes(self) -> None:
+        urls, explicit = library.candidate_urls(self.direct_source)
+        self.assertFalse(explicit)
+        self.assertEqual(urls[0], "https://repo.example/Packages.zst")
+        self.assertIn(
+            "https://repo.example/dists/stable/main/binary-iphoneos-arm64/Packages.zst",
+            urls,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

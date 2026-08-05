@@ -13,6 +13,8 @@ import json
 import lzma
 import os
 import re
+import shutil
+import subprocess
 import sys
 import urllib.error
 import urllib.parse
@@ -72,14 +74,41 @@ def fetch_bytes(url: str) -> bytes:
         return data
 
 
+ZSTD_MAGIC = b"\x28\xb5\x2f\xfd"
+
+
+def decompress_zstd(data: bytes) -> bytes:
+    tool = shutil.which("zstd") or shutil.which("unzstd")
+    if not tool:
+        raise ValueError("Zstandard package index found, but no zstd decoder is installed")
+    try:
+        completed = subprocess.run(
+            [tool, "-d", "-q", "-c"],
+            input=data,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=45,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError("Zstandard package index decoding timed out") from exc
+    if completed.returncode != 0:
+        detail = completed.stderr.decode("utf-8", errors="replace").strip()
+        raise ValueError(f"Zstandard package index decoding failed: {detail[:240]}")
+    return completed.stdout
+
+
 def decompress_index(url: str, data: bytes) -> bytes:
-    lowered = url.lower()
-    if data.startswith(b"\x1f\x8b") or lowered.endswith(".gz"):
+    # Compression is determined by magic bytes, never by the URL suffix. Some
+    # repositories (notably CyPwn) serve Zstandard or HTML through .xz paths.
+    if data.startswith(b"\x1f\x8b"):
         output = gzip.decompress(data)
-    elif data.startswith(b"BZh") or lowered.endswith(".bz2"):
+    elif data.startswith(b"BZh"):
         output = bz2.decompress(data)
-    elif data.startswith(b"\xfd7zXZ\x00") or lowered.endswith(".xz"):
+    elif data.startswith(b"\xfd7zXZ\x00"):
         output = lzma.decompress(data)
+    elif data.startswith(ZSTD_MAGIC):
+        output = decompress_zstd(data)
     else:
         output = data
     if len(output) > MAX_DECOMPRESSED:
@@ -130,10 +159,10 @@ def candidate_urls(source: dict[str, Any]) -> tuple[list[str], bool]:
     base = str(source["baseUrl"]).rstrip("/") + "/"
     candidates = [
         urllib.parse.urljoin(base, name)
-        for name in ("Packages.xz", "Packages.bz2", "Packages.gz", "Packages")
+        for name in ("Packages.zst", "Packages.xz", "Packages.bz2", "Packages.gz", "Packages")
     ]
     for arch in ("iphoneos-arm64", "iphoneos-arm"):
-        for name in ("Packages.xz", "Packages.bz2", "Packages.gz", "Packages"):
+        for name in ("Packages.zst", "Packages.xz", "Packages.bz2", "Packages.gz", "Packages"):
             candidates.append(urllib.parse.urljoin(base, f"dists/stable/main/binary-{arch}/{name}"))
     return list(dict.fromkeys(candidates)), False
 
