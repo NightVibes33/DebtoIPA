@@ -226,21 +226,19 @@ jobs:
 
           actual = output.stat().st_size
           if actual != expected:
-              raise SystemExit(
-                  f'Reconstructed size mismatch: expected {expected}, got {actual}.'
-              )
+              raise SystemExit(f'Reconstructed size mismatch: expected {expected}, got {actual}.')
           with output.open('rb') as handle:
               if handle.read(8) != b'!<arch>\n':
                   raise SystemExit('The reconstructed file is not a Debian archive.')
           print(f'Reconstructed and validated {actual} bytes from {len(parts)} Git objects.')
           PY
 
-      - name: Analyze package and build real IPA
+      - name: Analyze binary or rebuild package source
         id: convert
         continue-on-error: true
         run: |
           set +e
-          python3 scripts/runner_smart_auto.py \
+          python3 scripts/runner_full_auto.py \
             --deb work/input.deb \
             --output-dir output \
             --job-id "$JOB_ID" \
@@ -250,7 +248,16 @@ jobs:
             --bundle-id "$BUNDLE_ID" \
             --display-name "$DISPLAY_NAME"
           code=$?
+          result_kind=$(python3 - <<'PY'
+          import json
+          try:
+              print(json.load(open('output/runner-summary.json')).get('resultKind', 'unsupported'))
+          except Exception:
+              print('unsupported')
+          PY
+          )
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "result_kind=$result_kind" >> "$GITHUB_OUTPUT"
           exit "$code"
 
       - name: Upload build files and reports
@@ -273,23 +280,26 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RUN_ID: ${{ github.run_id }}
           EXIT_CODE: ${{ steps.convert.outputs.exit_code }}
+          RESULT_KIND: ${{ steps.convert.outputs.result_kind }}
         run: |
-          if [[ "$EXIT_CODE" == "0" ]]; then
-            body="✅ **Usable original-app IPA produced.** Static checks found no stock-iOS blockers, and the artifact contains the uploaded app's original executable—not a DebToIPA shell: ${RUN_URL}
+          case "$RESULT_KIND" in
+            real-ipa)
+              body="✅ **Usable original-app IPA produced.** Static checks found no stock-iOS blockers, and the artifact contains the uploaded app's original executable: ${RUN_URL}"
+              ;;
+            source-ported)
+              body="✅ **Stock-iOS source rebuild produced.** Xcode compiled an ARM64 iPhoneOS IPA from source included in the DEB. This is not a compatibility shell; exact feature parity still requires real-device testing: ${RUN_URL}"
+              ;;
+            original-blocked)
+              body="⚠️ **Original app preserved, but this is not a usable stock-iOS conversion.** The artifact contains the original app plus blocker reports. Jailbreak services, private frameworks, helpers, or entitlements still prevent normal operation: ${RUN_URL}"
+              ;;
+            *)
+              body="❌ **No usable stock-iOS IPA could be produced.** DebToIPA refused to generate a generic shell. Download the reports and source-port project for the exact blockers: ${RUN_URL}"
+              ;;
+          esac
+          body="${body}
 
           <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
-          <!-- DEBTOIPA_RESULT: real-ipa -->"
-          elif [[ "$EXIT_CODE" == "3" ]]; then
-            body="⚠️ **Original app preserved, but this is not a usable stock-iOS conversion.** The artifact contains the real original app IPA plus the blocker report and generated port project. Jailbreak services, private frameworks, helpers, or unavailable entitlements still prevent normal stock-iOS operation: ${RUN_URL}
-
-          <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
-          <!-- DEBTOIPA_RESULT: original-blocked -->"
-          else
-            body="❌ **No standalone original-app IPA could be produced.** DebToIPA refused to generate a generic compatibility-shell app. Download the report and generated port project for the exact blockers: ${RUN_URL}
-
-          <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
-          <!-- DEBTOIPA_RESULT: unsupported -->"
-          fi
+          <!-- DEBTOIPA_RESULT: ${RESULT_KIND:-unsupported} -->"
           gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "$body"
           gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY" --reason completed
 
