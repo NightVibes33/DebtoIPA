@@ -1,5 +1,5 @@
 name: Convert DEB to IPA
-run-name: DebtoIPA • ${{ inputs.job_id }}
+run-name: DebToIPA • ${{ inputs.job_id }}
 
 on:
   workflow_dispatch:
@@ -44,19 +44,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  convert:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+  smart-auto:
+    runs-on: macos-15
+    timeout-minutes: 45
     steps:
-      - name: Checkout converter
+      - name: Checkout DebToIPA
         uses: actions/checkout@v6
 
-      - name: Install archive tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends binutils file unzip zip zstd xz-utils
-
-      - name: Validate source URL
+      - name: Validate upload URL
         env:
           SOURCE_URL: ${{ inputs.source_url }}
         run: |
@@ -64,9 +59,10 @@ jobs:
           import os
           from urllib.parse import urlparse
           value = urlparse(os.environ['SOURCE_URL'])
-          allowed = value.scheme == 'https' and (value.hostname == 'public.blob.vercel-storage.com' or (value.hostname or '').endswith('.public.blob.vercel-storage.com'))
+          host = value.hostname or ''
+          allowed = value.scheme == 'https' and (host == 'public.blob.vercel-storage.com' or host.endswith('.public.blob.vercel-storage.com'))
           if not allowed:
-              raise SystemExit('Refusing non-Vercel Blob source URL')
+              raise SystemExit('Refusing a source URL outside Vercel public Blob storage.')
           PY
 
       - name: Download Debian package
@@ -74,12 +70,25 @@ jobs:
           SOURCE_URL: ${{ inputs.source_url }}
         run: |
           mkdir -p work output
-          curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --max-time 600 \
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --max-time 900 \
             --output work/input.deb "$SOURCE_URL"
-          test "$(stat -c%s work/input.deb)" -le 786432000
-          file work/input.deb
+          python3 - <<'PY'
+          from pathlib import Path
+          source = Path('work/input.deb')
+          size = source.stat().st_size
+          if size <= 0:
+              raise SystemExit('Downloaded package is empty.')
+          if size > 750 * 1024 * 1024:
+              raise SystemExit('Downloaded package exceeds the 750 MB limit.')
+          if source.read_bytes()[:8] != b'!<arch>\n':
+              raise SystemExit('Downloaded file is not a Debian ar archive.')
+          print(f'Downloaded {size} bytes')
+          PY
 
-      - name: Convert and validate
+      - name: Audit package and choose build path
+        run: echo "Smart Auto will attempt Direct IPA, then compile a replacement host when the original binary is blocked."
+
+      - name: Build and validate IPA
         id: convert
         continue-on-error: true
         env:
@@ -87,59 +96,57 @@ jobs:
           MINIMUM_IOS: ${{ inputs.minimum_ios }}
           BUNDLE_ID: ${{ inputs.bundle_id }}
           DISPLAY_NAME: ${{ inputs.display_name }}
+          SOURCE_NAME: ${{ inputs.source_name }}
           JOB_ID: ${{ inputs.job_id }}
         run: |
           set +e
-          python3 scripts/convert_deb.py \
+          python3 scripts/runner_smart_auto.py \
             --deb work/input.deb \
-            --output "output/DebtoIPA-${JOB_ID}.ipa" \
-            --report "output/conversion-report.json" \
+            --output-dir output \
+            --job-id "$JOB_ID" \
+            --source-name "$SOURCE_NAME" \
             --device "$TARGET_DEVICE" \
             --minimum-ios "$MINIMUM_IOS" \
             --bundle-id "$BUNDLE_ID" \
             --display-name "$DISPLAY_NAME"
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          cat output/conversion-report.json
           exit "$code"
 
-      - name: Add human-readable summary
+      - name: Publish runner summary
         if: always()
-        env:
-          SOURCE_NAME: ${{ inputs.source_name }}
-          JOB_ID: ${{ inputs.job_id }}
         run: |
           python3 - <<'PY'
-          import json, os, pathlib
-          p = pathlib.Path('output/conversion-report.json')
-          if not p.exists():
-              p.write_text(json.dumps({'verdict':'blocked','error':'Converter did not produce a report.'}, indent=2))
-          report = json.loads(p.read_text())
+          import json, pathlib, os
+          path = pathlib.Path('output/runner-summary.json')
+          summary = json.loads(path.read_text()) if path.exists() else {'verdict':'failed','error':'Runner produced no summary.'}
           lines = [
-            '# DebtoIPA conversion',
-            f"- Job: `{os.environ['JOB_ID']}`",
-            f"- Source: `{os.environ['SOURCE_NAME']}`",
-            f"- Verdict: **{report.get('verdict', 'unknown')}**",
+              '# DebToIPA Smart Auto',
+              f"- Job: `{os.environ.get('JOB_ID', '')}`",
+              f"- Verdict: **{summary.get('verdict', 'unknown')}**",
+              f"- Feature complete: **{summary.get('featureComplete', False)}**",
+              f"- Generated IPA files: **{len(summary.get('ipas') or [])}**",
           ]
-          if report.get('blockers'):
-              lines += ['', '## Blockers'] + [f"- {x}" for x in report['blockers']]
-          if report.get('warnings'):
-              lines += ['', '## Warnings'] + [f"- {x}" for x in report['warnings']]
-          pathlib.Path('output/README.txt').write_text('\n'.join(lines) + '\n')
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
-              out.write('\n'.join(lines) + '\n')
+          if summary.get('error'):
+              lines += ['', '## Error', str(summary['error'])]
+          if summary.get('warnings'):
+              lines += ['', '## Warnings'] + [f"- {item}" for item in summary['warnings']]
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as handle:
+              handle.write('\n'.join(lines) + '\n')
           PY
+        env:
+          JOB_ID: ${{ inputs.job_id }}
 
-      - name: Upload IPA and report
+      - name: Upload IPA, Port Project, and reports
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: DebtoIPA-${{ inputs.job_id }}
           path: output/
           if-no-files-found: error
-          retention-days: 3
+          retention-days: 7
           compression-level: 0
 
-      - name: Fail blocked conversion
+      - name: Fail unusable build
         if: steps.convert.outputs.exit_code != '0'
         run: exit 1
