@@ -1,55 +1,45 @@
 # DebtoIPA
 
-DebtoIPA is a mobile-first Vercel application backed by a GitHub Actions conversion worker. It accepts an iOS Debian package, locates a real `.app` bundle, checks whether that binary is plausibly usable on stock iOS, repairs the IPA layout and selected metadata, and returns an unsigned IPA plus a JSON compatibility report.
+DebtoIPA is a mobile-first, zero-setup Vercel app that converts compatible iOS Debian packages entirely inside the browser. The `.deb` never needs to be uploaded to Vercel Blob or GitHub. A Web Worker opens the package, locates a real `.app`, checks whether its ARM64 binary is plausibly usable on stock iOS, repairs the IPA layout and selected metadata, and downloads an unsigned IPA plus a JSON compatibility report.
 
-**Live app:** https://nightvibes33-debtoipa.vercel.app
+**Live app:** https://debtoipa.vercel.app
 
-**Production status:** the web application and GitHub conversion workflow are deployed and green. Before uploads and conversion dispatches work, connect a Public Vercel Blob store and add the GitHub token variables listed below to the `nightvibes33-debtoipa` Vercel project, then redeploy.
+## No setup required
+
+Open the app, choose a `.deb`, select the target device, and tap **Convert on this device**. There are no accounts, tokens, access codes, environment variables, storage connections, or runner configuration steps.
 
 ## What it does
 
-- Direct browser-to-Vercel Blob uploads up to 750 MB
-- GitHub Actions workflow dispatch and live job polling
-- Debian `data.tar.*` extraction, including zstd payloads
+- Private on-device conversion in a dedicated browser Web Worker
+- Debian `data.tar.*` extraction, including gzip, bzip2, xz, and zstd payloads
 - `.app` discovery under rootful or rootless package layouts
 - ARM64/Mach-O, executable, jailbreak-loader, rootless-path, and linked-library checks
 - Correct `Payload/App.app` IPA structure
 - Optional iPhone, iPad, or universal `UIDeviceFamily`
 - Optional minimum iOS, bundle ID, and display-name overrides
 - Removal of stale signatures and provisioning profiles before repackaging
-- Three-day GitHub artifact retention with the IPA, report, and readable summary
+- A downloadable result ZIP containing the unsigned IPA and compatibility report
+- No server-side copy of the uploaded package or generated result
+
+The mobile UI currently limits packages to 350 MB to reduce browser memory crashes. Desktop browsers may still be constrained by available memory.
 
 ## Hard limitation
 
-Packaging is not source-code conversion. A MobileSubstrate/ElleKit/libhooker tweak, SpringBoard injection bundle, launch daemon, root-dependent tool, 32-bit binary, or app linked to jailbreak-only libraries cannot be made stock-compatible by wrapping it in `Payload/`. DebtoIPA rejects these packages instead of producing a misleading IPA.
+Packaging is not source-code conversion. A MobileSubstrate/ElleKit/libhooker tweak, SpringBoard injection bundle, launch daemon, root-dependent tool, 32-bit binary, or app linked to jailbreak-only libraries cannot be made stock-compatible by wrapping it in `Payload/`. DebtoIPA rejects these packages and produces a compatibility report instead of a misleading IPA.
 
 The generated IPA is unsigned. A normal iPhone or iPad still requires a valid Apple signature through Xcode, AltStore/SideStore, a signing service you control, or another lawful sideloading workflow.
 
-## Deploy
+## Architecture
 
-The active Vercel project is `nightvibes33-debtoipa`.
-
-1. Open the project in Vercel.
-2. Create a **Public Vercel Blob** store and connect it to the project. Vercel adds `BLOB_READ_WRITE_TOKEN` automatically.
-3. Create a fine-grained GitHub token limited to `NightVibes33/DebtoIPA` with:
-   - Actions: Read and write
-   - Contents: Read
-4. Add these Vercel environment variables for Production, Preview, and Development:
-
-```text
-GITHUB_TOKEN=github_pat_...
-GITHUB_OWNER=NightVibes33
-GITHUB_REPO=DebtoIPA
-APP_ACCESS_CODE=optional-private-code
-```
-
-5. Redeploy. The web app uploads the `.deb` to a random public Blob URL, dispatches `.github/workflows/convert.yml`, polls the run, and proxies the short-lived GitHub artifact download.
+- Next.js provides the installable mobile web interface.
+- `public/converter-worker.js` runs conversion off the main UI thread.
+- Pyodide runs `public/converter.py` locally in the browser.
+- The original GitHub Actions/CLI converter remains available for CI and development, but the production UI does not require it.
 
 ## Local development
 
 ```bash
 npm ci
-cp .env.example .env.local
 npm run dev
 ```
 
@@ -70,13 +60,11 @@ python3 scripts/convert_deb.py \
   --minimum-ios 15.0
 ```
 
-## Security model
+## Privacy and security
 
-- The Vercel API only accepts workflow inputs pointing to Vercel public Blob hosts.
-- Filenames and workflow arguments are passed through environment variables, not evaluated as shell code.
+- Package bytes remain in the current browser session.
+- Conversion runs in an isolated Web Worker.
 - Tar extraction rejects path traversal.
-- GitHub credentials stay server-side in Vercel environment variables.
-- `APP_ACCESS_CODE` can restrict uploads, dispatch, status, and downloads.
-- Artifact downloads are limited to non-expired `DebtoIPA-*` artifacts and expire after three days.
-
-For a production multi-user service, add real authentication, per-user ownership, rate limiting, and automatic Blob deletion after every completed run.
+- The converter never executes code from the package.
+- No GitHub credential or Vercel storage token is exposed to the browser.
+- Generated downloads disappear when the page is refreshed or closed unless the user saves them.
