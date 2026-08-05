@@ -1,163 +1,210 @@
 # DebToIPA
 
-DebToIPA is a public, GitHub-authenticated iOS package analyzer and unsigned IPA builder. Users sign in with GitHub, upload a `.deb` to a temporary branch they own, and submit a build to DebToIPA’s hosted GitHub Actions workflow on `macos-15`.
+DebToIPA is a GitHub-authenticated `.deb` analyzer and unsigned IPA builder for normal iOS. It does not pretend that changing an archive extension converts jailbreak privileges. Instead, it builds a capability graph and selects among several real conversion strategies.
 
 **Live app:** https://debtoipa.vercel.app
 
-## What it can convert
+## Conversion profiles
 
-DebToIPA now has two genuine IPA build paths and two honest blocked outcomes.
+### 1. Compatible original application (`direct-ipa`)
 
-### 1. Compatible original application
+When the DEB contains a standalone ARM64 iOS `.app` with no detected stock-iOS blockers, DebToIPA removes stale signing data, repairs the IPA layout and selected metadata, and packages the same original executable.
 
-When the DEB already contains a standalone ARM64 iOS `.app`, DebToIPA validates its original executable, removes stale signing files, repairs the IPA layout and selected metadata, and publishes an unsigned IPA containing that same executable.
+### 2. Original binary with audited shims (`binary-shimmed`)
 
-Machine-readable result: `real-ipa`.
+For narrowly supported binaries, DebToIPA can:
 
-### 2. Source-assisted stock-iOS rebuild
+- detect common Cephei/HBPreferences framework dependencies;
+- compile an ARM64 `DebToIPAAdapters.framework` against the iPhoneOS SDK;
+- redirect supported Mach-O load commands with `install_name_tool`;
+- embed the adapter framework under the app's `Frameworks` directory;
+- map common HBPreferences calls to `UserDefaults`;
+- interpose common legacy filesystem calls and map selected `/var/mobile` paths into the app sandbox;
+- validate the repaired dependency graph and IPA structure.
 
-When the original jailbreak binary is not usable but the DEB includes supported SwiftUI or Objective-C UIKit source, DebToIPA can rebuild that source directly with Apple’s iPhoneOS compiler. It applies a small audited set of compatibility rewrites, packages the compiled ARM64 executable, and publishes a source-rebuilt unsigned IPA.
+This path does not emulate MobileSubstrate, ElleKit, libhooker, RocketBootstrap cross-process behavior, private frameworks, root access, or private entitlements.
 
-Machine-readable result: `source-ported`.
+### 3. Package-provided source rebuild (`source-ported`)
 
-A source-rebuilt result proves that:
+When supported source is included, DebToIPA compiles a new ARM64 iPhoneOS executable with Apple's `swiftc` or `clang`. Supported source kinds are:
 
-- The input source passed DebToIPA’s jailbreak/private-API policy.
-- Xcode compiled an ARM64 iPhoneOS executable.
-- The output IPA passed structural and Mach-O validation.
-- No generic DebToIPA compatibility host was substituted.
+- SwiftUI applications;
+- UIKit applications written in Swift;
+- Objective-C/UIKit applications;
+- mixed Swift, Objective-C, C, and C++ applications.
 
-Compilation does not prove exact behavioral or feature parity. The rebuilt app must still be installed, launched, and tested on a real device.
+The source compiler never executes package scripts, Makefiles, shell scripts, or package-provided build tools.
 
-### 3. Original application preserved with blockers
+### 4. Application plus normal iOS extensions (`app-extensions`)
 
-When a package contains a real app but still depends on jailbreak loaders, daemons, private frameworks, helper processes, root filesystem paths, or unavailable entitlements, DebToIPA preserves the original app for inspection but does not call it usable on stock iOS.
+Source packages can request generated replacements such as:
 
-Machine-readable result: `original-blocked`; the workflow is red.
+- WidgetKit widgets for glanceable SpringBoard UI;
+- Share Extensions for user-approved cross-app input;
+- Safari Web Extensions or content blockers;
+- App Intents and Shortcuts;
+- generated native settings code.
 
-### 4. Unsupported or report-only
+The extensions are embedded under `PlugIns/` and compiled against the iPhoneOS SDK. Installation and distribution still require correct Apple signing and any necessary capabilities.
 
-When the package contains neither a usable standalone app nor source that DebToIPA can safely compile, it publishes reports and a generated port project when available. It does not fabricate an IPA.
+### 5. Background replacement (`background-replacement`)
 
-Machine-readable result: `unsupported`; the workflow is red.
+Launch-daemon behavior can be redesigned using:
 
-DebToIPA explicitly rejects the old `DebToIPACompatibilityHost` executable.
+- `BGTaskScheduler` refresh and processing tasks;
+- background `URLSession` transfers;
+- optional push-triggered synchronization;
+- bounded in-app event handlers.
 
-## Source-port package format
+These are normal iOS scheduling mechanisms. They do not provide a continuously running unrestricted daemon.
 
-A DEB can opt into source-assisted rebuilding with this payload layout:
+### 6. Companion service (`companion-service`)
+
+For continuous or scheduled work that is appropriate to move off-device, DebToIPA generates:
+
+- a small Vercel TypeScript service project;
+- an iOS async client;
+- a package-specific integration manifest.
+
+A companion service cannot recreate root access, process injection, kernel behavior, or private entitlements.
+
+### 7. Port project and report (`report-only`)
+
+When no runnable conversion is honest, DebToIPA returns the capability graph, blockers, selected alternatives, generated adapter/extension/service project, and source-port scaffolding. It never substitutes a generic informational app.
+
+## Capability graph
+
+Every build produces `capability-plan.json` and `CAPABILITY_PLAN.md`. The analyzer detects evidence for:
+
+- Cephei/HBPreferences;
+- root or global filesystem paths;
+- Darwin notifications;
+- launch daemons;
+- SpringBoard/system UI hooks;
+- cross-app injection frameworks;
+- preference bundles;
+- command-line helpers;
+- Safari injection;
+- network filtering;
+- private frameworks and entitlements;
+- root/process-control behavior.
+
+Each capability records alternatives, automation level, source requirements, entitlement requirements, evidence, and an estimated retained-functionality score.
+
+## Source-port manifest
+
+Recommended payload layout:
 
 ```text
 usr/share/debtoipa/
 ├── PortManifest.json
 ├── Sources/
-│   └── App.swift
 └── Resources/
-    └── Assets.xcassets/...
 ```
 
-Recognized roots also include `DebToIPA/`, `Library/DebToIPA/`, and `var/jb/Library/DebToIPA/`. A recognized `Sources` directory can be auto-detected, but a manifest is recommended.
-
-Example `PortManifest.json`:
+Example:
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "swiftui-app",
   "appName": "Example",
-  "bundleIdentifier": "com.example.app",
+  "bundleIdentifier": "com.example.normal",
   "minimumIOS": "15.0",
   "device": "universal",
   "sourceRoots": ["usr/share/debtoipa/Sources"],
   "resourceRoots": ["usr/share/debtoipa/Resources"],
-  "frameworks": ["SwiftUI", "Foundation"]
+  "requestedAlternatives": [
+    "preferences-adapter",
+    "sandbox-path-adapter",
+    "background-task",
+    "widget-extension",
+    "app-intents"
+  ],
+  "extensions": ["widget"],
+  "companionService": false
 }
 ```
 
-Supported kinds:
-
-- `swiftui-app` — requires an `@main` application entry point.
-- `uikit-objc-app` — requires `main.m` calling `UIApplicationMain`.
-
-The source compiler does not run Makefiles, Theos, Swift Package plugins, maintainer scripts, or code from the uploaded package. It invokes `swiftc` or `clang` directly with a restricted set of public Apple frameworks.
+Recognized source roots also include `DebToIPA/Sources`, `Library/DebToIPA/Sources`, and `var/jb/Library/DebToIPA/Sources`.
 
 ## Safe automatic rewrites
 
-The source path currently supports a limited set of explicit replacements:
+The source compiler has a deliberately narrow rewrite set:
 
-- Cephei `HBPreferences` to an app-local `UserDefaults` compatibility class.
-- Exact jailbreak preferences and documents directories to app sandbox directories.
-- Darwin notification center calls to in-process notification center calls.
+- common `HBPreferences` initialization → generated `DebToIPAPreferences`/local Objective-C adapter;
+- Cephei headers/imports → generated adapter files;
+- common `/var/mobile/Documents` paths → app Documents;
+- common `/var/mobile/Library/Preferences` and rootless paths → Application Support;
+- Darwin notification center → local notification center where semantics permit.
 
-It rejects Logos hooks, MobileSubstrate/libhooker/ElleKit APIs, runtime hooking, private SpringBoard APIs, process injection/control, helper-process launching, jailbreak-only paths, private frameworks, unsafe symlinks, and path traversal.
+It rejects Logos hooks, injection frameworks, private frameworks, helper-process execution, process control, privileged IOKit/host APIs, unsafe paths, symlinks, and arbitrary build scripts.
 
-These checks prevent DebToIPA from pretending an unavailable system-level feature can be recreated inside a normal app sandbox.
+## Public builder
 
-## Why arbitrary binary-only tweaks cannot be fully converted
+The website exposes:
 
-A compiled jailbreak tweak does not contain enough information to automatically reconstruct its intended behavior using public APIs. MobileSubstrate injection, SpringBoard modifications, launch daemons, root filesystem access, private entitlements, and privileged process control are capabilities that normal iOS applications do not receive.
+- Automatic — highest compatibility;
+- Preserve original app;
+- Original binary + audited shims;
+- Rebuild package source;
+- App + normal iOS extensions;
+- Replace daemon/background work;
+- App + companion service;
+- Analyze and generate port project.
 
-Therefore:
+Users can independently request preference, path, notification, settings, widget, Share, Safari, App Intent, background, document-picker, and companion-service alternatives.
 
-- A compatible standalone app can be repackaged.
-- Supported package-provided source can be rebuilt with replacements.
-- A binary-only jailbreak tweak that fundamentally requires privileged behavior cannot be made into an equivalent normal app by any generic DEB-to-IPA wrapper.
+## Result contract
 
-Such packages require their original source and package-specific redesign.
+Green workflow results are limited to:
 
-## Public build flow
+- `real-ipa` — compatible original executable packaged;
+- `binary-shimmed` — original executable retained and supported dependencies redirected to audited adapters;
+- `source-ported` — a new ARM64 iPhoneOS executable compiled from package source.
 
-1. Sign in with GitHub Device Flow.
-2. Choose a `.deb` up to 250 MB.
-3. DebToIPA uploads temporary chunks to the user-owned public `debtoipa-uploads` repository.
-4. An authenticated issue starts `.github/workflows/public-convert.yml`.
-5. Ubuntu validates identity, ownership, quota, and the upload manifest.
-6. A GitHub-hosted `macos-15` runner reconstructs the package.
-7. `scripts/runner_full_auto.py` tries the compatible-original path and then the constrained source-rebuild path.
-8. The website tracks the exact workflow run and result kind through machine-readable issue comments.
-9. Temporary upload branches are removed after completion.
+Blocked results are:
 
-Only one active build is allowed per GitHub account. Accounts must be at least seven days old. Artifacts are retained for three days.
+- `original-blocked` — original app preserved but required jailbreak capabilities remain;
+- `unsupported` — no honest runnable conversion; reports and generated project only.
 
-## Repository components
+The executable `DebToIPACompatibilityHost` is explicitly rejected by the production runner.
 
-- `public/public-runner.html` — GitHub login, upload, queue, conversion type, status, and artifact download
-- `.github/workflows/public-convert.yml` — authenticated public macOS build queue
-- `scripts/runner_full_auto.py` — binary-first and source-assisted orchestration
-- `scripts/runner_smart_auto.py` — original application analysis and packaging
-- `scripts/source_port.py` — constrained SwiftUI and Objective-C stock-iOS compiler
-- `tests/test_source_port.py` — source policy and rewrite tests
-- `tests/macos_source_port_smoke.py` — real Swift and Objective-C iPhoneOS compilation tests
-- `public/converter.py` and `public/direct_guard.py` — Debian extraction and binary compatibility analysis
-- `public/port_mode.py.gz.b64` — compatibility report and generated port-project support
+## Testing
 
-## Validation
+Ubuntu CI validates:
 
-```bash
-npm ci
-npm run typecheck
-npm run build
-npm run test:converter
-```
+- production dependency audit;
+- TypeScript type checking;
+- production Next.js build;
+- Python syntax;
+- capability graph, adapter generation, source rewrite, and security-policy tests;
+- workflow YAML;
+- the exact browser JavaScript shipped to users;
+- required multi-profile result markers.
 
-CI also:
+macOS/Xcode CI builds and validates a permanent matrix:
 
-- Parses both workflow files.
-- Syntax-checks the exact browser JavaScript shipped to users.
-- Uses a real `macos-15` runner and Xcode to build synthetic SwiftUI and Objective-C DEBs into ARM64 iPhoneOS IPAs.
-- Verifies the resulting Info.plist, Mach-O executable, result metadata, and absence of the generic compatibility host.
+1. compatible original ARM64 app;
+2. original app linked to a fake Cephei framework and repaired to the embedded adapter;
+3. SwiftUI source package using Cephei/path rewrites, background tasks, WidgetKit, App Intents, and a companion service;
+4. Objective-C source package using HBPreferences rewrite and a Share Extension;
+5. binary-only SpringBoard/Logos package that must fail without generating a fake IPA.
 
-## Signing
+## Signing and runtime validation
 
-Generated IPAs are unsigned. Installation on a normal iPhone or iPad requires a valid Apple signature through Xcode, AltStore/SideStore, a signing service you control, or another lawful sideloading workflow.
+Generated IPAs are unsigned. Installation requires a valid Apple signature through a lawful signing workflow. Compiler and structural validation do not prove exact runtime or feature parity. Every package-specific output still requires signed installation, launch testing, and feature testing on a real device.
 
-## Security
+## Hard platform boundary
 
-- OAuth access tokens remain in the current browser tab’s `sessionStorage`.
-- Uploaded package source and binaries are analyzed but never executed.
-- Package build scripts are never run.
-- Tar extraction rejects path traversal.
-- Source roots reject symlinks and enforce file, count, and size limits.
-- Framework and API allowlists block private or jailbreak-only dependencies.
-- Users receive no write access to the DebToIPA repository or its workflows.
-- Public workflows execute only trusted DebToIPA code.
+Normal iOS does not expose generic equivalents for:
+
+- SpringBoard or other-process injection;
+- unrestricted root/global filesystem access;
+- continuously running arbitrary daemons;
+- arbitrary process control or memory modification;
+- private entitlements or private frameworks;
+- kernel/jailbreak services;
+- global system customization outside Apple-supported extensions.
+
+DebToIPA can redesign such behavior as a standalone app, extension, bounded background task, user-approved file flow, or companion service when source and public APIs make that possible. It cannot grant privileges the operating system refuses to third-party apps.

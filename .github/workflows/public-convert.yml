@@ -29,6 +29,8 @@ jobs:
       minimum_ios: ${{ steps.parse.outputs.minimum_ios }}
       bundle_id: ${{ steps.parse.outputs.bundle_id }}
       display_name: ${{ steps.parse.outputs.display_name }}
+      conversion_profile: ${{ steps.parse.outputs.conversion_profile }}
+      alternatives_json: ${{ steps.parse.outputs.alternatives_json }}
     steps:
       - name: Validate authenticated GitHub user and request
         id: parse
@@ -47,6 +49,20 @@ jobs:
           import re
           import subprocess
 
+          profiles = {
+              'automatic', 'direct-ipa', 'binary-shims', 'source-rebuild',
+              'app-extensions', 'background-replacement', 'companion-service',
+              'report-only',
+          }
+          alternatives_allowed = {
+              'preferences-adapter', 'settings-screen', 'sandbox-path-adapter',
+              'document-picker', 'file-provider', 'notification-adapter',
+              'push-notifications', 'background-task', 'background-transfer',
+              'companion-service', 'widget-extension', 'standalone-ui',
+              'share-extension', 'app-intents', 'url-schemes',
+              'safari-web-extension', 'content-blocker', 'network-extension',
+              'local-proxy', 'native-library', 'public-api-redesign',
+          }
           body = os.environ.get('ISSUE_BODY', '')
           author = os.environ['ISSUE_AUTHOR']
           marker = re.search(r'<!--\s*DEBTOIPA_JOB_V1\s*(\{.*?\})\s*DEBTOIPA_JOB_V1\s*-->', body, re.S)
@@ -69,6 +85,8 @@ jobs:
           minimum_ios = str(settings.get('minimumIos', '15.0'))
           bundle_id = str(settings.get('bundleId', ''))
           display_name = str(settings.get('displayName', ''))
+          conversion_profile = str(settings.get('profile', 'automatic'))
+          alternatives = settings.get('alternatives') or []
 
           if int(data.get('schemaVersion', 0)) != 1:
               raise SystemExit('Unsupported public job schema.')
@@ -92,13 +110,14 @@ jobs:
               raise SystemExit('Invalid bundle identifier.')
           if len(display_name) > 80:
               raise SystemExit('Display name is too long.')
+          if conversion_profile not in profiles:
+              raise SystemExit('Invalid conversion profile.')
+          if not isinstance(alternatives, list) or len(alternatives) > 20 or not all(isinstance(item, str) and item in alternatives_allowed for item in alternatives):
+              raise SystemExit('Invalid normal-iOS alternatives list.')
+          alternatives = list(dict.fromkeys(alternatives))
 
           def gh_json(path, *arguments):
-              command = [
-                  'gh', 'api', '--method', 'GET', path,
-                  '--header', 'X-GitHub-Api-Version: 2022-11-28',
-                  *arguments,
-              ]
+              command = ['gh', 'api', '--method', 'GET', path, '--header', 'X-GitHub-Api-Version: 2022-11-28', *arguments]
               return json.loads(subprocess.check_output(command))
 
           user = gh_json(f'/users/{author}')
@@ -129,6 +148,8 @@ jobs:
               'minimum_ios': minimum_ios,
               'bundle_id': bundle_id,
               'display_name': display_name,
+              'conversion_profile': conversion_profile,
+              'alternatives_json': json.dumps(alternatives, separators=(',', ':')),
           }
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as handle:
               for key, value in values.items():
@@ -157,15 +178,16 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPOSITORY: ${{ github.repository }}
           RUN_ID: ${{ github.run_id }}
+          PROFILE: ${{ steps.parse.outputs.conversion_profile }}
         run: |
-          gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "✅ DebToIPA accepted this authenticated job. A GitHub macOS runner is being allocated.
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "✅ DebToIPA accepted this authenticated job. A GitHub macOS runner is being allocated for profile **${PROFILE}**.
 
           <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->"
 
   build:
     needs: validate-request
     runs-on: macos-15
-    timeout-minutes: 60
+    timeout-minutes: 75
     env:
       JOB_ID: ${{ needs.validate-request.outputs.job_id }}
       SOURCE_OWNER: ${{ needs.validate-request.outputs.source_owner }}
@@ -177,6 +199,8 @@ jobs:
       MINIMUM_IOS: ${{ needs.validate-request.outputs.minimum_ios }}
       BUNDLE_ID: ${{ needs.validate-request.outputs.bundle_id }}
       DISPLAY_NAME: ${{ needs.validate-request.outputs.display_name }}
+      CONVERSION_PROFILE: ${{ needs.validate-request.outputs.conversion_profile }}
+      ALTERNATIVES_JSON: ${{ needs.validate-request.outputs.alternatives_json }}
     steps:
       - name: Checkout trusted DebToIPA source
         uses: actions/checkout@v6
@@ -198,9 +222,7 @@ jobs:
 
           ref = f"origin/{os.environ['SOURCE_REF']}"
           prefix = os.environ['SOURCE_PREFIX']
-          manifest = json.loads(subprocess.check_output([
-              'git', '-C', 'upload', 'show', f'{ref}:{prefix}/manifest.json'
-          ]))
+          manifest = json.loads(subprocess.check_output(['git', '-C', 'upload', 'show', f'{ref}:{prefix}/manifest.json']))
           if int(manifest.get('schemaVersion', 0)) != 1:
               raise SystemExit('Unsupported upload manifest schema.')
           parts = manifest.get('parts')
@@ -209,7 +231,6 @@ jobs:
           expected = int(manifest.get('size') or 0)
           if expected <= 0 or expected > 250 * 1024 * 1024:
               raise SystemExit('Public packages are limited to 250 MB.')
-
           output = pathlib.Path('work/input.deb')
           with output.open('wb') as handle:
               for index, item in enumerate(parts):
@@ -217,13 +238,9 @@ jobs:
                   expected_path = f'{prefix}/parts/{index:04d}.bin'
                   if path != expected_path:
                       raise SystemExit(f'Unexpected upload part path: {path}')
-                  process = subprocess.run(
-                      ['git', '-C', 'upload', 'show', f'{ref}:{path}'],
-                      stdout=handle,
-                  )
+                  process = subprocess.run(['git', '-C', 'upload', 'show', f'{ref}:{path}'], stdout=handle)
                   if process.returncode:
                       raise SystemExit(f'Could not retrieve upload part {index}.')
-
           actual = output.stat().st_size
           if actual != expected:
               raise SystemExit(f'Reconstructed size mismatch: expected {expected}, got {actual}.')
@@ -233,11 +250,21 @@ jobs:
           print(f'Reconstructed and validated {actual} bytes from {len(parts)} Git objects.')
           PY
 
-      - name: Analyze binary or rebuild package source
+      - name: Analyze capabilities and run conversion profiles
         id: convert
         continue-on-error: true
         run: |
           set +e
+          alternative_args=()
+          while IFS= read -r value; do
+            alternative_args+=("$value")
+          done < <(python3 - <<'PY'
+          import json, os
+          for value in json.loads(os.environ.get('ALTERNATIVES_JSON') or '[]'):
+              print('--alternative')
+              print(value)
+          PY
+          )
           python3 scripts/runner_full_auto.py \
             --deb work/input.deb \
             --output-dir output \
@@ -246,18 +273,22 @@ jobs:
             --device "$TARGET_DEVICE" \
             --minimum-ios "$MINIMUM_IOS" \
             --bundle-id "$BUNDLE_ID" \
-            --display-name "$DISPLAY_NAME"
+            --display-name "$DISPLAY_NAME" \
+            --profile "$CONVERSION_PROFILE" \
+            "${alternative_args[@]}"
           code=$?
-          result_kind=$(python3 - <<'PY'
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           try:
-              print(json.load(open('output/runner-summary.json')).get('resultKind', 'unsupported'))
+              summary = json.load(open('output/runner-summary.json'))
           except Exception:
-              print('unsupported')
+              summary = {}
+          print('result_kind=' + str(summary.get('resultKind', 'unsupported')))
+          print('selected_profile=' + str(summary.get('conversionProfile', 'report-only')))
+          print('recommended_profile=' + str(summary.get('recommendedProfile', 'report-only')))
+          print('retained=' + str(int(summary.get('expectedRetainedFunctionality') or 0)))
           PY
-          )
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          echo "result_kind=$result_kind" >> "$GITHUB_OUTPUT"
           exit "$code"
 
       - name: Upload build files and reports
@@ -279,27 +310,39 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RUN_ID: ${{ github.run_id }}
-          EXIT_CODE: ${{ steps.convert.outputs.exit_code }}
           RESULT_KIND: ${{ steps.convert.outputs.result_kind }}
+          SELECTED_PROFILE: ${{ steps.convert.outputs.selected_profile }}
+          RECOMMENDED_PROFILE: ${{ steps.convert.outputs.recommended_profile }}
+          RETAINED: ${{ steps.convert.outputs.retained }}
         run: |
           case "$RESULT_KIND" in
             real-ipa)
-              body="✅ **Usable original-app IPA produced.** Static checks found no stock-iOS blockers, and the artifact contains the uploaded app's original executable: ${RUN_URL}"
+              body="✅ **Compatible original-app IPA produced.** The artifact contains the package's original ARM64 executable: ${RUN_URL}"
+              ;;
+            binary-shimmed)
+              body="✅ **Original binary repaired with audited stock-iOS adapters.** Supported jailbreak dependencies were redirected to embedded preference/filesystem adapters. Real-device testing is still required: ${RUN_URL}"
               ;;
             source-ported)
-              body="✅ **Stock-iOS source rebuild produced.** Xcode compiled an ARM64 iPhoneOS IPA from source included in the DEB. This is not a compatibility shell; exact feature parity still requires real-device testing: ${RUN_URL}"
+              body="✅ **Stock-iOS source rebuild produced.** Xcode compiled a new ARM64 iPhoneOS executable and selected normal-iOS alternatives. Exact feature parity still requires real-device testing: ${RUN_URL}"
               ;;
             original-blocked)
-              body="⚠️ **Original app preserved, but this is not a usable stock-iOS conversion.** The artifact contains the original app plus blocker reports. Jailbreak services, private frameworks, helpers, or entitlements still prevent normal operation: ${RUN_URL}"
+              body="⚠️ **Original app preserved, but required jailbreak capabilities remain.** The artifact includes the real app, capability graph, alternatives, and blocker reports: ${RUN_URL}"
               ;;
             *)
-              body="❌ **No usable stock-iOS IPA could be produced.** DebToIPA refused to generate a generic shell. Download the reports and source-port project for the exact blockers: ${RUN_URL}"
+              body="❌ **No honest runnable stock-iOS conversion could be produced.** The artifact includes the capability graph and generated port/adapter project; no fake app was generated: ${RUN_URL}"
               ;;
           esac
           body="${body}
 
+          Selected profile: **${SELECTED_PROFILE:-report-only}**
+          Recommended profile: **${RECOMMENDED_PROFILE:-report-only}**
+          Estimated retained functionality: **${RETAINED:-0}%**
+
           <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
-          <!-- DEBTOIPA_RESULT: ${RESULT_KIND:-unsupported} -->"
+          <!-- DEBTOIPA_RESULT: ${RESULT_KIND:-unsupported} -->
+          <!-- DEBTOIPA_PROFILE: ${SELECTED_PROFILE:-report-only} -->
+          <!-- DEBTOIPA_RECOMMENDED: ${RECOMMENDED_PROFILE:-report-only} -->
+          <!-- DEBTOIPA_RETAINED: ${RETAINED:-0} -->"
           gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "$body"
           gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY" --reason completed
 
