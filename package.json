@@ -1,0 +1,28 @@
+{
+  "name": "debtoipa",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test:converter": "python3 -m unittest discover -s tests -v",
+    "audit:production": "npm audit --omit=dev --audit-level=high"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.6.1",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
