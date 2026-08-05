@@ -80,8 +80,10 @@ jobs:
               raise SystemExit('Public jobs must use the debtoipa-uploads repository.')
           if ref != f'job-{job_id}' or prefix != f'jobs/{job_id}':
               raise SystemExit('The upload location does not match the job id.')
-          if not source_name.lower().endswith('.deb') or len(source_name) > 160:
+          if not source_name.lower().endswith('.deb') or len(source_name) > 160 or '/' in source_name or '\\' in source_name:
               raise SystemExit('Invalid source filename.')
+          if any(ord(character) < 32 for character in source_name + display_name):
+              raise SystemExit('Control characters are not allowed in job metadata.')
           if device not in {'universal', 'iphone', 'ipad'}:
               raise SystemExit('Invalid target device.')
           if not re.fullmatch(r'\d{1,2}(?:\.\d{1,2}){0,2}', minimum_ios):
@@ -109,8 +111,7 @@ jobs:
           query = f'repo:{os.environ["REPOSITORY"]} is:issue is:open author:{author} in:title "[DebToIPA Job]"'
           search = gh_json('/search/issues', '-f', f'q={query}', '-f', 'per_page=10')
           current = int(os.environ['ISSUE_NUMBER'])
-          other_open = [item for item in search.get('items', []) if int(item.get('number', 0)) != current]
-          if other_open:
+          if any(int(item.get('number', 0)) != current for item in search.get('items', [])):
               raise SystemExit('Only one active public DebToIPA job is allowed per GitHub account.')
 
           values = {
@@ -130,7 +131,19 @@ jobs:
                   handle.write(f'{key}={value}\n')
           PY
 
+      - name: Reject invalid request
+        if: failure()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "❌ DebToIPA rejected this request during identity, ownership, quota, or manifest validation. Open the associated workflow run for the exact validation error."
+          gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY" --reason not-planned
+
       - name: Mark request accepted
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
@@ -231,6 +244,7 @@ jobs:
 
       - name: Publish result to issue
         if: always()
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
