@@ -3,7 +3,7 @@ name: Bootstrap project
 on:
   push:
     branches: [feature/full-converter-app]
-    paths: [bootstrap_payload.b64]
+    paths: [bootstrap_payload.ready]
 
 permissions:
   contents: write
@@ -15,9 +15,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Unpack project payload
         run: |
-          base64 -d bootstrap_payload.b64 > /tmp/project.tgz
+          cat bootstrap_payload.part* | base64 -d > /tmp/project.tgz
           tar -xzf /tmp/project.tgz
-          rm -f bootstrap_payload.b64 .github/workflows/bootstrap.yml
+          rm -f bootstrap_payload.b64 bootstrap_payload.part* bootstrap_payload.ready .github/workflows/bootstrap.yml
       - name: Commit project
         run: |
           git config user.name "DebtoIPA Builder"
