@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main, feature/full-converter-app]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Type-check web app
+        run: npm run typecheck
+
+      - name: Build production web app
+        run: npm run build
+
+      - name: Test converter
+        run: python3 -m unittest discover -s tests -v
