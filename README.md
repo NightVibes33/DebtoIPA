@@ -2,6 +2,10 @@
 
 DebtoIPA is a mobile-first Vercel application backed by a GitHub Actions conversion worker. It accepts an iOS Debian package, locates a real `.app` bundle, checks whether that binary is plausibly usable on stock iOS, repairs the IPA layout and selected metadata, and returns an unsigned IPA plus a JSON compatibility report.
 
+**Live app:** https://nightvibes33-debtoipa.vercel.app
+
+**Production status:** the web application and GitHub conversion workflow are deployed and green. Before uploads and conversion dispatches work, connect a Public Vercel Blob store and add the GitHub token variables listed below to the `nightvibes33-debtoipa` Vercel project, then redeploy.
+
 ## What it does
 
 - Direct browser-to-Vercel Blob uploads up to 750 MB
@@ -23,12 +27,14 @@ The generated IPA is unsigned. A normal iPhone or iPad still requires a valid Ap
 
 ## Deploy
 
-1. Import `NightVibes33/DebtoIPA` into Vercel as a Next.js project.
+The active Vercel project is `nightvibes33-debtoipa`.
+
+1. Open the project in Vercel.
 2. Create a **Public Vercel Blob** store and connect it to the project. Vercel adds `BLOB_READ_WRITE_TOKEN` automatically.
-3. Create a fine-grained GitHub token limited to this repository with:
+3. Create a fine-grained GitHub token limited to `NightVibes33/DebtoIPA` with:
    - Actions: Read and write
    - Contents: Read
-4. Add these Vercel environment variables:
+4. Add these Vercel environment variables for Production, Preview, and Development:
 
 ```text
 GITHUB_TOKEN=github_pat_...
@@ -42,7 +48,7 @@ APP_ACCESS_CODE=optional-private-code
 ## Local development
 
 ```bash
-npm install
+npm ci
 cp .env.example .env.local
 npm run dev
 ```
@@ -71,6 +77,6 @@ python3 scripts/convert_deb.py \
 - Tar extraction rejects path traversal.
 - GitHub credentials stay server-side in Vercel environment variables.
 - `APP_ACCESS_CODE` can restrict uploads, dispatch, status, and downloads.
-- Artifacts expire after three days.
+- Artifact downloads are limited to non-expired `DebtoIPA-*` artifacts and expire after three days.
 
 For a production multi-user service, add real authentication, per-user ownership, rate limiting, and automatic Blob deletion after every completed run.
