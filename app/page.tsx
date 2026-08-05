@@ -1,5 +1,5 @@
-import { DebToIPAPortApp } from '@/components/DebToIPAPortApp';
+import { DebToIpaApp } from '@/components/DebToIpaApp';
 
 export default function Home() {
-  return <DebToIPAPortApp />;
+  return <DebToIpaApp />;
 }
