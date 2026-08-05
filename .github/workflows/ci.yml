@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, feature/full-converter-app, feature/source-assisted-stock-ios-port]
+    branches: [main, feature/full-converter-app, feature/source-assisted-stock-ios-port, feature/multi-profile-stock-ios]
   pull_request:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -34,20 +34,23 @@ jobs:
       - name: Build production web app
         run: npm run build
 
-      - name: Test converter and source-port policy
+      - name: Compile Python conversion modules
+        run: python3 -m py_compile scripts/*.py tests/*.py
+
+      - name: Test converter, capability graph, adapters, and source policy
         run: npm run test:converter
 
       - name: Validate runner workflow YAML
         run: |
-          ruby -e "require 'yaml'; %w[.github/workflows/convert.yml .github/workflows/public-convert.yml].each { |path| YAML.load_file(path, aliases: true); puts \"#{path} parsed\" }"
+          ruby -e "require 'yaml'; %w[.github/workflows/convert.yml .github/workflows/public-convert.yml .github/workflows/ci.yml].each { |path| YAML.load_file(path, aliases: true); puts \"#{path} parsed\" }"
 
-      - name: Validate shipped browser JavaScript
+      - name: Validate shipped browser JavaScript and conversion contract
         run: |
           node <<'NODE'
           const fs = require('fs');
           for (const [path, markers] of [
             ['public/github-runner.html', ['Build on GitHub macOS', 'actions/workflows/convert.yml/dispatches']],
-            ['public/public-runner.html', ['Continue with GitHub', '/api/oauth/device', 'debtoipa-uploads', 'public-convert.yml']],
+            ['public/public-runner.html', ['Continue with GitHub', '/api/oauth/device', 'binary-shimmed', 'source-ported', 'capability', 'companion-service', 'profileChoice']],
           ]) {
             const html = fs.readFileSync(path, 'utf8');
             const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
@@ -57,21 +60,30 @@ jobs:
               if (!html.includes(required)) throw new Error(`${path}: missing contract marker ${required}`);
             }
           }
-          const workflow = fs.readFileSync('.github/workflows/public-convert.yml', 'utf8');
-          for (const marker of ['runner_full_auto.py', 'source-ported', 'original-blocked']) {
-            if (!workflow.includes(marker)) throw new Error(`public workflow missing ${marker}`);
+          for (const [path, markers] of [
+            ['scripts/runner_full_auto.py', ['binary-shimmed', 'capability-plan.json', 'source-ported']],
+            ['scripts/capability_graph.py', ['background-replacement', 'app-extensions', 'companion-service']],
+            ['scripts/adapter_sdk.py', ['HBPreferences', 'BGTaskScheduler', 'WidgetKit', 'CompanionService']],
+            ['scripts/binary_shim.py', ['install_name_tool', 'DebToIPAAdapters.framework']],
+            ['scripts/source_port.py', ['mixed-app', 'PlugIns', 'requestedAlternatives']],
+            ['.github/workflows/public-convert.yml', ['DEBTOIPA_PROFILE', 'DEBTOIPA_RETAINED', 'binary-shimmed']],
+          ]) {
+            const text = fs.readFileSync(path, 'utf8');
+            for (const required of markers) {
+              if (!text.includes(required)) throw new Error(`${path}: missing ${required}`);
+            }
           }
           const config = JSON.parse(fs.readFileSync('public/oauth-config.json', 'utf8'));
           if (!Array.isArray(config.scopes) || !config.scopes.includes('public_repo')) throw new Error('OAuth config must request public_repo.');
-          console.log('Static runner clients parsed successfully.');
+          console.log('Static runner clients and multi-profile conversion contract parsed successfully.');
           NODE
 
-  source-port-iphoneos:
+  full-stock-ios-matrix:
     runs-on: macos-15
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Compile Swift and Objective-C source DEBs for iPhoneOS
-        run: python3 tests/macos_source_port_smoke.py
+      - name: Compile and validate the complete conversion matrix
+        run: python3 tests/macos_full_matrix.py
