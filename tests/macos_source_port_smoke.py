@@ -63,11 +63,18 @@ def make_deb(root: Path, name: str, kind: str, files: dict[str, str]) -> Path:
     return deb
 
 
-def verify_result(output: Path, expected_name: str) -> None:
+def verify_result(output: Path, expected_name: str, expected_rewrite: str) -> None:
     summary = json.loads((output / "runner-summary.json").read_text())
     assert summary["resultKind"] == "source-ported", summary
     assert summary["stockIOSCompileVerified"] is True
+    assert summary["behavioralParityVerified"] is False
     assert summary["compatibilityHostGenerated"] is False
+
+    source_report = json.loads((output / "source-port-report.json").read_text())
+    assert source_report["compileVerified"] is True
+    assert source_report["sourceDerived"] is True
+    assert any(expected_rewrite in item for item in source_report["rewrites"]), source_report
+
     ipas = list(output.glob("*.ipa"))
     assert len(ipas) == 1, ipas
     with zipfile.ZipFile(ipas[0]) as archive:
@@ -103,13 +110,21 @@ def main() -> int:
         root = Path(temporary)
         swift = make_deb(root, "SwiftPort", "swiftui-app", {
             "App.swift": """import SwiftUI
+import Cephei
+
 @main struct SwiftPortApp: App {
-    var body: some Scene { WindowGroup { Text(\"Swift source port\") } }
+    private let preferences = HBPreferences(identifier: "app.debtoipa.swiftport")
+    private let legacyPath = "/var/mobile/Library/Preferences"
+    var body: some Scene {
+        WindowGroup {
+            Text(legacyPath + ":" + String(preferences.integer(forKey: "launches")))
+        }
+    }
 }
 """,
         })
         swift_output = run_case(root, swift, "swift-source-smoke")
-        verify_result(swift_output, "SwiftPort")
+        verify_result(swift_output, "SwiftPort", "Cephei")
 
         objc = make_deb(root, "ObjCPort", "uikit-objc-app", {
             "main.m": """#import <UIKit/UIKit.h>
@@ -124,13 +139,18 @@ int main(int argc, char * argv[]) {
 @end
 """,
             "AppDelegate.m": """#import \"AppDelegate.h\"
+#import <Cephei/HBPreferences.h>
+
 @implementation AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)options {
+    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier:@"app.debtoipa.objcport"];
+    [preferences setObject:@"ready" forKey:@"state"];
+    NSString *legacyPath = @"/var/mobile/Library/Preferences";
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     UIViewController *controller = [UIViewController new];
     controller.view.backgroundColor = UIColor.systemBackgroundColor;
     UILabel *label = [[UILabel alloc] initWithFrame:controller.view.bounds];
-    label.text = @\"Objective-C source port\";
+    label.text = [legacyPath stringByAppendingFormat:@":%@", [preferences stringForKey:@"state"]];
     label.textAlignment = NSTextAlignmentCenter;
     [controller.view addSubview:label];
     self.window.rootViewController = controller;
@@ -141,9 +161,9 @@ int main(int argc, char * argv[]) {
 """,
         })
         objc_output = run_case(root, objc, "objc-source-smoke")
-        verify_result(objc_output, "ObjCPort")
+        verify_result(objc_output, "ObjCPort", "Cephei")
 
-    print("Swift and Objective-C source-port IPAs compiled and validated on iPhoneOS.")
+    print("Swift and Objective-C source-port IPAs, including compatibility rewrites, compiled and validated on iPhoneOS.")
     return 0
 
 
