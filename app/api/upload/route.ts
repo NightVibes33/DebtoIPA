@@ -31,7 +31,7 @@ export async function POST(request: Request) {
         };
       },
       onUploadCompleted: async ({ blob }) => {
-        console.info('Deb upload completed', blob.pathname, blob.size);
+        console.info('Deb upload completed', blob.pathname);
       },
     });
     return NextResponse.json(result);
