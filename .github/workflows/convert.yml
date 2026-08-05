@@ -1,0 +1,145 @@
+name: Convert DEB to IPA
+run-name: DebtoIPA • ${{ inputs.job_id }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: Public Vercel Blob URL for the Debian package
+        required: true
+        type: string
+      source_name:
+        description: Original filename
+        required: true
+        type: string
+      target_device:
+        description: Target device family
+        required: true
+        default: universal
+        type: choice
+        options: [universal, iphone, ipad]
+      minimum_ios:
+        description: Minimum iOS version
+        required: true
+        default: "15.0"
+        type: string
+      bundle_id:
+        description: Optional bundle identifier override
+        required: false
+        type: string
+      display_name:
+        description: Optional display name override
+        required: false
+        type: string
+      job_id:
+        description: Web application job identifier
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: debtoipa-${{ inputs.job_id }}
+  cancel-in-progress: false
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout converter
+        uses: actions/checkout@v4
+
+      - name: Install archive tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends binutils file unzip zip zstd xz-utils
+
+      - name: Validate source URL
+        env:
+          SOURCE_URL: ${{ inputs.source_url }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from urllib.parse import urlparse
+          value = urlparse(os.environ['SOURCE_URL'])
+          allowed = value.scheme == 'https' and (value.hostname == 'public.blob.vercel-storage.com' or (value.hostname or '').endswith('.public.blob.vercel-storage.com'))
+          if not allowed:
+              raise SystemExit('Refusing non-Vercel Blob source URL')
+          PY
+
+      - name: Download Debian package
+        env:
+          SOURCE_URL: ${{ inputs.source_url }}
+        run: |
+          mkdir -p work output
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --max-time 600 \
+            --output work/input.deb "$SOURCE_URL"
+          test "$(stat -c%s work/input.deb)" -le 786432000
+          file work/input.deb
+
+      - name: Convert and validate
+        id: convert
+        continue-on-error: true
+        env:
+          TARGET_DEVICE: ${{ inputs.target_device }}
+          MINIMUM_IOS: ${{ inputs.minimum_ios }}
+          BUNDLE_ID: ${{ inputs.bundle_id }}
+          DISPLAY_NAME: ${{ inputs.display_name }}
+          JOB_ID: ${{ inputs.job_id }}
+        run: |
+          set +e
+          python3 scripts/convert_deb.py \
+            --deb work/input.deb \
+            --output "output/DebtoIPA-${JOB_ID}.ipa" \
+            --report "output/conversion-report.json" \
+            --device "$TARGET_DEVICE" \
+            --minimum-ios "$MINIMUM_IOS" \
+            --bundle-id "$BUNDLE_ID" \
+            --display-name "$DISPLAY_NAME"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat output/conversion-report.json
+          exit "$code"
+
+      - name: Add human-readable summary
+        if: always()
+        env:
+          SOURCE_NAME: ${{ inputs.source_name }}
+          JOB_ID: ${{ inputs.job_id }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path('output/conversion-report.json')
+          if not p.exists():
+              p.write_text(json.dumps({'verdict':'blocked','error':'Converter did not produce a report.'}, indent=2))
+          report = json.loads(p.read_text())
+          lines = [
+            '# DebtoIPA conversion',
+            f"- Job: `{os.environ['JOB_ID']}`",
+            f"- Source: `{os.environ['SOURCE_NAME']}`",
+            f"- Verdict: **{report.get('verdict', 'unknown')}**",
+          ]
+          if report.get('blockers'):
+              lines += ['', '## Blockers'] + [f"- {x}" for x in report['blockers']]
+          if report.get('warnings'):
+              lines += ['', '## Warnings'] + [f"- {x}" for x in report['warnings']]
+          pathlib.Path('output/README.txt').write_text('\n'.join(lines) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('\n'.join(lines) + '\n')
+          PY
+
+      - name: Upload IPA and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DebtoIPA-${{ inputs.job_id }}
+          path: output/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0
+
+      - name: Fail blocked conversion
+        if: steps.convert.outputs.exit_code != '0'
+        run: exit 1
