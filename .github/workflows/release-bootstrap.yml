@@ -20,11 +20,23 @@ jobs:
       - name: Build consolidated release commit
         env:
           GH_TOKEN: ${{ github.token }}
-          ARCHIVE_BLOB: b026eaa0d60bcd34b239520b17b1c6725133fa31
           ARCHIVE_SHA256: 12988cfa5585c962cd188211620608640c1ae1095ce3a0bc38bc1a6e692babb0
         run: |
           set -euo pipefail
-          gh api --header "Accept: application/vnd.github.raw+json" "/repos/${GITHUB_REPOSITORY}/git/blobs/${ARCHIVE_BLOB}" > /tmp/debtoipa-release.tar.gz
+          : > /tmp/release.b64
+          for blob in \
+            2791132a845b9735d2ac1f5efd56691dac764af0 \
+            def2c76cf5d9d7da327786dcfa5e8fe5e6d975eb \
+            da7abea8e2c873c6828e8176e71e3eb264f3e3ff \
+            692d0c3662f02ed7f0d146b87595c2130a786163 \
+            8006c3d3f2b55c4a075a88410c84487c5fb72a82 \
+            9f4f5cbdaa44f75825971b4059c36d28709c53e7 \
+            9cfd2039c1b72ef817f8e276e42a1f96ef3dca6c \
+            eaff4b25e4a420b341b3d48f8cbf1cad3bd37743
+          do
+            gh api --header "Accept: application/vnd.github.raw+json" "/repos/${GITHUB_REPOSITORY}/git/blobs/${blob}" >> /tmp/release.b64
+          done
+          tr -d '\r\n' < /tmp/release.b64 | base64 --decode > /tmp/debtoipa-release.tar.gz
           echo "${ARCHIVE_SHA256}  /tmp/debtoipa-release.tar.gz" | sha256sum --check -
 
           git fetch origin main
