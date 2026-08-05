@@ -4,9 +4,23 @@ run-name: DebToIPA • ${{ inputs.job_id }}
 on:
   workflow_dispatch:
     inputs:
-      source_url:
-        description: Public Vercel Blob URL for the Debian package
+      source_kind:
+        description: Package transport
         required: true
+        default: git_chunks
+        type: choice
+        options: [git_chunks, vercel_blob]
+      source_url:
+        description: Public Vercel Blob URL when source_kind is vercel_blob
+        required: false
+        type: string
+      upload_ref:
+        description: Temporary upload branch when source_kind is git_chunks
+        required: false
+        type: string
+      upload_prefix:
+        description: Package chunk directory in the temporary branch
+        required: false
         type: string
       source_name:
         description: Original filename
@@ -37,7 +51,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: debtoipa-${{ inputs.job_id }}
@@ -46,16 +60,24 @@ concurrency:
 jobs:
   smart-auto:
     runs-on: macos-15
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout DebToIPA
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
 
-      - name: Validate upload URL
+      - name: Acquire Debian package
         env:
+          SOURCE_KIND: ${{ inputs.source_kind }}
           SOURCE_URL: ${{ inputs.source_url }}
+          UPLOAD_REF: ${{ inputs.upload_ref }}
+          UPLOAD_PREFIX: ${{ inputs.upload_prefix }}
         run: |
-          python3 - <<'PY'
+          set -euo pipefail
+          mkdir -p work output
+          if [[ "$SOURCE_KIND" == "vercel_blob" ]]; then
+            python3 - <<'PY'
           import os
           from urllib.parse import urlparse
           value = urlparse(os.environ['SOURCE_URL'])
@@ -64,14 +86,54 @@ jobs:
           if not allowed:
               raise SystemExit('Refusing a source URL outside Vercel public Blob storage.')
           PY
+            curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --max-time 900 \
+              --output work/input.deb "$SOURCE_URL"
+          elif [[ "$SOURCE_KIND" == "git_chunks" ]]; then
+            python3 - <<'PY'
+          import os, re
+          ref = os.environ['UPLOAD_REF']
+          prefix = os.environ['UPLOAD_PREFIX']
+          if not re.fullmatch(r'debtoipa-upload-[A-Za-z0-9_-]{4,80}', ref):
+              raise SystemExit('Invalid temporary upload branch.')
+          if not re.fullmatch(r'uploads/[A-Za-z0-9_-]{4,80}', prefix):
+              raise SystemExit('Invalid temporary upload path.')
+          PY
+            git fetch --no-tags --depth=1 origin "refs/heads/${UPLOAD_REF}:refs/remotes/origin/${UPLOAD_REF}"
+            python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          ref = f"origin/{os.environ['UPLOAD_REF']}"
+          prefix = os.environ['UPLOAD_PREFIX']
+          manifest_raw = subprocess.check_output(['git', 'show', f'{ref}:{prefix}/manifest.json'])
+          manifest = json.loads(manifest_raw)
+          parts = manifest.get('parts')
+          if not isinstance(parts, list) or not parts or len(parts) > 64:
+              raise SystemExit('Upload manifest has an invalid part list.')
+          expected = int(manifest.get('size') or 0)
+          if expected <= 0 or expected > 750 * 1024 * 1024:
+              raise SystemExit('Upload manifest size is invalid.')
+          output = pathlib.Path('work/input.deb')
+          written = 0
+          with output.open('wb') as handle:
+              for index, item in enumerate(parts):
+                  path = str(item.get('path') if isinstance(item, dict) else '')
+                  expected_path = f'{prefix}/parts/{index:04d}.bin'
+                  if path != expected_path:
+                      raise SystemExit(f'Unexpected upload part path: {path}')
+                  process = subprocess.run(['git', 'show', f'{ref}:{path}'], stdout=handle)
+                  if process.returncode:
+                      raise SystemExit(f'Could not retrieve upload part {index}.')
+          written = output.stat().st_size
+          if written != expected:
+              raise SystemExit(f'Reconstructed size mismatch: expected {expected}, got {written}.')
+          print(f'Reconstructed {written} bytes from {len(parts)} Git objects.')
+          PY
+          else
+            echo "Unsupported source_kind: $SOURCE_KIND" >&2
+            exit 2
+          fi
 
-      - name: Download Debian package
-        env:
-          SOURCE_URL: ${{ inputs.source_url }}
+      - name: Validate Debian archive
         run: |
-          mkdir -p work output
-          curl --fail --location --proto '=https' --tlsv1.2 --retry 3 --max-time 900 \
-            --output work/input.deb "$SOURCE_URL"
           python3 - <<'PY'
           from pathlib import Path
           source = Path('work/input.deb')
@@ -80,9 +142,10 @@ jobs:
               raise SystemExit('Downloaded package is empty.')
           if size > 750 * 1024 * 1024:
               raise SystemExit('Downloaded package exceeds the 750 MB limit.')
-          if source.read_bytes()[:8] != b'!<arch>\n':
-              raise SystemExit('Downloaded file is not a Debian ar archive.')
-          print(f'Downloaded {size} bytes')
+          with source.open('rb') as handle:
+              if handle.read(8) != b'!<arch>\n':
+                  raise SystemExit('Downloaded file is not a Debian ar archive.')
+          print(f'Validated Debian archive: {size} bytes')
           PY
 
       - name: Audit package and choose build path
@@ -146,6 +209,21 @@ jobs:
           if-no-files-found: error
           retention-days: 7
           compression-level: 0
+
+      - name: Delete temporary upload branch
+        if: always() && inputs.source_kind == 'git_chunks'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPLOAD_REF: ${{ inputs.upload_ref }}
+        run: |
+          if [[ "$UPLOAD_REF" =~ ^debtoipa-upload-[A-Za-z0-9_-]{4,80}$ ]]; then
+            curl --fail-with-body --silent --show-error \
+              --request DELETE \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/refs/heads/${UPLOAD_REF}" || true
+          fi
 
       - name: Fail unusable build
         if: steps.convert.outputs.exit_code != '0'
