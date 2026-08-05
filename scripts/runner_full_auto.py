@@ -23,10 +23,16 @@ import runner_smart_auto as baseline
 from source_port import SourcePortError, build_source_port
 
 
-def _copy_tree_contents(source: Path, destination: Path, *, skip: set[str]) -> None:
+def _copy_tree_contents(
+    source: Path,
+    destination: Path,
+    *,
+    skip: set[str],
+    skip_ipas: bool = False,
+) -> None:
     destination.mkdir(parents=True, exist_ok=True)
     for path in source.iterdir():
-        if path.name in skip or path.suffix.lower() == ".ipa":
+        if path.name in skip or (skip_ipas and path.suffix.lower() == ".ipa"):
             continue
         target = destination / path.name
         if path.is_dir():
@@ -104,7 +110,7 @@ def main() -> int:
     }
 
     with tempfile.TemporaryDirectory(prefix="debtoipa-full-auto-") as temporary:
-        workspace = Path(temporary)
+        workspace = Path(temporary).resolve()
         baseline_output = workspace / "baseline"
         baseline_output.mkdir()
         baseline_code = _run_baseline(args, baseline_output)
@@ -115,7 +121,7 @@ def main() -> int:
             print("::notice title=DebToIPA::Original binary is compatible; source rebuild was not needed.")
             return 0
 
-        payload_root = workspace / "payload"
+        payload_root = (workspace / "payload").resolve()
         try:
             baseline.extract_deb_payload(args.deb, payload_root)
             source_result = build_source_port(payload_root, output, args.source_name, options)
@@ -209,7 +215,12 @@ def main() -> int:
             "README.txt",
             "source-port-report.json",
         }
-        _copy_tree_contents(baseline_output, output, skip=skip)
+        _copy_tree_contents(
+            baseline_output,
+            output,
+            skip=skip,
+            skip_ipas=True,
+        )
         conversion_path = output / "conversion-report.json"
         summary_path = output / "runner-summary.json"
         source_report_path = output / "source-port-report.json"
