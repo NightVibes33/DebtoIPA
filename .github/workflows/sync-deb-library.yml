@@ -1,0 +1,79 @@
+name: Sync In-App DEB Library
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * *'
+  push:
+    branches:
+      - main
+      - feature/in-app-deb-library
+    paths:
+      - 'library/sources.json'
+      - 'scripts/sync_deb_library.py'
+      - 'tests/test_deb_library.py'
+      - '.github/workflows/sync-deb-library.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deb-library-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Validate library parser and policy gates
+        run: python3 -m unittest tests.test_deb_library -v
+
+      - name: Build repository snapshot
+        run: |
+          python3 scripts/sync_deb_library.py \
+            --sources library/sources.json \
+            --output public/library/index.json \
+            --stats public/library/stats.json \
+            --workers 10 \
+            --minimum-packages 250
+
+      - name: Validate generated snapshot
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('public/library/index.json').read_text())
+          assert data['schemaVersion'] == 1
+          assert data['packageCount'] == len(data['packages'])
+          assert data['sourceCount'] == len(data['sources'])
+          assert data['packageCount'] >= 250
+          assert any(source['id'] == 'cypwn' for source in data['sources'])
+          assert all(item.get('downloadUrl') is None for item in data['packages'] if item['sourceId'] == 'cypwn')
+          assert all(item['downloadPolicy'] != 'direct' for item in data['packages'] if 'suspected-piracy' in item['riskFlags'])
+          print(json.dumps({
+              'packages': data['packageCount'],
+              'sources_ready': data['readySourceCount'],
+              'direct': data['directPackageCount'],
+              'blocked': data['blockedPackageCount'],
+              'bundle_eligible': data['bundleEligibleCount'],
+          }, indent=2))
+          PY
+
+      - name: Commit refreshed catalog
+        run: |
+          set -euo pipefail
+          git config user.name 'DebToIPA Library Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add public/library/index.json public/library/stats.json
+          if git diff --cached --quiet; then
+            echo 'Catalog is already current.'
+            exit 0
+          fi
+          git commit -m 'Refresh in-app DEB library snapshot'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
