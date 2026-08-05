@@ -31,6 +31,14 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Ensure Zstandard decoder
+        run: |
+          if ! command -v zstd >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y zstd
+          fi
+          zstd --version
+
       - name: Validate library parser and policy gates
         run: python3 -m unittest tests.test_deb_library -v
 
@@ -52,16 +60,19 @@ jobs:
           import json
           from pathlib import Path
           data = json.loads(Path('public/library/index.json').read_text())
+          cypwn = next(source for source in data['sources'] if source['id'] == 'cypwn')
           assert data['schemaVersion'] == 1
           assert data['packageCount'] == len(data['packages'])
           assert data['sourceCount'] == len(data['sources'])
           assert data['packageCount'] >= 250
-          assert any(source['id'] == 'cypwn' for source in data['sources'])
+          assert cypwn['status'] == 'ready'
+          assert cypwn['packageCount'] > 0
           assert all(item.get('downloadUrl') is None for item in data['packages'] if item['sourceId'] == 'cypwn')
           assert all(item['downloadPolicy'] != 'direct' for item in data['packages'] if 'suspected-piracy' in item['riskFlags'])
           print(json.dumps({
               'packages': data['packageCount'],
               'sources_ready': data['readySourceCount'],
+              'cypwn': cypwn['packageCount'],
               'direct': data['directPackageCount'],
               'blocked': data['blockedPackageCount'],
               'bundle_eligible': data['bundleEligibleCount'],
