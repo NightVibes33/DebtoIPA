@@ -1,5 +1,5 @@
-import { DebToIpaApp } from '@/components/DebToIpaApp';
+import { RunnerDebToIpaApp } from '@/components/RunnerDebToIpaApp';
 
 export default function Home() {
-  return <DebToIpaApp />;
+  return <RunnerDebToIpaApp />;
 }
