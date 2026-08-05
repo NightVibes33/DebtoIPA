@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Audit production dependencies
+        run: npm run audit:production
+
       - name: Type-check web app
         run: npm run typecheck
 
@@ -31,4 +34,4 @@ jobs:
         run: npm run build
 
       - name: Test converter
-        run: python3 -m unittest discover -s tests -v
+        run: npm run test:converter
