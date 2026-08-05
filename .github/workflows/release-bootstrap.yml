@@ -8,102 +8,60 @@ permissions:
   contents: write
 
 jobs:
-  publish:
+  patch:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout repository
+      - name: Checkout feature branch
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          ref: feature/multi-profile-stock-ios
+          fetch-depth: 1
 
-      - name: Build consolidated release commit object
+      - name: Patch and upload corrected adapter blob
         env:
           GH_TOKEN: ${{ github.token }}
-          ARCHIVE_SHA256: 12988cfa5585c962cd188211620608640c1ae1095ce3a0bc38bc1a6e692babb0
         run: |
           set -euo pipefail
-          : > /tmp/release.b64
-          for blob in \
-            2791132a845b9735d2ac1f5efd56691dac764af0 \
-            def2c76cf5d9d7da327786dcfa5e8fe5e6d975eb \
-            da7abea8e2c873c6828e8176e71e3eb264f3e3ff \
-            692d0c3662f02ed7f0d146b87595c2130a786163 \
-            8006c3d3f2b55c4a075a88410c84487c5fb72a82 \
-            9f4f5cbdaa44f75825971b4059c36d28709c53e7 \
-            9cfd2039c1b72ef817f8e276e42a1f96ef3dca6c \
-            eaff4b25e4a420b341b3d48f8cbf1cad3bd37743
-          do
-            gh api --header "Accept: application/vnd.github.raw+json" "/repos/${GITHUB_REPOSITORY}/git/blobs/${blob}" >> /tmp/release.b64
-          done
-          tr -d '\r\n' < /tmp/release.b64 | base64 --decode > /tmp/debtoipa-release.tar.gz
-          echo "${ARCHIVE_SHA256}  /tmp/debtoipa-release.tar.gz" | sha256sum --check -
-
-          git fetch origin main
-          git checkout -B feature/multi-profile-stock-ios origin/main
-          tar -xzf /tmp/debtoipa-release.tar.gz -C .
-          find . -type d -name __pycache__ -prune -exec rm -rf {} +
-
-          git add .github/workflows/ci.yml .github/workflows/convert.yml .github/workflows/public-convert.yml README.md public/github-runner.html public/public-runner.html scripts/adapter_sdk.py scripts/binary_shim.py scripts/capability_graph.py scripts/runner_full_auto.py scripts/source_port.py tests/macos_full_matrix.py tests/test_capability_graph.py
-          git diff --cached --check
-          test "$(git rev-list --count origin/main..HEAD)" -eq 0
-
           python3 <<'PY'
+          from pathlib import Path
+
+          path = Path('scripts/adapter_sdk.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''    public var body: some View { NavigationStack { content.navigationTitle("__APP_NAME__") } }'''
+          new = '''    public var body: some View {
+              NavigationView { content.navigationTitle("__APP_NAME__") }
+                  .navigationViewStyle(StackNavigationViewStyle())
+          }'''
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one NavigationStack wrapper, found {text.count(old)}')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          PY
+
+          python3 -m py_compile scripts/adapter_sdk.py
+          python3 -m unittest tests.test_capability_graph
+
+          blob_sha="$(python3 - <<'PY'
           import base64
           import json
           import os
           import pathlib
           import urllib.request
 
-          repository = os.environ['GITHUB_REPOSITORY']
-          token = os.environ['GH_TOKEN']
-          root = pathlib.Path.cwd()
-          paths = [
-              '.github/workflows/ci.yml',
-              '.github/workflows/convert.yml',
-              '.github/workflows/public-convert.yml',
-              'README.md',
-              'public/github-runner.html',
-              'public/public-runner.html',
-              'scripts/adapter_sdk.py',
-              'scripts/binary_shim.py',
-              'scripts/capability_graph.py',
-              'scripts/runner_full_auto.py',
-              'scripts/source_port.py',
-              'tests/macos_full_matrix.py',
-              'tests/test_capability_graph.py',
-          ]
-
-          def request(method, path, payload=None):
-              data = None if payload is None else json.dumps(payload).encode('utf-8')
-              req = urllib.request.Request(
-                  f'https://api.github.com/repos/{repository}{path}',
-                  data=data,
-                  method=method,
-                  headers={
-                      'Accept': 'application/vnd.github+json',
-                      'Authorization': f'Bearer {token}',
-                      'X-GitHub-Api-Version': '2022-11-28',
-                      'Content-Type': 'application/json',
-                  },
-              )
-              with urllib.request.urlopen(req) as response:
-                  return json.load(response)
-
-          main_sha = request('GET', '/git/ref/heads/main')['object']['sha']
-          base_commit = request('GET', f'/git/commits/{main_sha}')
-          entries = []
-          for path in paths:
-              content = base64.b64encode((root / path).read_bytes()).decode('ascii')
-              blob = request('POST', '/git/blobs', {'content': content, 'encoding': 'base64'})
-              entries.append({'path': path, 'mode': '100644', 'type': 'blob', 'sha': blob['sha']})
-          tree = request('POST', '/git/trees', {'base_tree': base_commit['tree']['sha'], 'tree': entries})
-          commit = request('POST', '/git/commits', {
-              'message': 'Add full multi-profile jailbreak-to-stock iOS conversion',
-              'tree': tree['sha'],
-              'parents': [main_sha],
-          })
-          print(f'DEBTOIPA_FEATURE_COMMIT={commit["sha"]}')
-          print(f'DEBTOIPA_FEATURE_PARENT={main_sha}')
-          print(f'DEBTOIPA_FEATURE_TREE={tree["sha"]}')
+          content = base64.b64encode(pathlib.Path('scripts/adapter_sdk.py').read_bytes()).decode('ascii')
+          request = urllib.request.Request(
+              f'https://api.github.com/repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs',
+              data=json.dumps({'content': content, 'encoding': 'base64'}).encode('utf-8'),
+              method='POST',
+              headers={
+                  'Accept': 'application/vnd.github+json',
+                  'Authorization': f'Bearer {os.environ["GH_TOKEN"]}',
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'Content-Type': 'application/json',
+              },
+          )
+          with urllib.request.urlopen(request) as response:
+              print(json.load(response)['sha'])
           PY
+          )"
+          echo "DEBTOIPA_ADAPTER_BLOB=${blob_sha}"
