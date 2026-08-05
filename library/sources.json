@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "cypwn",
+      "name": "CyPwn",
+      "baseUrl": "https://repo.cypwn.xyz/",
+      "homepage": "https://repo.cypwn.xyz/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Large mixed repository. Catalog metadata is visible, but DebToIPA does not proxy or bundle cracks, paid packages, or packages with unclear redistribution rights."
+    },
+    {
+      "id": "bigboss",
+      "name": "BigBoss",
+      "baseUrl": "https://apt.thebigboss.org/repofiles/cydia/",
+      "homepage": "https://www.thebigboss.org/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Legacy mixed repository. Metadata only unless a package is independently verified as redistributable.",
+      "indexUrls": [
+        "https://apt.thebigboss.org/repofiles/cydia/dists/stable/main/binary-iphoneos-arm/Packages.bz2"
+      ]
+    },
+    {
+      "id": "sileo",
+      "name": "Sileo",
+      "baseUrl": "https://repo.getsileo.app/",
+      "homepage": "https://getsileo.app/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Official Sileo repository. Free packages can be loaded directly from the original source."
+    },
+    {
+      "id": "palera1n",
+      "name": "palera1n",
+      "baseUrl": "https://repo.palera.in/",
+      "homepage": "https://palera.in/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Official palera1n essentials repository for rootful and rootless packages."
+    },
+    {
+      "id": "procursus",
+      "name": "Procursus",
+      "baseUrl": "https://apt.procurs.us/",
+      "homepage": "https://github.com/ProcursusTeam/Procursus",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Open package bootstrap and command-line ecosystem.",
+      "indexUrls": [
+        "https://apt.procurs.us/dists/1800/main/binary-iphoneos-arm64/Packages.xz",
+        "https://apt.procurs.us/dists/1800/main/binary-iphoneos-arm/Packages.xz",
+        "https://apt.procurs.us/dists/1900/main/binary-iphoneos-arm64/Packages.xz",
+        "https://apt.procurs.us/dists/1900/main/binary-iphoneos-arm/Packages.xz"
+      ]
+    },
+    {
+      "id": "opa334",
+      "name": "opa334",
+      "baseUrl": "https://opa334.github.io/",
+      "homepage": "https://github.com/opa334",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public packages and utilities from opa334."
+    },
+    {
+      "id": "ellekit",
+      "name": "ElleKit",
+      "baseUrl": "https://ellekit.space/",
+      "homepage": "https://ellekit.space/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Official ElleKit repository."
+    },
+    {
+      "id": "roothide",
+      "name": "RootHide",
+      "baseUrl": "https://roothide.github.io/",
+      "homepage": "https://github.com/roothide",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public RootHide and bootstrap packages."
+    },
+    {
+      "id": "zebra",
+      "name": "Zebra",
+      "baseUrl": "https://getzbra.com/repo/",
+      "homepage": "https://getzbra.com/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Official Zebra package manager repository."
+    },
+    {
+      "id": "bingner",
+      "name": "Bingner / Elucubratus",
+      "baseUrl": "https://apt.bingner.com/",
+      "homepage": "https://apt.bingner.com/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Legacy bootstrap and command-line packages."
+    },
+    {
+      "id": "cokepokes",
+      "name": "CokePokes",
+      "baseUrl": "https://cokepokes.github.io/",
+      "homepage": "https://cokepokes.github.io/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "akemi",
+      "name": "Karen / Akemi",
+      "baseUrl": "https://cydia.akemi.ai/",
+      "homepage": "https://cydia.akemi.ai/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public packages from angelXwind / Karen."
+    },
+    {
+      "id": "rpetri",
+      "name": "Ryan Petrich",
+      "baseUrl": "https://rpetri.ch/repo/",
+      "homepage": "https://rpetri.ch/repo/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "poomsmart",
+      "name": "PoomSmart",
+      "baseUrl": "https://poomsmart.github.io/repo/",
+      "homepage": "https://poomsmart.github.io/repo/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public open-source tweaks and libraries."
+    },
+    {
+      "id": "ichitaso",
+      "name": "ichitaso",
+      "baseUrl": "https://cydia.ichitaso.com/",
+      "homepage": "https://cydia.ichitaso.com/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "julioverne",
+      "name": "Julio Verne",
+      "baseUrl": "https://julioverne.github.io/",
+      "homepage": "https://julioverne.github.io/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository. Packages flagged as cracks or DRM bypasses are blocked from direct loading."
+    },
+    {
+      "id": "akusio",
+      "name": "akusio",
+      "baseUrl": "https://akusio.github.io/",
+      "homepage": "https://akusio.github.io/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "icraze",
+      "name": "iCraze",
+      "baseUrl": "https://repo.icrazeios.com/",
+      "homepage": "https://repo.icrazeios.com/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "creaturecoding",
+      "name": "CreatureCoding",
+      "baseUrl": "https://creaturecoding.com/repo/",
+      "homepage": "https://creaturecoding.com/repo/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "nepeta",
+      "name": "Nepeta Archive",
+      "baseUrl": "https://repo.nepeta.me/",
+      "homepage": "https://repo.nepeta.me/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Archived public package repository; availability may vary."
+    },
+    {
+      "id": "chariz",
+      "name": "Chariz",
+      "baseUrl": "https://repo.chariz.com/",
+      "homepage": "https://chariz.com/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Mixed free and commercial marketplace. DebToIPA does not bypass purchases or authenticated downloads."
+    },
+    {
+      "id": "havoc",
+      "name": "Havoc",
+      "baseUrl": "https://havoc.app/",
+      "homepage": "https://havoc.app/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Mixed free and commercial marketplace. DebToIPA does not bypass purchases or authenticated downloads."
+    },
+    {
+      "id": "twickd",
+      "name": "Twickd",
+      "baseUrl": "https://repo.twickd.com/",
+      "homepage": "https://repo.twickd.com/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Mixed repository. Catalog metadata only."
+    },
+    {
+      "id": "packix",
+      "name": "Packix Archive",
+      "baseUrl": "https://repo.packix.com/",
+      "homepage": "https://repo.packix.com/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Legacy marketplace archive. Metadata only when available."
+    },
+    {
+      "id": "dynastic",
+      "name": "Dynastic Archive",
+      "baseUrl": "https://repo.dynastic.co/",
+      "homepage": "https://repo.dynastic.co/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Defunct marketplace archive. Metadata only when available."
+    },
+    {
+      "id": "limneos",
+      "name": "Limneos",
+      "baseUrl": "https://limneos.net/repo/",
+      "homepage": "https://limneos.net/repo/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Mixed commercial developer repository."
+    },
+    {
+      "id": "sparkdev",
+      "name": "SparkDev",
+      "baseUrl": "https://sparkdev.me/",
+      "homepage": "https://sparkdev.me/",
+      "policy": "catalog-only",
+      "mirrorPolicy": "never",
+      "notes": "Mixed commercial developer repository."
+    },
+    {
+      "id": "shiftcmdk",
+      "name": "ShiftCMDK",
+      "baseUrl": "https://shiftcmdk.github.io/repo/",
+      "homepage": "https://shiftcmdk.github.io/repo/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "level3tjg",
+      "name": "level3tjg",
+      "baseUrl": "https://level3tjg.me/repo/",
+      "homepage": "https://level3tjg.me/repo/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    },
+    {
+      "id": "alias20",
+      "name": "Alias20",
+      "baseUrl": "https://alias20.gitlab.io/apt/",
+      "homepage": "https://alias20.gitlab.io/apt/",
+      "policy": "direct",
+      "mirrorPolicy": "license-only",
+      "notes": "Public developer repository."
+    }
+  ]
+}
