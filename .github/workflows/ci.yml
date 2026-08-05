@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, feature/full-converter-app]
+    branches: [main, feature/full-converter-app, feature/source-assisted-stock-ios-port]
   pull_request:
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
       - name: Build production web app
         run: npm run build
 
-      - name: Test converter
+      - name: Test converter and source-port policy
         run: npm run test:converter
 
       - name: Validate runner workflow YAML
@@ -57,7 +57,21 @@ jobs:
               if (!html.includes(required)) throw new Error(`${path}: missing contract marker ${required}`);
             }
           }
+          const workflow = fs.readFileSync('.github/workflows/public-convert.yml', 'utf8');
+          for (const marker of ['runner_full_auto.py', 'source-ported', 'original-blocked']) {
+            if (!workflow.includes(marker)) throw new Error(`public workflow missing ${marker}`);
+          }
           const config = JSON.parse(fs.readFileSync('public/oauth-config.json', 'utf8'));
           if (!Array.isArray(config.scopes) || !config.scopes.includes('public_repo')) throw new Error('OAuth config must request public_repo.');
           console.log('Static runner clients parsed successfully.');
           NODE
+
+  source-port-iphoneos:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Compile Swift and Objective-C source DEBs for iPhoneOS
+        run: python3 tests/macos_source_port_smoke.py
