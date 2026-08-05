@@ -1,0 +1,261 @@
+name: Public DebToIPA Queue
+run-name: Public DebToIPA • #${{ github.event.issue.number }} • ${{ github.event.issue.title }}
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: public-debtoipa-${{ github.event.issue.user.login }}
+  cancel-in-progress: false
+
+jobs:
+  validate-request:
+    if: startsWith(github.event.issue.title, '[DebToIPA Job] ')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      job_id: ${{ steps.parse.outputs.job_id }}
+      source_owner: ${{ steps.parse.outputs.source_owner }}
+      source_repo: ${{ steps.parse.outputs.source_repo }}
+      source_ref: ${{ steps.parse.outputs.source_ref }}
+      source_prefix: ${{ steps.parse.outputs.source_prefix }}
+      source_name: ${{ steps.parse.outputs.source_name }}
+      target_device: ${{ steps.parse.outputs.target_device }}
+      minimum_ios: ${{ steps.parse.outputs.minimum_ios }}
+      bundle_id: ${{ steps.parse.outputs.bundle_id }}
+      display_name: ${{ steps.parse.outputs.display_name }}
+    steps:
+      - name: Validate authenticated GitHub user and request
+        id: parse
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import datetime as dt
+          import json
+          import os
+          import re
+          import subprocess
+
+          body = os.environ.get('ISSUE_BODY', '')
+          author = os.environ['ISSUE_AUTHOR']
+          marker = re.search(r'<!--\s*DEBTOIPA_JOB_V1\s*(\{.*?\})\s*DEBTOIPA_JOB_V1\s*-->', body, re.S)
+          if not marker:
+              raise SystemExit('The issue does not contain a valid DebToIPA job manifest.')
+          try:
+              data = json.loads(marker.group(1))
+          except json.JSONDecodeError as exc:
+              raise SystemExit(f'Invalid job JSON: {exc}')
+
+          job_id = str(data.get('jobId', ''))
+          source = data.get('source') or {}
+          settings = data.get('settings') or {}
+          owner = str(source.get('owner', ''))
+          repo = str(source.get('repo', ''))
+          ref = str(source.get('ref', ''))
+          prefix = str(source.get('prefix', ''))
+          source_name = str(data.get('sourceName', ''))
+          device = str(settings.get('device', 'universal'))
+          minimum_ios = str(settings.get('minimumIos', '15.0'))
+          bundle_id = str(settings.get('bundleId', ''))
+          display_name = str(settings.get('displayName', ''))
+
+          if int(data.get('schemaVersion', 0)) != 1:
+              raise SystemExit('Unsupported public job schema.')
+          if not re.fullmatch(r'[a-z0-9-]{8,80}', job_id):
+              raise SystemExit('Invalid job id.')
+          if owner.casefold() != author.casefold():
+              raise SystemExit('The upload repository must belong to the issue author.')
+          if repo != 'debtoipa-uploads':
+              raise SystemExit('Public jobs must use the debtoipa-uploads repository.')
+          if ref != f'job-{job_id}':
+              raise SystemExit('The upload ref does not match the job id.')
+          if prefix != f'jobs/{job_id}':
+              raise SystemExit('The upload prefix does not match the job id.')
+          if not source_name.lower().endswith('.deb') or len(source_name) > 160:
+              raise SystemExit('Invalid source filename.')
+          if device not in {'universal', 'iphone', 'ipad'}:
+              raise SystemExit('Invalid target device.')
+          if not re.fullmatch(r'\d{1,2}(?:\.\d{1,2}){0,2}', minimum_ios):
+              raise SystemExit('Invalid minimum iOS version.')
+          if bundle_id and not re.fullmatch(r'[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+', bundle_id):
+              raise SystemExit('Invalid bundle identifier.')
+          if len(display_name) > 80:
+              raise SystemExit('Display name is too long.')
+
+          user = json.loads(subprocess.check_output([
+              'gh', 'api', f'/users/{author}', '--header', 'X-GitHub-Api-Version: 2022-11-28'
+          ]))
+          created = dt.datetime.fromisoformat(user['created_at'].replace('Z', '+00:00'))
+          if dt.datetime.now(dt.timezone.utc) - created < dt.timedelta(days=7):
+              raise SystemExit('Public runner access requires a GitHub account at least seven days old.')
+
+          repo_info = json.loads(subprocess.check_output([
+              'gh', 'api', f'/repos/{owner}/{repo}', '--header', 'X-GitHub-Api-Version: 2022-11-28'
+          ]))
+          if repo_info.get('private'):
+              raise SystemExit('The temporary upload repository must be public.')
+          topics = set(repo_info.get('topics') or [])
+          if 'debtoipa-upload' not in topics:
+              raise SystemExit('The upload repository is missing the debtoipa-upload topic.')
+
+          query = f'repo:{os.environ["REPOSITORY"]} is:issue is:open author:{author} in:title "[DebToIPA Job]"'
+          search = json.loads(subprocess.check_output([
+              'gh', 'api', '/search/issues', '-f', f'q={query}', '--header', 'X-GitHub-Api-Version: 2022-11-28'
+          ]))
+          current = int(os.environ['ISSUE_NUMBER'])
+          other_open = [item for item in search.get('items', []) if int(item.get('number', 0)) != current]
+          if other_open:
+              raise SystemExit('Only one active public DebToIPA job is allowed per GitHub account.')
+
+          values = {
+              'job_id': job_id,
+              'source_owner': owner,
+              'source_repo': repo,
+              'source_ref': ref,
+              'source_prefix': prefix,
+              'source_name': source_name,
+              'target_device': device,
+              'minimum_ios': minimum_ios,
+              'bundle_id': bundle_id,
+              'display_name': display_name,
+          }
+          output = os.environ['GITHUB_OUTPUT']
+          with open(output, 'a', encoding='utf-8') as handle:
+              for key, value in values.items():
+                  handle.write(f'{key}={value}\n')
+          PY
+
+      - name: Mark request accepted
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "✅ DebToIPA accepted this authenticated job. A GitHub macOS runner is being allocated."
+
+  build:
+    needs: validate-request
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      JOB_ID: ${{ needs.validate-request.outputs.job_id }}
+      SOURCE_OWNER: ${{ needs.validate-request.outputs.source_owner }}
+      SOURCE_REPO: ${{ needs.validate-request.outputs.source_repo }}
+      SOURCE_REF: ${{ needs.validate-request.outputs.source_ref }}
+      SOURCE_PREFIX: ${{ needs.validate-request.outputs.source_prefix }}
+      SOURCE_NAME: ${{ needs.validate-request.outputs.source_name }}
+      TARGET_DEVICE: ${{ needs.validate-request.outputs.target_device }}
+      MINIMUM_IOS: ${{ needs.validate-request.outputs.minimum_ios }}
+      BUNDLE_ID: ${{ needs.validate-request.outputs.bundle_id }}
+      DISPLAY_NAME: ${{ needs.validate-request.outputs.display_name }}
+    steps:
+      - name: Checkout trusted DebToIPA source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Reconstruct authenticated user upload
+        run: |
+          set -euo pipefail
+          mkdir -p work output upload
+          git -C upload init -q
+          git -C upload remote add origin "https://github.com/${SOURCE_OWNER}/${SOURCE_REPO}.git"
+          git -C upload fetch --no-tags --depth=1 origin "refs/heads/${SOURCE_REF}:refs/remotes/origin/${SOURCE_REF}"
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import subprocess
+
+          ref = f"origin/{os.environ['SOURCE_REF']}"
+          prefix = os.environ['SOURCE_PREFIX']
+          manifest_raw = subprocess.check_output(['git', '-C', 'upload', 'show', f'{ref}:{prefix}/manifest.json'])
+          manifest = json.loads(manifest_raw)
+          if int(manifest.get('schemaVersion', 0)) != 1:
+              raise SystemExit('Unsupported upload manifest schema.')
+          parts = manifest.get('parts')
+          if not isinstance(parts, list) or not parts or len(parts) > 32:
+              raise SystemExit('The upload manifest has an invalid part list.')
+          expected = int(manifest.get('size') or 0)
+          if expected <= 0 or expected > 250 * 1024 * 1024:
+              raise SystemExit('Public packages are limited to 250 MB.')
+          output = pathlib.Path('work/input.deb')
+          with output.open('wb') as handle:
+              for index, item in enumerate(parts):
+                  if not isinstance(item, dict):
+                      raise SystemExit('Invalid upload part entry.')
+                  path = str(item.get('path', ''))
+                  expected_path = f'{prefix}/parts/{index:04d}.bin'
+                  if path != expected_path:
+                      raise SystemExit(f'Unexpected upload part path: {path}')
+                  process = subprocess.run(['git', '-C', 'upload', 'show', f'{ref}:{path}'], stdout=handle)
+                  if process.returncode:
+                      raise SystemExit(f'Could not retrieve upload part {index}.')
+          actual = output.stat().st_size
+          if actual != expected:
+              raise SystemExit(f'Reconstructed size mismatch: expected {expected}, got {actual}.')
+          with output.open('rb') as handle:
+              if handle.read(8) != b'!<arch>\n':
+                  raise SystemExit('The reconstructed file is not a Debian archive.')
+          print(f'Reconstructed and validated {actual} bytes from {len(parts)} Git objects.')
+          PY
+
+      - name: Build and validate IPA
+        id: convert
+        continue-on-error: true
+        run: |
+          set +e
+          python3 scripts/runner_smart_auto.py \
+            --deb work/input.deb \
+            --output-dir output \
+            --job-id "$JOB_ID" \
+            --source-name "$SOURCE_NAME" \
+            --device "$TARGET_DEVICE" \
+            --minimum-ios "$MINIMUM_IOS" \
+            --bundle-id "$BUNDLE_ID" \
+            --display-name "$DISPLAY_NAME"
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit "$code"
+
+      - name: Upload IPA and reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: DebtoIPA-public-${{ github.event.issue.number }}-${{ env.JOB_ID }}
+          path: output/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 6
+
+      - name: Publish result to issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPOSITORY: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EXIT_CODE: ${{ steps.convert.outputs.exit_code }}
+        run: |
+          if [[ "$EXIT_CODE" == "0" ]]; then
+            body="✅ **Build completed.** Download the IPA and compatibility reports from the workflow artifact: ${RUN_URL}"
+          else
+            body="⚠️ **Build completed with an unusable or partial result.** Open the workflow and download the report artifact for the exact blockers: ${RUN_URL}"
+          fi
+          gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "$body"
+          gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY" --reason completed
+
+      - name: Fail unusable build
+        if: steps.convert.outputs.exit_code != '0'
+        run: exit 1
