@@ -4,6 +4,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PROJECT_DIR="$ROOT/CompatibilityHost"
 OUTPUT_DIR="${1:-$ROOT/output}"
+if [[ "$OUTPUT_DIR" != /* ]]; then
+  OUTPUT_DIR="$ROOT/$OUTPUT_DIR"
+fi
 DERIVED_DATA="$ROOT/.build/CompatibilityHost"
 
 mkdir -p "$OUTPUT_DIR"
