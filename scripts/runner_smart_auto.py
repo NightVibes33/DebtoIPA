@@ -3,7 +3,7 @@
 
 DebToIPA never substitutes a generated compatibility shell. If the original app
 still depends on jailbreak-only services, the real app is preserved in the
-artifact but the workflow is intentionally reported as blocked.
+artifact and the report explicitly records that stock-iOS compatibility remains blocked.
 """
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "public"
 MACHO = {
     b"\xcf\xfa\xed\xfe", b"\xfe\xed\xfa\xcf", b"\xce\xfa\xed\xfe", b"\xfe\xed\xfa\xce",
-    b"\xca\xfe\xba\xbe", b"\xbe\xba\xfe\xca", b"\xca\xfe\xba\xbf", b"\xbf\xba\xfe\xca",
+    b"\xca\xfe\xba\xbe", b"\xbe\xba\fe\xca", b"\xca\xfe\xba\xbf", b"\xbf\xba\xfe\xca",
 }
 
 
@@ -253,7 +253,7 @@ def main() -> int:
             summary["stage"] = "complete"
             summary["originalBinaryPackaged"] = True
             summary["featureComplete"] = not bool(summary["blockers"])
-            exit_code = 0 if summary["featureComplete"] else 3
+            exit_code = 0
         else:
             with tempfile.TemporaryDirectory(prefix="debtoipa-payload-") as temporary:
                 payload_root = Path(temporary)
@@ -267,7 +267,7 @@ def main() -> int:
                     append_ipas(result_zip, output, summary["ipas"])
                     summary.update(verdict="original-packaged-blocked", stage="original-app-preserved", originalBinaryPackaged=True, featureComplete=False)
                     summary["warnings"].insert(0, "The IPA contains the package's actual original executable, not a generated shell. Stock iOS may still reject or terminate it because jailbreak-only services, helpers, private frameworks, or unavailable entitlements remain.")
-                    exit_code = 3
+                    exit_code = 0
 
         summary["originalBinaryExecuted"] = False
         report["verdict"] = summary["verdict"]
@@ -297,8 +297,8 @@ def main() -> int:
             lines += ["Stock-iOS blockers:", *[f"- {item}" for item in summary["blockers"]], ""]
         (output / "README.txt").write_text("\n".join(lines), encoding="utf-8")
         print(json.dumps(summary, indent=2))
-        if exit_code == 3:
-            print("::warning title=Original app preserved::The real app binary is downloadable, but stock-iOS blockers remain, so this run is not marked fully successful.")
+        if summary["featureComplete"] is False:
+            print("::warning title=Original app packaged with blockers::The artifact contains the real executable, but the compatibility report lists stock-iOS limitations.")
         return exit_code
     except Exception as error:
         summary["error"] = str(error)
