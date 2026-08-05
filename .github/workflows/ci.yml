@@ -38,7 +38,8 @@ jobs:
         run: npm run test:converter
 
       - name: Validate runner workflow YAML
-        run: ruby -e "require 'yaml'; YAML.load_file('.github/workflows/convert.yml', aliases: true); puts 'convert.yml parsed'"
+        run: |
+          ruby -e "require 'yaml'; YAML.load_file('.github/workflows/convert.yml', aliases: true); puts 'convert.yml parsed'"
 
       - name: Validate shipped browser JavaScript
         run: |
