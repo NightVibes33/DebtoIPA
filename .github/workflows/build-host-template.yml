@@ -1,0 +1,61 @@
+name: Build Compatibility Host Template
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'CompatibilityHost/**'
+      - 'scripts/build_compatibility_host.sh'
+      - '.github/workflows/build-host-template.yml'
+      - 'public/host_mode.py'
+      - 'public/converter-worker.js'
+  push:
+    branches: [main]
+    paths:
+      - 'CompatibilityHost/**'
+      - 'scripts/build_compatibility_host.sh'
+      - '.github/workflows/build-host-template.yml'
+      - 'public/host_mode.py'
+      - 'public/converter-worker.js'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compatibility-host-template-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build unsigned compatibility host
+        run: bash scripts/build_compatibility_host.sh output
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: DebToIPA-CompatibilityHost-template
+          path: output/DebToIPA-CompatibilityHost-template.ipa
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+
+      - name: Publish stable template release
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: compat-host-v1
+          ASSET: output/DebToIPA-CompatibilityHost-template.ipa
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$ASSET" --clobber
+          else
+            gh release create "$TAG" "$ASSET" \
+              --title "DebToIPA Compatibility Host v1" \
+              --notes "Precompiled unsigned stock-iOS host used by DebToIPA Smart Auto. The browser injects a translated PortManifest and safe package resources into this template."
+          fi
