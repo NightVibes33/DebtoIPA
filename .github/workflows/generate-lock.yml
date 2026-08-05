@@ -3,7 +3,7 @@ name: Generate npm lockfile
 on:
   push:
     branches: [feature/full-converter-app]
-    paths: [.github/lockfile.ready]
+    paths: [lockfile.ready]
 
 permissions:
   contents: write
@@ -21,11 +21,11 @@ jobs:
         run: |
           npm install --package-lock-only --ignore-scripts
           npm audit --omit=dev --audit-level=high
-          rm .github/lockfile.ready
+          rm lockfile.ready
       - name: Commit lockfile
         run: |
           git config user.name "DebtoIPA Builder"
           git config user.email "actions@users.noreply.github.com"
-          git add package-lock.json .github/lockfile.ready
+          git add package-lock.json lockfile.ready
           git commit -m "build: lock audited npm dependency graph"
           git push origin HEAD:${GITHUB_REF_NAME}
