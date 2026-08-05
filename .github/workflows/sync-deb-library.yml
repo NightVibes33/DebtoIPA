@@ -36,11 +36,14 @@ jobs:
 
       - name: Build repository snapshot
         run: |
+          # Legacy repositories often leave dead index variants online. Keep each
+          # failed probe bounded while preserving the checked-in parser defaults.
+          sed -i 's/REQUEST_TIMEOUT = 24/REQUEST_TIMEOUT = 8/' scripts/sync_deb_library.py
           python3 scripts/sync_deb_library.py \
             --sources library/sources.json \
             --output public/library/index.json \
             --stats public/library/stats.json \
-            --workers 10 \
+            --workers 16 \
             --minimum-packages 250
 
       - name: Validate generated snapshot
@@ -68,6 +71,7 @@ jobs:
       - name: Commit refreshed catalog
         run: |
           set -euo pipefail
+          git checkout -- scripts/sync_deb_library.py
           git config user.name 'DebToIPA Library Bot'
           git config user.email 'actions@users.noreply.github.com'
           git add public/library/index.json public/library/stats.json
@@ -76,4 +80,6 @@ jobs:
             exit 0
           fi
           git commit -m 'Refresh in-app DEB library snapshot'
+          git fetch origin "${GITHUB_REF_NAME}"
+          git rebase "origin/${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
