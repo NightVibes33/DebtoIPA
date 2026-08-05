@@ -1,70 +1,76 @@
-# DebtoIPA
+# DebToIPA
 
-DebtoIPA is a mobile-first, zero-setup Vercel app that converts compatible iOS Debian packages entirely inside the browser. The `.deb` never needs to be uploaded to Vercel Blob or GitHub. A Web Worker opens the package, locates a real `.app`, checks whether its ARM64 binary is plausibly usable on stock iOS, repairs the IPA layout and selected metadata, and downloads an unsigned IPA plus a JSON compatibility report.
+DebToIPA is a public, GitHub-authenticated iOS package analyzer and unsigned IPA builder. Users sign in with GitHub, upload a `.deb` to a temporary repository branch they own, and submit a build to DebToIPA’s hosted GitHub Actions workflow on `macos-15`.
 
 **Live app:** https://debtoipa.vercel.app
 
-## No setup required
+## Success contract
 
-Open the app, choose a `.deb`, select the target device, and tap **Convert on this device**. There are no accounts, tokens, access codes, environment variables, storage connections, or runner configuration steps.
+A successful DebToIPA build means all of the following are true:
 
-## What it does
+- The package contains a standalone iOS `.app` bundle.
+- The original app executable is ARM64 Mach-O.
+- The executable does not depend on jailbreak-only loaders, filesystem paths, helper processes, or unavailable linked libraries.
+- The generated unsigned IPA contains the original app executable.
+- The IPA passes structural validation before it is published.
 
-- Private on-device conversion in a dedicated browser Web Worker
-- Debian `data.tar.*` extraction, including gzip, bzip2, xz, and zstd payloads
-- `.app` discovery under rootful or rootless package layouts
-- ARM64/Mach-O, executable, jailbreak-loader, rootless-path, and linked-library checks
-- Correct `Payload/App.app` IPA structure
-- Optional iPhone, iPad, or universal `UIDeviceFamily`
-- Optional minimum iOS, bundle ID, and display-name overrides
-- Removal of stale signatures and provisioning profiles before repackaging
-- A downloadable result ZIP containing the unsigned IPA and compatibility report
-- No server-side copy of the uploaded package or generated result
+DebToIPA does **not** substitute a generic compatibility viewer, placeholder app, or informational shell. The executable `DebToIPACompatibilityHost` is explicitly rejected by the production runner.
 
-The mobile UI currently limits packages to 350 MB to reduce browser memory crashes. Desktop browsers may still be constrained by available memory.
+## Unsupported packages
 
-## Hard limitation
+Packaging is not source-code conversion. Packages that depend on MobileSubstrate, ElleKit, libhooker, SpringBoard injection, launch daemons, root filesystem access, private entitlements, private frameworks, external helper executables, or other jailbreak services cannot become normal stock-iOS apps through repackaging.
 
-Packaging is not source-code conversion. A MobileSubstrate/ElleKit/libhooker tweak, SpringBoard injection bundle, launch daemon, root-dependent tool, 32-bit binary, or app linked to jailbreak-only libraries cannot be made stock-compatible by wrapping it in `Payload/`. DebtoIPA rejects these packages and produces a compatibility report instead of a misleading IPA.
+For an unsupported package, the workflow fails honestly and publishes only:
 
-The generated IPA is unsigned. A normal iPhone or iPad still requires a valid Apple signature through Xcode, AltStore/SideStore, a signing service you control, or another lawful sideloading workflow.
+- `conversion-report.json`
+- `runner-summary.json`
+- `README.txt`
+- A generated source-level port project when the analyzer can produce one
 
-## Architecture
+No IPA is created for that result.
 
-- Next.js provides the installable mobile web interface.
-- `public/converter-worker.js` runs conversion off the main UI thread.
-- Pyodide runs `public/converter.py` locally in the browser.
-- The original GitHub Actions/CLI converter remains available for CI and development, but the production UI does not require it.
+## Public build flow
 
-## Local development
+1. Sign in with GitHub Device Flow.
+2. Choose a `.deb` up to 250 MB.
+3. DebToIPA uploads temporary chunks to the user-owned public `debtoipa-uploads` repository.
+4. An authenticated issue starts `.github/workflows/public-convert.yml`.
+5. Ubuntu validates identity, ownership, quota, and the upload manifest.
+6. A GitHub-hosted `macos-15` runner reconstructs and analyzes the package.
+7. The website tracks the exact workflow run through machine-readable issue comments.
+8. Temporary upload branches are removed after completion.
+
+Only one active build is allowed per GitHub account. Accounts must be at least seven days old. Build artifacts are retained for three days.
+
+## Repository components
+
+- `public/public-runner.html` — live GitHub login, upload, queue, status, and download client
+- `app/api/oauth/device/route.ts` — starts GitHub Device Flow
+- `app/api/oauth/token/route.ts` — polls GitHub for completion
+- `.github/workflows/public-convert.yml` — validates requests and runs the public macOS build
+- `scripts/runner_smart_auto.py` — enforces the original-app-only IPA contract
+- `public/converter.py` and `public/direct_guard.py` — Debian extraction and direct compatibility analysis
+- `public/port_mode.py.gz.b64` — report and source-level port-project generator
+
+## Local validation
 
 ```bash
 npm ci
-npm run dev
-```
-
-Converter tests:
-
-```bash
+npm run typecheck
+npm run build
 npm run test:converter
 ```
 
-Direct CLI usage:
+CI also parses the runner workflows and syntax-checks the exact JavaScript shipped inside `public/public-runner.html`.
 
-```bash
-python3 scripts/convert_deb.py \
-  --deb Example.deb \
-  --output Example.ipa \
-  --report conversion-report.json \
-  --device universal \
-  --minimum-ios 15.0
-```
+## Signing
 
-## Privacy and security
+Generated IPAs are unsigned. Installation on a normal iPhone or iPad requires a valid Apple signature through Xcode, AltStore/SideStore, a signing service you control, or another lawful sideloading workflow.
 
-- Package bytes remain in the current browser session.
-- Conversion runs in an isolated Web Worker.
+## Security
+
+- OAuth access tokens remain in the current browser tab’s `sessionStorage`.
+- Uploaded package code is analyzed but never executed.
 - Tar extraction rejects path traversal.
-- The converter never executes code from the package.
-- No GitHub credential or Vercel storage token is exposed to the browser.
-- Generated downloads disappear when the page is refreshed or closed unless the user saves them.
+- Users receive no write access to the DebToIPA repository or its workflows.
+- Public workflows execute only trusted code from the DebToIPA `main` branch.
