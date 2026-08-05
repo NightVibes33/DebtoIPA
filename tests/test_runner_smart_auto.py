@@ -44,6 +44,10 @@ class RunnerSmartAutoTests(unittest.TestCase):
         self.assertEqual(result['executable'], 'Runner')
         self.assertEqual(len(result['executableSha256']), 64)
 
+    def test_rejects_generic_compatibility_host(self):
+        with self.assertRaisesRegex(RuntimeError, 'generic compatibility host'):
+            MODULE.validate_ipa_bytes(make_ipa('DebToIPACompatibilityHost'))
+
     def test_discovers_real_top_level_app(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -66,6 +70,20 @@ class RunnerSmartAutoTests(unittest.TestCase):
                 'CFBundleExecutable': 'Missing',
             }))
             self.assertEqual(MODULE.find_original_apps(root), [])
+
+    def test_classifies_three_honest_results(self):
+        self.assertEqual(
+            MODULE.classify_result(True, []),
+            ('packaged', 'real-ipa', True, 0),
+        )
+        self.assertEqual(
+            MODULE.classify_result(True, ['private entitlement']),
+            ('original-packaged-blocked', 'original-blocked', False, 3),
+        )
+        self.assertEqual(
+            MODULE.classify_result(False, ['no app']),
+            ('blocked-no-standalone-app', 'unsupported', False, 2),
+        )
 
 
 if __name__ == '__main__':
