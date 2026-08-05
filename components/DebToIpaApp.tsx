@@ -55,6 +55,7 @@ export function DebToIpaApp() {
   const [accessCode, setAccessCode] = useState('');
   const [jobs, setJobs] = useState<Job[]>([]);
   const [busy, setBusy] = useState(false);
+  const [downloadingArtifactId, setDownloadingArtifactId] = useState<number | null>(null);
   const [notice, setNotice] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -112,6 +113,33 @@ export function DebToIpaApp() {
     const interval = window.setInterval(tick, 7000);
     return () => window.clearInterval(interval);
   }, [jobs.map((j) => `${j.id}:${j.status}`).join('|'), pollJob]);
+
+  async function downloadArtifact(artifact: NonNullable<Job['artifact']>) {
+    if (downloadingArtifactId !== null) return;
+    setDownloadingArtifactId(artifact.id);
+    setNotice('');
+    try {
+      const response = await fetch(artifact.downloadUrl, {
+        headers: accessCode ? { 'x-app-access-code': accessCode } : {},
+        cache: 'no-store',
+      });
+      if (!response.ok) throw new Error((await response.text()) || 'Download failed.');
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = objectUrl;
+      anchor.download = `${artifact.name || `DebtoIPA-${artifact.id}`}.zip`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Download failed.');
+      setTab('jobs');
+    } finally {
+      setDownloadingArtifactId(null);
+    }
+  }
 
   function acceptFile(candidate?: File | null) {
     if (!candidate) return;
@@ -249,10 +277,10 @@ export function DebToIpaApp() {
           <div className="job-list">{jobs.map((job) => <article className="job-card" key={job.id}>
             <div className="job-top"><div className={`job-status ${job.status}`}><Icon name={job.status === 'completed' ? 'check' : job.status === 'failed' ? 'info' : 'package'}/></div><div className="job-name"><strong>{job.fileName}</strong><span>{new Date(job.createdAt).toLocaleString()}</span></div><span className={`status-label ${job.status}`}>{job.status.replace('_', ' ')}</span></div>
             <div className="progress-track"><span style={{ width: `${job.progress}%` }}/></div>
-            <div className="job-meta"><span>{job.status === 'uploading' ? 'Uploading securely' : job.status === 'queued' ? 'Waiting for runner' : job.status === 'in_progress' ? 'Inspecting and packaging' : job.status === 'completed' ? 'Artifact ready' : 'Needs review'}</span><strong>{job.progress}%</strong></div>
+            <div className="job-meta"><span>{job.status === 'uploading' ? 'Uploading directly' : job.status === 'queued' ? 'Waiting for runner' : job.status === 'in_progress' ? 'Inspecting and packaging' : job.status === 'completed' ? 'Artifact ready' : 'Needs review'}</span><strong>{job.progress}%</strong></div>
             {job.error && <p className="job-error">{job.error}</p>}
             <div className="job-actions">
-              {job.artifact && <a className="primary compact" href={job.artifact.downloadUrl}><Icon name="upload"/>Download result ZIP</a>}
+              {job.artifact && <button className="primary compact" disabled={downloadingArtifactId !== null} onClick={() => void downloadArtifact(job.artifact!)}><Icon name="upload"/>{downloadingArtifactId === job.artifact.id ? 'Preparing download…' : 'Download result ZIP'}</button>}
               {job.htmlUrl && <a className="ghost-link" href={job.htmlUrl} target="_blank" rel="noreferrer">View runner logs <Icon name="arrow" size={17}/></a>}
               {['queued','in_progress'].includes(job.status) && <button className="ghost-link" onClick={() => void pollJob(job.id)}>Refresh status</button>}
             </div>
