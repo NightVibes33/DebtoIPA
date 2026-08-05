@@ -1,5 +1,5 @@
-import { RunnerDebToIpaApp } from '@/components/RunnerDebToIpaApp';
+import { GitHubDirectRunnerApp } from '@/components/GitHubDirectRunnerApp';
 
 export default function Home() {
-  return <RunnerDebToIpaApp />;
+  return <GitHubDirectRunnerApp />;
 }
