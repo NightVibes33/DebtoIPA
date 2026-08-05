@@ -2,18 +2,27 @@ name: Build Compatibility Host Template
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'CompatibilityHost/**'
+      - 'scripts/build_compatibility_host.sh'
+      - '.github/workflows/build-host-template.yml'
+      - 'public/host_mode.py'
+      - 'public/converter-worker.js'
   push:
     branches: [main]
     paths:
       - 'CompatibilityHost/**'
       - 'scripts/build_compatibility_host.sh'
       - '.github/workflows/build-host-template.yml'
+      - 'public/host_mode.py'
+      - 'public/converter-worker.js'
 
 permissions:
   contents: write
 
 concurrency:
-  group: compatibility-host-template
+  group: compatibility-host-template-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -37,6 +46,7 @@ jobs:
           compression-level: 0
 
       - name: Publish stable template release
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: compat-host-v1
