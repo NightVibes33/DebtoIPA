@@ -275,12 +275,17 @@ jobs:
           EXIT_CODE: ${{ steps.convert.outputs.exit_code }}
         run: |
           if [[ "$EXIT_CODE" == "0" ]]; then
-            body="✅ **Real IPA produced.** The artifact contains the uploaded app's original executable, not a DebToIPA shell: ${RUN_URL}
+            body="✅ **Usable original-app IPA produced.** Static checks found no stock-iOS blockers, and the artifact contains the uploaded app's original executable—not a DebToIPA shell: ${RUN_URL}
 
           <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
           <!-- DEBTOIPA_RESULT: real-ipa -->"
+          elif [[ "$EXIT_CODE" == "3" ]]; then
+            body="⚠️ **Original app preserved, but this is not a usable stock-iOS conversion.** The artifact contains the real original app IPA plus the blocker report and generated port project. Jailbreak services, private frameworks, helpers, or unavailable entitlements still prevent normal stock-iOS operation: ${RUN_URL}
+
+          <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
+          <!-- DEBTOIPA_RESULT: original-blocked -->"
           else
-            body="❌ **No real IPA could be produced.** DebToIPA refused to generate a generic compatibility-shell app. Download the report and generated port project for the exact jailbreak, entitlement, framework, or source-code blockers: ${RUN_URL}
+            body="❌ **No standalone original-app IPA could be produced.** DebToIPA refused to generate a generic compatibility-shell app. Download the report and generated port project for the exact blockers: ${RUN_URL}
 
           <!-- DEBTOIPA_RUN_ID: ${RUN_ID} -->
           <!-- DEBTOIPA_RESULT: unsupported -->"
@@ -288,6 +293,6 @@ jobs:
           gh issue comment "$ISSUE_NUMBER" --repo "$REPOSITORY" --body "$body"
           gh issue close "$ISSUE_NUMBER" --repo "$REPOSITORY" --reason completed
 
-      - name: Fail unsupported conversion
+      - name: Fail non-usable stock-iOS result
         if: steps.convert.outputs.exit_code != '0'
         run: exit 1
