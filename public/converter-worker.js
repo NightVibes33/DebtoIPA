@@ -21,13 +21,17 @@ async function getRuntime() {
   return runtimePromise;
 }
 
+async function textSource(path, label) {
+  const response = await fetch(path, { cache: 'force-cache' });
+  if (!response.ok) throw new Error(`${label} HTTP ${response.status}.`);
+  return response.text();
+}
+
 async function getSources() {
   if (!sourcePromise) {
     sourcePromise = Promise.all([
-      fetch('/converter.py', { cache: 'force-cache' }).then((response) => {
-        if (!response.ok) throw new Error(`Direct converter HTTP ${response.status}.`);
-        return response.text();
-      }),
+      textSource('/converter.py', 'Direct converter'),
+      textSource('/direct_guard.py', 'Whole-package compatibility guard'),
       fetch('/port_mode.py.gz.b64', { cache: 'force-cache' }).then(gunzipBase64),
     ]);
   }
@@ -43,13 +47,14 @@ self.onmessage = async (event) => {
     const pyodide = await getRuntime();
     postMessage({ type: 'progress', id, progress: 20, message: 'Opening the Debian package…' });
     pyodide.FS.writeFile(inputPath, new Uint8Array(buffer));
-    const [directSource, portSource] = await getSources();
+    const [directSource, guardSource, portSource] = await getSources();
     pyodide.runPython(directSource);
+    pyodide.runPython(guardSource);
     pyodide.runPython(portSource);
     pyodide.globals.set('debtoipa_input_path', inputPath);
     pyodide.globals.set('debtoipa_output_path', outputPath);
     pyodide.globals.set('debtoipa_options', JSON.stringify(options || {}));
-    postMessage({ type: 'progress', id, progress: 46, message: 'Classifying direct and jailbreak components…' });
+    postMessage({ type: 'progress', id, progress: 42, message: 'Auditing every app, helper, daemon, and runtime path…' });
     const resultJson = await pyodide.runPythonAsync('convert_deb_with_port(debtoipa_input_path, debtoipa_output_path, debtoipa_options)');
     postMessage({ type: 'progress', id, progress: 88, message: 'Building the DebToIPA result…' });
     const bytes = pyodide.FS.readFile(outputPath);
