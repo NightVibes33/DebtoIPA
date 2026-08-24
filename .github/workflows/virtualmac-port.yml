@@ -34,7 +34,9 @@ jobs:
         id: source
         run: |
           set -euo pipefail
+          mkdir -p artifacts
           git clone --depth=1 https://github.com/nfzerox/VirtualMacOniPad.git upstream
+          git -C upstream rev-parse HEAD | tee artifacts/upstream-source-commit.txt
           python3 scripts/virtualmac_profile.py \
             --source-tree upstream/VirtualMac \
             --ios 16.3.1 \
@@ -51,23 +53,27 @@ jobs:
           print('UPSTREAM_SOURCE_PROFILE=PASS')
           PY
 
-      - name: Inspect current upstream DEB
+      - name: Preserve and inspect current upstream DEB
         id: deb
         run: |
           set -euo pipefail
           mkdir -p artifacts
+          DEB='artifacts/VirtualMac_1.2.deb'
           curl --fail --location --retry 3 \
             https://nfzerox.github.io/cydia/debs/VirtualMac_1.2.deb \
-            --output /tmp/VirtualMac_1.2.deb
-          sha256sum /tmp/VirtualMac_1.2.deb | tee artifacts/VirtualMac_1.2.sha256
+            --output "$DEB"
+          sha256sum "$DEB" | tee artifacts/VirtualMac_1.2.sha256
+          dpkg-deb --info "$DEB" | tee artifacts/VirtualMac_1.2.package.txt
+          dpkg-deb --contents "$DEB" | tee artifacts/VirtualMac_1.2.contents.txt >/dev/null
+
           python3 scripts/virtualmac_profile.py \
-            --deb /tmp/VirtualMac_1.2.deb \
+            --deb "$DEB" \
             --ios 16.3.1 \
             --chip M1 \
             --output artifacts/upstream-deb-compatible.json \
             > /dev/null
           python3 scripts/virtualmac_profile.py \
-            --deb /tmp/VirtualMac_1.2.deb \
+            --deb "$DEB" \
             --ios 16.7.11 \
             --chip A9 \
             --output artifacts/unsupported-device-proof.json \
@@ -85,7 +91,40 @@ jobs:
           print('UPSTREAM_DEB_PROFILE=PASS')
           print('UNSUPPORTED_DEVICE_GUARD=PASS')
           PY
-          rm -f /tmp/VirtualMac_1.2.deb
+
+      - name: Prove real VirtualMac runtime payload
+        id: runtime
+        run: |
+          set -euo pipefail
+          DEB='artifacts/VirtualMac_1.2.deb'
+          dpkg-deb --fsys-tarfile "$DEB" | tar -tf - > artifacts/VirtualMac_1.2.paths.txt
+          require_path() {
+            local pattern="$1"
+            grep -Eq "$pattern" artifacts/VirtualMac_1.2.paths.txt || {
+              echo "missing required VirtualMac payload: $pattern" >&2
+              exit 1
+            }
+          }
+          require_path '(^|\./)var/jb/Applications/VirtualMac\.app/VirtualMac$'
+          require_path '(^|\./)var/root/VirtualMac/install/install-launcher$'
+          require_path '(^|\./)var/root/VirtualMac/payload/.+' 
+          require_path '(^|\./)var/jb/Library/LaunchDaemons/.+\.plist$'
+          require_path '(^|\./)var/root/VirtualMac/bootstrap-common/usr/lib/TweakInject/VZKeyboardPassthrough\.dylib$'
+          python3 - <<'PY'
+          import json
+          p=json.load(open('artifacts/upstream-deb-compatible.json'))
+          markers={m for values in p.get('runtimeMarkers',{}).values() for m in values}
+          required={
+              'Apple Virtualization framework',
+              'Apple Hypervisor framework',
+              'Virtualization XPC service',
+              'privileged installer launcher',
+          }
+          missing=required-markers
+          assert not missing, missing
+          print('REAL_VIRTUALMAC_RUNTIME=PASS')
+          print('RUNTIME_MARKERS=' + ', '.join(sorted(markers)))
+          PY
 
       - name: Summary
         if: success()
@@ -96,17 +135,24 @@ jobs:
             echo '- Unit tests: PASS'
             echo '- Upstream source detection: PASS'
             echo '- Current upstream 1.2 DEB detection: PASS'
+            echo '- Real VM runtime payload proof: PASS'
             echo '- Compatible target classification (M1 / 16.3.1): PASS'
             echo '- Unsupported target guard (A9 / 16.7.11): PASS'
             echo '- Stock IPA claim: explicitly FALSE'
+            echo '- Real upstream jailbreak DEB: preserved as workflow artifact'
+            echo
+            echo '### DEB SHA-256'
+            echo '```text'
+            cat artifacts/VirtualMac_1.2.sha256
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: virtualmac-port-analysis
+          name: virtualmac-real-deb-and-analysis
           path: artifacts/
-          if-no-files-found: ignore
+          if-no-files-found: error
 
       - name: Publish branch status
         if: always()
@@ -114,6 +160,7 @@ jobs:
           TESTS: ${{ steps.tests.outcome }}
           SOURCE: ${{ steps.source.outcome }}
           DEB: ${{ steps.deb.outcome }}
+          RUNTIME: ${{ steps.runtime.outcome }}
         run: |
           set -euo pipefail
           mkdir -p docs
@@ -125,8 +172,25 @@ jobs:
             echo "- Unit tests: ${TESTS}"
             echo "- Upstream source profile: ${SOURCE}"
             echo "- Upstream 1.2 DEB profile: ${DEB}"
+            echo "- Real runtime payload proof: ${RUNTIME}"
+            echo '- Artifact: virtualmac-real-deb-and-analysis'
+            echo '- Artifact includes the untouched upstream VirtualMac_1.2.deb; no compatibility-host IPA is generated.'
             echo
+            if [ -f artifacts/upstream-source-commit.txt ]; then
+              echo '## Upstream source commit'
+              echo '```text'
+              cat artifacts/upstream-source-commit.txt
+              echo '```'
+            fi
+            if [ -f artifacts/VirtualMac_1.2.sha256 ]; then
+              echo
+              echo '## Preserved DEB hash'
+              echo '```text'
+              cat artifacts/VirtualMac_1.2.sha256
+              echo '```'
+            fi
             if [ -f artifacts/upstream-deb-compatible.json ]; then
+              echo
               echo '## Compatible reference target'
               echo '```json'
               cat artifacts/upstream-deb-compatible.json
@@ -144,6 +208,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add docs/VIRTUALMAC_PORT_STATUS.md
           if ! git diff --cached --quiet; then
-            git commit -m 'Record VirtualMac port validation [skip ci]'
+            git commit -m 'Record VirtualMac real-DEB validation [skip ci]'
             git push origin HEAD:virtualmac-port-v2
           fi
