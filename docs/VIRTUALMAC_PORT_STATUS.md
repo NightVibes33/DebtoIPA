@@ -1,10 +1,23 @@
 # VirtualMac Port Status
 
-- Run: 32682163786
-- Commit tested: 5d4c949d879fac09d461a300c0ef7be7288cae25
+- Run: 32683244666
+- Commit tested: a3d37b9ddd14e4d1bd7ddb732f0c51ed9eb19608
 - Unit tests: success
 - Upstream source profile: success
 - Upstream 1.2 DEB profile: success
+- Real runtime payload proof: success
+- Artifact: virtualmac-real-deb-and-analysis
+- Artifact includes the untouched upstream VirtualMac_1.2.deb; no compatibility-host IPA is generated.
+
+## Upstream source commit
+```text
+e993a245943ebf9d1d396c2f81aafcee03cf8441
+```
+
+## Preserved DEB hash
+```text
+48c1d0beec6bc5558d925a844f3a1a21b80aaa124d4566a455b9816db12df5e5  artifacts/VirtualMac_1.2.deb
+```
 
 ## Compatible reference target
 ```json
@@ -41,7 +54,7 @@
     "var/root/VirtualMac": "shared VM/runtime payload",
     "var/root/VirtualMac/bootstrap-common/usr/lib/TweakInject": "tweak injection payload"
   },
-  "path": "/tmp/VirtualMac_1.2.deb",
+  "path": "artifacts/VirtualMac_1.2.deb",
   "payloadEntryCount": 385,
   "runtimeMarkers": {
     "var/jb/Applications/VirtualMac.app/VZHostCompat.dylib": [
@@ -343,7 +356,7 @@
     "var/root/VirtualMac": "shared VM/runtime payload",
     "var/root/VirtualMac/bootstrap-common/usr/lib/TweakInject": "tweak injection payload"
   },
-  "path": "/tmp/VirtualMac_1.2.deb",
+  "path": "artifacts/VirtualMac_1.2.deb",
   "payloadEntryCount": 385,
   "runtimeMarkers": {
     "var/jb/Applications/VirtualMac.app/VZHostCompat.dylib": [
