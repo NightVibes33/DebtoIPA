@@ -1,0 +1,98 @@
+name: VirtualMac Port Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [virtualmac-port-v2]
+    paths:
+      - 'scripts/virtualmac_profile.py'
+      - 'tests/test_virtualmac_profile.py'
+      - '.github/workflows/virtualmac-port.yml'
+      - 'docs/VIRTUALMAC_PORT.md'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unit tests
+        run: python3 -m unittest tests.test_virtualmac_profile -v
+
+      - name: Inspect current upstream source
+        run: |
+          set -euo pipefail
+          git clone --depth=1 https://github.com/nfzerox/VirtualMacOniPad.git upstream
+          python3 scripts/virtualmac_profile.py \
+            --source-tree upstream/VirtualMac \
+            --ios 16.3.1 \
+            --chip M1 \
+            --output artifacts/upstream-source-compatible.json \
+            > /dev/null
+          python3 - <<'PY'
+          import json
+          p=json.load(open('artifacts/upstream-source-compatible.json'))
+          assert p['isVirtualMac'] is True, p
+          assert p['compatibility']['upstreamCompatible'] is True, p
+          assert p['compatibility']['stockIpaSupported'] is False, p
+          assert p['compatibility']['recommendedArtifact'] == 'jailbreak-deb', p
+          print('UPSTREAM_SOURCE_PROFILE=PASS')
+          PY
+
+      - name: Inspect current upstream DEB
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          curl --fail --location --retry 3 \
+            https://nfzerox.github.io/cydia/debs/VirtualMac_1.2.deb \
+            --output /tmp/VirtualMac_1.2.deb
+          sha256sum /tmp/VirtualMac_1.2.deb | tee artifacts/VirtualMac_1.2.sha256
+          python3 scripts/virtualmac_profile.py \
+            --deb /tmp/VirtualMac_1.2.deb \
+            --ios 16.3.1 \
+            --chip M1 \
+            --output artifacts/upstream-deb-compatible.json \
+            > /dev/null
+          python3 scripts/virtualmac_profile.py \
+            --deb /tmp/VirtualMac_1.2.deb \
+            --ios 16.7.11 \
+            --chip A9 \
+            --output artifacts/unsupported-device-proof.json \
+            > /dev/null
+          python3 - <<'PY'
+          import json
+          good=json.load(open('artifacts/upstream-deb-compatible.json'))
+          bad=json.load(open('artifacts/unsupported-device-proof.json'))
+          assert good['package'] == 'com.mac.virtual', good
+          assert good['isVirtualMac'] is True, good
+          assert good['compatibility']['upstreamCompatible'] is True, good
+          assert good['compatibility']['stockIpaSupported'] is False, good
+          assert bad['compatibility']['upstreamCompatible'] is False, bad
+          assert bad['compatibility']['targetStatus'] == 'incompatible', bad
+          print('UPSTREAM_DEB_PROFILE=PASS')
+          print('UNSUPPORTED_DEVICE_GUARD=PASS')
+          PY
+          rm -f /tmp/VirtualMac_1.2.deb
+
+      - name: Summary
+        run: |
+          {
+            echo '## VirtualMac port validation'
+            echo
+            echo '- Unit tests: PASS'
+            echo '- Upstream source detection: PASS'
+            echo '- Current upstream 1.2 DEB detection: PASS'
+            echo '- Compatible target classification (M1 / 16.3.1): PASS'
+            echo '- Unsupported target guard (A9 / 16.7.11): PASS'
+            echo '- Stock IPA claim: explicitly FALSE'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: virtualmac-port-analysis
+          path: artifacts/
+          if-no-files-found: error
