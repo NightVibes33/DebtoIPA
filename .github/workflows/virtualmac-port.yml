@@ -11,7 +11,11 @@ on:
       - 'docs/VIRTUALMAC_PORT.md'
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: virtualmac-port-v2
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -19,11 +23,15 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: virtualmac-port-v2
 
       - name: Unit tests
+        id: tests
         run: python3 -m unittest tests.test_virtualmac_profile -v
 
       - name: Inspect current upstream source
+        id: source
         run: |
           set -euo pipefail
           git clone --depth=1 https://github.com/nfzerox/VirtualMacOniPad.git upstream
@@ -44,6 +52,7 @@ jobs:
           PY
 
       - name: Inspect current upstream DEB
+        id: deb
         run: |
           set -euo pipefail
           mkdir -p artifacts
@@ -79,6 +88,7 @@ jobs:
           rm -f /tmp/VirtualMac_1.2.deb
 
       - name: Summary
+        if: success()
         run: |
           {
             echo '## VirtualMac port validation'
@@ -92,7 +102,48 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: virtualmac-port-analysis
           path: artifacts/
-          if-no-files-found: error
+          if-no-files-found: ignore
+
+      - name: Publish branch status
+        if: always()
+        env:
+          TESTS: ${{ steps.tests.outcome }}
+          SOURCE: ${{ steps.source.outcome }}
+          DEB: ${{ steps.deb.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p docs
+          {
+            echo '# VirtualMac Port Status'
+            echo
+            echo "- Run: ${GITHUB_RUN_ID}"
+            echo "- Commit tested: ${GITHUB_SHA}"
+            echo "- Unit tests: ${TESTS}"
+            echo "- Upstream source profile: ${SOURCE}"
+            echo "- Upstream 1.2 DEB profile: ${DEB}"
+            echo
+            if [ -f artifacts/upstream-deb-compatible.json ]; then
+              echo '## Compatible reference target'
+              echo '```json'
+              cat artifacts/upstream-deb-compatible.json
+              echo '```'
+            fi
+            if [ -f artifacts/unsupported-device-proof.json ]; then
+              echo
+              echo '## Unsupported-device proof'
+              echo '```json'
+              cat artifacts/unsupported-device-proof.json
+              echo '```'
+            fi
+          } > docs/VIRTUALMAC_PORT_STATUS.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/VIRTUALMAC_PORT_STATUS.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record VirtualMac port validation [skip ci]'
+            git push origin HEAD:virtualmac-port-v2
+          fi
