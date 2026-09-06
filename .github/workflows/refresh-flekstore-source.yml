@@ -5,6 +5,7 @@ on:
     branches: [flekstore-alt-source]
     paths-ignore:
       - source.json
+      - sidestore-source.json
       - flekstore-api-sample.json
   schedule:
     - cron: '17 */6 * * *'
@@ -25,34 +26,38 @@ jobs:
         with:
           python-version: '3.12'
 
-      - run: pip install requests
+      - run: pip install requests jsonschema
 
-      - name: Build AltSource JSON
-        run: python tools/flekstore_alt_source.py
+      - name: Build FlekSt0re catalog
+        run: |
+          python tools/flekstore_alt_source.py
+          python tools/make_sidestore_safe.py
 
-      - name: Validate SideStore-compatible JSON
+      - name: Validate both feeds
         run: |
           python -m json.tool source.json >/dev/null
+          python -m json.tool sidestore-source.json >/dev/null
           python - <<'PY'
-          import json
-          s=json.load(open('source.json'))
-          allowed_source={'name','identifier','apps','news','sourceURL'}
-          assert not (set(s)-allowed_source), f"invalid source keys: {set(s)-allowed_source}"
-          assert isinstance(s.get('apps'), list) and s['apps']
-          for app in s['apps']:
-              assert app.get('bundleIdentifier')
-              assert app.get('downloadURL'), f"legacy downloadURL missing: {app.get('name')}"
-              assert app.get('versions')
-              assert app['versions'][0].get('downloadURL')
-              assert 'screenshots' not in app
-          print('validated SideStore compatibility for', len(s['apps']), 'apps')
+          import json,requests
+          from jsonschema import Draft7Validator
+          schema=requests.get('https://raw.githubusercontent.com/SideStore/sidestore-source-types/main/schema.json',timeout=30).json()
+          for path in ('source.json','sidestore-source.json'):
+              s=json.load(open(path))
+              errs=list(Draft7Validator(schema).iter_errors(s))
+              assert not errs, '\n'.join(str(e) for e in errs[:20])
+              assert isinstance(s.get('apps'),list) and s['apps']
+              for app in s['apps']:
+                  assert app.get('bundleIdentifier')
+                  assert app.get('downloadURL')
+                  assert app.get('versions') and app['versions'][0].get('downloadURL')
+              print(path,'validated',len(s['apps']),'apps')
           PY
 
       - name: Commit refreshed source
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add source.json flekstore-api-sample.json
+          git add source.json sidestore-source.json flekstore-api-sample.json
           if git diff --cached --quiet; then
             echo 'No catalog changes'
           else
