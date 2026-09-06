@@ -1,0 +1,55 @@
+name: Validate SideStore Source
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/validate-sidestore-source.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: flekstore-alt-source
+      - run: pip install jsonschema requests
+      - name: Validate against current SideStore schema and scan values
+        run: |
+          python - <<'PY'
+          import json,re,requests
+          from collections import Counter
+          from jsonschema import Draft7Validator
+          s=json.load(open('source.json'))
+          schema=requests.get('https://raw.githubusercontent.com/SideStore/sidestore-source-types/main/schema.json',timeout=30).json()
+          errs=list(Draft7Validator(schema).iter_errors(s))
+          print('SCHEMA_ERRORS',len(errs))
+          for e in errs[:100]: print('ERR',list(e.absolute_path),e.message)
+          apps=s.get('apps',[])
+          print('APP_COUNT',len(apps))
+          print('JSON_BYTES',len(open('source.json','rb').read()))
+          bids=[a.get('bundleIdentifier') for a in apps]
+          dup=[(k,v) for k,v in Counter(bids).items() if k and v>1]
+          print('DUP_BUNDLE_IDS',len(dup),dup[:50])
+          bad=[]
+          for i,a in enumerate(apps):
+            for key in ('name','bundleIdentifier','developerName','localizedDescription','iconURL'):
+              if not isinstance(a.get(key),str) or not a.get(key): bad.append((i,a.get('name'),key,a.get(key)))
+            vers=a.get('versions')
+            if not isinstance(vers,list) or not vers: bad.append((i,a.get('name'),'versions',vers)); continue
+            for j,v in enumerate(vers):
+              if not isinstance(v.get('version'),str) or not v.get('version'): bad.append((i,a.get('name'),f'versions[{j}].version',v.get('version')))
+              if not isinstance(v.get('date'),str) or not re.match(r'^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})?)?$',v.get('date','')): bad.append((i,a.get('name'),f'versions[{j}].date',v.get('date')))
+              if not isinstance(v.get('downloadURL'),str) or not v.get('downloadURL','').startswith(('http://','https://')): bad.append((i,a.get('name'),f'versions[{j}].downloadURL',v.get('downloadURL')))
+              if not isinstance(v.get('size'),(int,float)) or v.get('size',0)<0: bad.append((i,a.get('name'),f'versions[{j}].size',v.get('size')))
+            if 'downloadURL' not in a: bad.append((i,a.get('name'),'top.downloadURL','MISSING'))
+          print('VALUE_PROBLEMS',len(bad))
+          for x in bad[:200]: print('BAD',x)
+          weird=[]
+          for i,a in enumerate(apps):
+            v=a['versions'][0]['version'] if a.get('versions') else ''
+            if not re.fullmatch(r'[0-9]+(?:\.[0-9A-Za-z_-]+)*',v or ''):
+              weird.append((i,a.get('name'),v))
+          print('WEIRD_VERSIONS',len(weird))
+          for x in weird[:200]: print('WEIRD',x)
+          PY
