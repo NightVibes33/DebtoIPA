@@ -1,0 +1,39 @@
+name: Validate FlekSt0re IPA objects
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/validate-flekstore-ipas.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: flekstore-alt-source
+      - name: Check every IPA object
+        run: |
+          python - <<'PY'
+          import json, requests
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          apps=json.load(open('sidestore-source.json'))['apps']
+          def check(a):
+              url=a['downloadURL']
+              try:
+                  r=requests.get(url,headers={'Range':'bytes=0-63','User-Agent':'SideStore/0.6'},timeout=20,allow_redirects=True)
+                  ok=r.status_code in (200,206) and r.content.startswith(b'PK\x03\x04')
+                  return a['name'],url,r.status_code,r.headers.get('content-type'),r.content[:16],ok
+              except Exception as e:
+                  return a['name'],url,'ERR',type(e).__name__,b'',False
+          bad=[]
+          with ThreadPoolExecutor(max_workers=32) as ex:
+              futs=[ex.submit(check,a) for a in apps]
+              for i,f in enumerate(as_completed(futs),1):
+                  row=f.result()
+                  if not row[-1]: bad.append(row)
+                  if i%50==0: print('CHECKED',i,'BAD',len(bad),flush=True)
+          print('TOTAL',len(apps),'GOOD',len(apps)-len(bad),'BAD',len(bad))
+          for row in bad: print('BAD',row)
+          PY
