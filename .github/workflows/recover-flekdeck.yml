@@ -1,0 +1,55 @@
+name: Recover FlekDeck IPA
+
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/recover-flekdeck.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout official FlekDeck source
+        run: git clone --recursive https://github.com/flekstore/FlekDeck.git FlekDeck
+
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.4'
+
+      - name: Build unsigned FlekDeck
+        working-directory: FlekDeck
+        run: |
+          set -o pipefail
+          xcodebuild clean archive \
+            -project LiveContainer.xcodeproj \
+            -scheme LiveContainer \
+            -configuration Release \
+            -archivePath "$PWD/build/FlekDeck.xcarchive" \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGN_IDENTITY='' CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+          mkdir -p build/Payload
+          cp -R build/FlekDeck.xcarchive/Products/Applications/FlekDeck.app build/Payload/
+          cd build
+          zip -qry FlekDeck.ipa Payload
+          test -s FlekDeck.ipa
+          unzip -l FlekDeck.ipa | grep -q 'Payload/FlekDeck.app/Info.plist'
+          ls -lh FlekDeck.ipa
+
+      - name: Publish recovered open-source IPA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view recovered-flekstore --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create recovered-flekstore \
+              --repo "$GITHUB_REPOSITORY" \
+              --title 'Recovered FlekSt0re open-source IPAs' \
+              --notes 'Open-source replacement builds for FlekSt0re catalog objects that are missing upstream. FlekDeck is built from https://github.com/flekstore/FlekDeck under its AGPL-3.0 license.'
+          fi
+          gh release upload recovered-flekstore FlekDeck/build/FlekDeck.ipa \
+            --repo "$GITHUB_REPOSITORY" --clobber
