@@ -7,6 +7,7 @@ from collections import Counter
 SRC = "source.json"
 OUT = "sidestore-source.json"
 OUT_URL = "https://raw.githubusercontent.com/NightVibes33/DebtoIPA/flekstore-alt-source/sidestore-source.json"
+INT32_MAX = 2_147_483_647
 
 
 def safe_version(value):
@@ -36,9 +37,9 @@ def safe_size(value):
         n = int(float(value or 0))
     except Exception:
         n = 0
-    # Keep the value non-negative. SideStore stores sizes as integers; avoid
-    # nonsensical negative metadata from upstream.
-    return max(0, n)
+    # Compatibility clamp for SideStore's persistence/model path. Some
+    # FlekSt0re IPAs are >2 GiB; keep metadata inside signed Int32 range.
+    return min(max(0, n), INT32_MAX)
 
 
 def make_source(apps, name, identifier, source_url):
@@ -139,7 +140,7 @@ def main():
             json.dump(smoke, f, ensure_ascii=False, separators=(",", ":"))
             f.write("\n")
 
-    print("WROTE", OUT, "APPS", len(apps), "UNIQUE_IDS", len(set(ids)))
+    print("WROTE", OUT, "APPS", len(apps), "UNIQUE_IDS", len(set(ids)), "INT32_SIZE_CLAMP", INT32_MAX)
 
 
 if __name__ == "__main__":
