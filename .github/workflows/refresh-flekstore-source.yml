@@ -7,6 +7,8 @@ on:
       - source.json
       - sidestore-source.json
       - sidestore-v6.json
+      - sidestore-strict.json
+      - sidestore-strict-lite.json
       - flekstore-api-sample.json
       - ipa-metadata-cache.json
       - missing-app-diagnostics.json
@@ -37,6 +39,7 @@ jobs:
           python tools/resolve_ipa_metadata.py
           python tools/make_sidestore_safe.py
           cp sidestore-source.json sidestore-v6.json
+          python tools/make_sidestore_strict.py
           python tools/diagnose_missing_flekstore.py
 
       - name: Validate feeds
@@ -44,13 +47,26 @@ jobs:
           python -m json.tool source.json >/dev/null
           python -m json.tool sidestore-source.json >/dev/null
           python -m json.tool sidestore-v6.json >/dev/null
+          python -m json.tool sidestore-strict.json >/dev/null
+          python -m json.tool sidestore-strict-lite.json >/dev/null
           python -m json.tool missing-app-diagnostics.json >/dev/null
           python - <<'PY'
           import json,requests
           from collections import Counter
           from jsonschema import Draft7Validator
-          schema=requests.get('https://raw.githubusercontent.com/SideStore/sidestore-source-types/main/schema.json',timeout=30).json()
-          for path in ('source.json','sidestore-source.json','sidestore-v6.json'):
+
+          schema=requests.get(
+              'https://raw.githubusercontent.com/SideStore/sidestore-source-types/main/schema.json',
+              timeout=30,
+          ).json()
+          paths=(
+              'source.json',
+              'sidestore-source.json',
+              'sidestore-v6.json',
+              'sidestore-strict.json',
+              'sidestore-strict-lite.json',
+          )
+          for path in paths:
               s=json.load(open(path))
               errs=list(Draft7Validator(schema).iter_errors(s))
               assert not errs, '\n'.join(str(e) for e in errs[:20])
@@ -62,16 +78,29 @@ jobs:
               counts=Counter(a['bundleIdentifier'] for a in s['apps'])
               dupes={k:v for k,v in counts.items() if v>1}
               print(path,'validated',len(s['apps']),'apps; duplicate listing IDs',len(dupes))
+
               if path.startswith('sidestore'):
-                  assert len(s['apps']) == 493, f'{path} lost apps: {len(s["apps"])}'
                   assert not dupes, f'{path} has duplicate listing IDs: {dupes}'
+
+              if path in ('sidestore-strict.json','sidestore-strict-lite.json'):
+                  bad=[a['bundleIdentifier'] for a in s['apps'] if a['bundleIdentifier'].startswith(
+                      ('com.flekstore.catalog.','com.nightvibes33.flekvariant.')
+                  ) or '.flekvariant.' in a['bundleIdentifier']]
+                  assert not bad, f'{path} contains synthetic identities: {bad[:20]}'
+
+          full=json.load(open('source.json'))
+          strict=json.load(open('sidestore-strict.json'))
+          lite=json.load(open('sidestore-strict-lite.json'))
+          assert len(strict['apps']) <= len(full['apps'])
+          assert len(lite['apps']) <= 100
+          assert len(lite['apps']) <= len(strict['apps'])
           PY
 
       - name: Commit refreshed source
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add source.json sidestore-source.json sidestore-v6.json flekstore-api-sample.json ipa-metadata-cache.json missing-app-diagnostics.json
+          git add source.json sidestore-source.json sidestore-v6.json sidestore-strict.json sidestore-strict-lite.json flekstore-api-sample.json ipa-metadata-cache.json missing-app-diagnostics.json
           if git diff --cached --quiet; then
             echo 'No catalog changes'
           else
