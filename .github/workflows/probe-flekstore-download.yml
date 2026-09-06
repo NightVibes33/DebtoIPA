@@ -1,0 +1,37 @@
+name: Probe FlekSt0re IPA downloads
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/probe-flekstore-download.yml
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe direct IPA responses
+        run: |
+          python - <<'PY'
+          import requests
+          urls=[
+            'https://flekstore.com/flekdeck2.ipa',
+            'https://flekstore.com/NotBoring.ipa',
+            'https://flekstore.com/fresco.ipa',
+          ]
+          uas=[
+            ('plain',{}),
+            ('ios',{'User-Agent':'SideStore/0.6 CFNetwork Darwin'}),
+            ('browser',{'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1','Referer':'https://flekstore.com/pro_app/'}),
+          ]
+          for url in urls:
+            print('\nURL',url)
+            for name,h in uas:
+              try:
+                r=requests.get(url,headers={**h,'Range':'bytes=0-63'},allow_redirects=True,timeout=30)
+                print(name,'status',r.status_code,'final',r.url)
+                print('type',r.headers.get('content-type'),'len',r.headers.get('content-length'),'disp',r.headers.get('content-disposition'),'range',r.headers.get('content-range'))
+                print('magic',r.content[:32])
+              except Exception as e:
+                print(name,'ERR',repr(e))
+          PY
