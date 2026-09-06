@@ -23,9 +23,10 @@ HEADERS = {
 
 # Upstream FlekSt0re occasionally leaves catalog records pointing to deleted S3
 # objects. For open-source apps only, use the original developer's official IPA
-# release instead of a random mirror. Commercial apps are intentionally not
-# substituted here.
+# release or a reproducible build from the developer's official source instead of
+# a random mirror. Commercial apps are intentionally not substituted here.
 RECOVERY_URLS = {
+    "FlekDeck": "https://github.com/NightVibes33/DebtoIPA/releases/download/recovered-flekstore/FlekDeck.ipa",
     "KillMyOTA": "https://github.com/haxi0/KillMyOTA/releases/download/1.1/KillMyOTA-1.1.ipa",
     "WDBFontOverwrite": "https://github.com/ginsudev/WDBFontOverwrite/releases/download/v1.10.8/WDBFontOverwrite.ipa",
 }
@@ -153,7 +154,7 @@ def to_alt_app(summary, detail):
     version = str(pick(summary, "app_version", "version", default=pick(detail, "version", default="1.0"))).strip()
 
     # `/app/with-link` carries the real public object URL. If that object was
-    # deleted and an original open-source developer release is known, use it.
+    # deleted and an original open-source developer release/build is known, use it.
     download = RECOVERY_URLS.get(name) or normalize_url(pick(summary, "install_url", "downloadURL", "download_url"))
     if not download:
         return None
