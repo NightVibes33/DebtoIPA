@@ -11,14 +11,13 @@ from urllib.parse import urljoin
 import requests
 
 BASE = "https://flekstore.com"
-API_APPS = f"{BASE}/rest/apps/getApps/"
-API_APP = f"{BASE}/rest/apps/getApp"
+API_BASE = "https://nestapi.flekstore.com"
+API_APPS = f"{API_BASE}/app/with-link"
 OUT = os.environ.get("OUT", "source.json")
 PAGE_SIZE = 30
 SOURCE_URL = "https://raw.githubusercontent.com/NightVibes33/DebtoIPA/flekstore-alt-source/source.json"
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1",
-    "Referer": f"{BASE}/pro_app/",
+    "User-Agent": "FlekDeck/1.0",
     "Accept": "application/json, text/plain, */*",
 }
 
@@ -27,7 +26,7 @@ def get_json(url, params=None, retries=2):
     last = None
     for i in range(retries):
         try:
-            r = requests.get(url, params=params, timeout=12, headers=HEADERS)
+            r = requests.get(url, params=params, timeout=20, headers=HEADERS)
             r.raise_for_status()
             return r.json()
         except Exception as e:
@@ -85,7 +84,9 @@ def iso_date(value):
     if not value:
         return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     text = str(value).strip()
-    if "T" in text and re.match(r"^\d{4}-\d{2}-\d{2}", text):
+    if re.match(r"^\d{4}-\d{2}-\d{2}T", text):
+        if text.endswith("Z"):
+            return text
         return text.replace("+00:00", "Z")
     for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%d.%m.%Y", "%m/%d/%Y"):
         try:
@@ -115,11 +116,11 @@ def fetch_catalog():
         data = get_json(API_APPS, {"page": page, "search": "false", "filter": "all"})
         rows = data.get("data", data) if isinstance(data, dict) else data
         if not isinstance(rows, list):
-            raise RuntimeError(f"Unexpected getApps response on page {page}: {type(rows).__name__}")
+            raise RuntimeError(f"Unexpected with-link response on page {page}: {type(rows).__name__}")
         if not rows:
             break
         for row in rows:
-            key = str(row.get("id", ""))
+            key = str(row.get("app_id", row.get("id", "")))
             if key and key not in seen:
                 seen.add(key)
                 apps.append(row)
@@ -131,32 +132,31 @@ def fetch_catalog():
 
 
 def fetch_detail(app_id):
-    data = get_json(API_APP, {"id": app_id})
+    data = get_json(f"{API_BASE}/app/{app_id}")
     return data.get("data", data) if isinstance(data, dict) else data
 
 
 def to_alt_app(summary, detail):
     detail = detail if isinstance(detail, dict) else {}
-    merged = dict(summary)
-    merged.update({k: v for k, v in detail.items() if v not in (None, "")})
 
-    app_id = str(pick(merged, "id", default="unknown"))
-    name = str(pick(merged, "name", "title", default=f"FlekSt0re App {app_id}")).strip()
-    version = str(pick(merged, "version", "app_version", default="1.0")).strip()
-    bundle = clean_bundle(pick(merged, "bundle_id", "bundleIdentifier", "bundle_identifier", "bundleid", "package", "identifier"), app_id)
-    download = normalize_url(pick(merged, "install_url", "download_url", "downloadURL", "ipa", "url"))
-    icon = normalize_url(pick(merged, "icon", "icon_url", "iconURL")) or "https://flekstore.com/favicon.ico"
-    description = clean_text(pick(merged, "description", "full_description", "short_description", default="FlekSt0re catalog app"), 700)
-    subtitle = clean_text(pick(merged, "short_description", "subtitle", default=description), 100)
-    developer = clean_text(pick(merged, "developer", "developer_name", "author", default="FlekSt0re"), 80)
-    size = parse_size(pick(merged, "size", "file_size", "filesize", default=0))
-    date = iso_date(pick(merged, "updated_at", "update_date", "date", "created_at"))
+    app_id = str(pick(summary, "app_id", "id", default=pick(detail, "id", default="unknown")))
+    name = str(pick(summary, "app_name", "name", default=pick(detail, "name", default=f"FlekSt0re App {app_id}"))).strip()
+    version = str(pick(summary, "app_version", "version", default=pick(detail, "version", default="1.0"))).strip()
 
+    # CRITICAL: `/app/with-link` carries the real public S3 object URL. The detail
+    # endpoint carries only a bare filename; never let that overwrite this link.
+    download = normalize_url(pick(summary, "install_url", "downloadURL", "download_url"))
     if not download:
         return None
 
-    # SideStore currently has compatibility paths that still expect the legacy
-    # top-level version/download fields even when AltSource v2 `versions` exists.
+    icon = normalize_url(pick(summary, "app_icon", "icon", default=pick(detail, "icon"))) or "https://flekstore.com/favicon.ico"
+    description = clean_text(pick(detail, "description", default=pick(summary, "app_short_description", "short_description", default="FlekSt0re catalog app")), 700)
+    subtitle = clean_text(pick(summary, "app_short_description", "short_description", default=description), 100)
+    developer = clean_text(pick(detail, "developer", default="FlekSt0re"), 80)
+    size = parse_size(pick(detail, "size", default=0))
+    date = iso_date(pick(detail, "date"))
+    bundle = clean_bundle(pick(detail, "bundle_id", "bundleIdentifier", "bundle_identifier", "bundleid", "package", "identifier"), app_id)
+
     app = {
         "name": name,
         "bundleIdentifier": bundle,
@@ -178,9 +178,6 @@ def to_alt_app(summary, detail):
             "localizedDescription": description[:250],
         }],
     }
-
-    # Keep the mirror deliberately lean. Hundreds of screenshot arrays + long HTML
-    # descriptions make SideStore's source ingestion much more memory-intensive.
     return app
 
 
@@ -200,6 +197,7 @@ def validate_source(source):
         assert not extra_app, f"Unsupported app keys for {app.get('name')}: {sorted(extra_app)}"
         for req in ("name", "bundleIdentifier", "developerName", "localizedDescription", "iconURL", "versions", "downloadURL"):
             assert app.get(req) not in (None, ""), f"Missing {req} for {app.get('name')}"
+        assert app["downloadURL"].startswith("https://s3-storage.flekstore.com/ipa-library/"), f"non-S3 download URL for {app.get('name')}: {app['downloadURL']}"
         assert isinstance(app["versions"], list) and app["versions"]
         for ver in app["versions"]:
             extra_ver = set(ver) - allowed_version
@@ -210,15 +208,15 @@ def validate_source(source):
 
 def main():
     summaries = fetch_catalog()
-    print(f"Fetched {len(summaries)} FlekSt0re catalog entries", flush=True)
+    print(f"Fetched {len(summaries)} FlekSt0re catalog entries with direct links", flush=True)
 
     details = {}
     with ThreadPoolExecutor(max_workers=18) as pool:
-        futures = {pool.submit(fetch_detail, s.get("id")): s for s in summaries}
+        futures = {pool.submit(fetch_detail, s.get("app_id", s.get("id"))): s for s in summaries}
         done = 0
         for fut in as_completed(futures):
             summary = futures[fut]
-            app_id = summary.get("id")
+            app_id = summary.get("app_id", summary.get("id"))
             try:
                 details[str(app_id)] = fut.result()
             except Exception as exc:
@@ -230,14 +228,15 @@ def main():
 
     alt_apps, raw_samples = [], []
     for idx, summary in enumerate(summaries):
-        detail = details.get(str(summary.get("id")), {})
+        app_id = summary.get("app_id", summary.get("id"))
+        detail = details.get(str(app_id), {})
         if idx < 3:
             raw_samples.append({"summary": summary, "detail": detail})
         app = to_alt_app(summary, detail)
         if app:
             alt_apps.append(app)
         else:
-            print(f"WARN no download URL for {summary.get('id')} {summary.get('name')}", flush=True)
+            print(f"WARN no direct download URL for {app_id} {summary.get('app_name', summary.get('name'))}", flush=True)
 
     alt_apps.sort(key=lambda x: x["name"].casefold())
     source = {
@@ -256,7 +255,7 @@ def main():
         json.dump(raw_samples, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
-    print(f"Wrote {OUT} with {len(alt_apps)} downloadable apps ({os.path.getsize(OUT)} bytes)", flush=True)
+    print(f"Wrote {OUT} with {len(alt_apps)} apps using real S3 IPA URLs ({os.path.getsize(OUT)} bytes)", flush=True)
 
 
 if __name__ == "__main__":
