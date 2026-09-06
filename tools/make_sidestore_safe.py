@@ -44,8 +44,8 @@ for a in src.get('apps',[]):
     apps.append(app)
 
 out={
-    'name':'FlekSt0re Lib Mirror (SideStore Safe)',
-    'identifier':'com.nightvibes33.flekstorelib.sidestore.v2',
+    'name':'FlekSt0re Lib Mirror (SideStore Safe v3)',
+    'identifier':'com.nightvibes33.flekstorelib.sidestore.v3',
     'sourceURL':OUT_URL,
     'apps':apps,
 }
