@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import html
 import json
 import os
 import re
@@ -14,6 +15,7 @@ API_APPS = f"{BASE}/rest/apps/getApps/"
 API_APP = f"{BASE}/rest/apps/getApp"
 OUT = os.environ.get("OUT", "source.json")
 PAGE_SIZE = 30
+SOURCE_URL = "https://raw.githubusercontent.com/NightVibes33/DebtoIPA/flekstore-alt-source/source.json"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1",
     "Referer": f"{BASE}/pro_app/",
@@ -75,7 +77,7 @@ def parse_size(value):
         return 0
     n = float(m.group(1))
     unit = m.group(2) or "b"
-    mult = {"b":1,"kb":1000,"kib":1024,"mb":1000**2,"mib":1024**2,"gb":1000**3,"gib":1024**3}[unit]
+    mult = {"b": 1, "kb": 1000, "kib": 1024, "mb": 1000**2, "mib": 1024**2, "gb": 1000**3, "gib": 1024**3}[unit]
     return int(n * mult)
 
 
@@ -91,6 +93,20 @@ def iso_date(value):
         except ValueError:
             pass
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def clean_text(value, limit=700):
+    text = str(value or "")
+    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.I)
+    text = re.sub(r"</div\s*>", "\n", text, flags=re.I)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = html.unescape(text)
+    text = text.replace("\r", "\n")
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
+    if not text:
+        text = "FlekSt0re catalog app"
+    return text[:limit]
 
 
 def fetch_catalog():
@@ -123,50 +139,73 @@ def to_alt_app(summary, detail):
     detail = detail if isinstance(detail, dict) else {}
     merged = dict(summary)
     merged.update({k: v for k, v in detail.items() if v not in (None, "")})
+
     app_id = str(pick(merged, "id", default="unknown"))
-    name = str(pick(merged, "name", "title", default=f"FlekSt0re App {app_id}"))
-    version = str(pick(merged, "version", "app_version", default="1.0"))
+    name = str(pick(merged, "name", "title", default=f"FlekSt0re App {app_id}")).strip()
+    version = str(pick(merged, "version", "app_version", default="1.0")).strip()
     bundle = clean_bundle(pick(merged, "bundle_id", "bundleIdentifier", "bundle_identifier", "bundleid", "package", "identifier"), app_id)
     download = normalize_url(pick(merged, "install_url", "download_url", "downloadURL", "ipa", "url"))
-    icon = normalize_url(pick(merged, "icon", "icon_url", "iconURL"))
-    description = str(pick(merged, "description", "full_description", "short_description", default="FlekSt0re catalog app"))
-    subtitle = str(pick(merged, "short_description", "subtitle", default=description[:80]))
-    developer = str(pick(merged, "developer", "developer_name", "author", default="FlekSt0re"))
+    icon = normalize_url(pick(merged, "icon", "icon_url", "iconURL")) or "https://flekstore.com/favicon.ico"
+    description = clean_text(pick(merged, "description", "full_description", "short_description", default="FlekSt0re catalog app"), 700)
+    subtitle = clean_text(pick(merged, "short_description", "subtitle", default=description), 100)
+    developer = clean_text(pick(merged, "developer", "developer_name", "author", default="FlekSt0re"), 80)
     size = parse_size(pick(merged, "size", "file_size", "filesize", default=0))
     date = iso_date(pick(merged, "updated_at", "update_date", "date", "created_at"))
+
     if not download:
         return None
+
+    # SideStore currently has compatibility paths that still expect the legacy
+    # top-level version/download fields even when AltSource v2 `versions` exists.
     app = {
         "name": name,
         "bundleIdentifier": bundle,
         "developerName": developer,
         "subtitle": subtitle,
         "localizedDescription": description,
-        "iconURL": icon or "https://flekstore.com/favicon.ico",
-        "tintColor": "#6C5CE7",
+        "iconURL": icon,
+        "tintColor": "6C5CE7",
+        "version": version,
+        "versionDate": date,
+        "versionDescription": description[:250],
+        "downloadURL": download,
+        "size": size,
         "versions": [{
             "version": version,
             "date": date,
             "size": size,
             "downloadURL": download,
-            "localizedDescription": description,
+            "localizedDescription": description[:250],
         }],
     }
-    screenshots = pick(merged, "photos", "screenshots", default=[])
-    if isinstance(screenshots, list):
-        urls = []
-        for x in screenshots:
-            if isinstance(x, str):
-                u = normalize_url(x)
-            elif isinstance(x, dict):
-                u = normalize_url(pick(x, "url", "image", "src"))
-            else:
-                u = None
-            if u:
-                urls.append(u)
-        if urls:
-            app["screenshots"] = urls
+
+    # Keep the mirror deliberately lean. Hundreds of screenshot arrays + long HTML
+    # descriptions make SideStore's source ingestion much more memory-intensive.
     return app
+
+
+def validate_source(source):
+    allowed_source = {"name", "identifier", "apps", "news", "sourceURL"}
+    allowed_app = {
+        "name", "bundleIdentifier", "developerName", "subtitle", "localizedDescription",
+        "iconURL", "tintColor", "version", "versionDate", "versionDescription",
+        "downloadURL", "size", "versions", "screenshotURLs", "permissions", "beta"
+    }
+    allowed_version = {"version", "date", "localizedDescription", "downloadURL", "size", "minOSVersion", "maxOSVersion"}
+    extra_source = set(source) - allowed_source
+    assert not extra_source, f"Unsupported source keys: {sorted(extra_source)}"
+    assert source.get("name") and source.get("identifier") and isinstance(source.get("apps"), list)
+    for app in source["apps"]:
+        extra_app = set(app) - allowed_app
+        assert not extra_app, f"Unsupported app keys for {app.get('name')}: {sorted(extra_app)}"
+        for req in ("name", "bundleIdentifier", "developerName", "localizedDescription", "iconURL", "versions", "downloadURL"):
+            assert app.get(req) not in (None, ""), f"Missing {req} for {app.get('name')}"
+        assert isinstance(app["versions"], list) and app["versions"]
+        for ver in app["versions"]:
+            extra_ver = set(ver) - allowed_version
+            assert not extra_ver, f"Unsupported version keys for {app.get('name')}: {sorted(extra_ver)}"
+            for req in ("version", "date", "downloadURL", "size"):
+                assert req in ver, f"Missing version {req} for {app.get('name')}"
 
 
 def main():
@@ -204,21 +243,20 @@ def main():
     source = {
         "name": "FlekSt0re Lib Mirror",
         "identifier": "com.nightvibes33.flekstorelib",
-        "subtitle": "AltSource mirror of the public FlekSt0re catalog",
-        "description": "Automatically generated from FlekSt0re's public web catalog API.",
-        "iconURL": "https://flekstore.com/favicon.ico",
-        "website": "https://flekstore.com/",
-        "tintColor": "#6C5CE7",
+        "sourceURL": SOURCE_URL,
         "apps": alt_apps,
         "news": [],
     }
+    validate_source(source)
+
     with open(OUT, "w", encoding="utf-8") as f:
-        json.dump(source, f, ensure_ascii=False, indent=2)
+        json.dump(source, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
     with open("flekstore-api-sample.json", "w", encoding="utf-8") as f:
         json.dump(raw_samples, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"Wrote {OUT} with {len(alt_apps)} downloadable apps", flush=True)
+
+    print(f"Wrote {OUT} with {len(alt_apps)} downloadable apps ({os.path.getsize(OUT)} bytes)", flush=True)
 
 
 if __name__ == "__main__":
