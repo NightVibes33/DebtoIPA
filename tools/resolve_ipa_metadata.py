@@ -21,17 +21,44 @@ def load_cache():
         return {}
 
 
+def _main_info_plist(names):
+    """Find the main .app Info.plist even in oddly wrapped/repacked IPAs."""
+    normalized = [(n, n.replace("\\", "/")) for n in names]
+
+    # Normal IPA, or an IPA wrapped in one or more leading directories.
+    preferred = [
+        (original, norm)
+        for original, norm in normalized
+        if re.search(r"(?:^|/)Payload/[^/]+\.app/Info\.plist$", norm, flags=re.I)
+    ]
+    if preferred:
+        preferred.sort(key=lambda item: (item[1].count("/"), len(item[1]), item[1].casefold()))
+        return preferred[0][0]
+
+    # Some repacks omit Payload entirely. Accept only a direct .app Info.plist,
+    # never extension/watch/app-clip/framework plists.
+    excluded = ("/plugins/", "/watch/", "/appclips/", "/frameworks/", "/extensions/")
+    fallback = []
+    for original, norm in normalized:
+        low = "/" + norm.lower().lstrip("/")
+        if not re.search(r"(?:^|/)[^/]+\.app/Info\.plist$", norm, flags=re.I):
+            continue
+        if any(part in low for part in excluded):
+            continue
+        fallback.append((original, norm))
+    if fallback:
+        fallback.sort(key=lambda item: (item[1].count("/"), len(item[1]), item[1].casefold()))
+        return fallback[0][0]
+
+    raise RuntimeError("main .app/Info.plist not found in IPA central directory")
+
+
 def extract(url):
     # RemoteZip reads only ZIP directory + requested Info.plist ranges, rather
     # than downloading the entire IPA.
     with RemoteZip(url) as z:
-        candidates = [
-            n for n in z.namelist()
-            if re.fullmatch(r"Payload/[^/]+\.app/Info\.plist", n)
-        ]
-        if not candidates:
-            raise RuntimeError("top-level Payload/*.app/Info.plist not found")
-        raw = z.read(candidates[0])
+        plist_path = _main_info_plist(z.namelist())
+        raw = z.read(plist_path)
     p = plistlib.loads(raw)
     bundle = str(p.get("CFBundleIdentifier") or "").strip()
     if not bundle:
@@ -41,7 +68,7 @@ def extract(url):
         "version": str(p.get("CFBundleShortVersionString") or p.get("CFBundleVersion") or "").strip(),
         "buildVersion": str(p.get("CFBundleVersion") or "").strip(),
         "minOSVersion": str(p.get("MinimumOSVersion") or "").strip(),
-        "infoPlistPath": candidates[0],
+        "infoPlistPath": plist_path,
     }
 
 
@@ -79,7 +106,7 @@ def main():
                 if (resolved + failed) % 25 == 0:
                     print(f"Resolved {resolved + failed}/{len(pending)} (ok={resolved}, bad={failed})", flush=True)
 
-    # Apply verified metadata to the source itself.
+    # Apply verified metadata to the full LiveContainer-oriented source itself.
     updated = 0
     for app in apps:
         url = app.get("downloadURL")
@@ -106,7 +133,11 @@ def main():
 
     by_bundle = {}
     for app in apps:
-        by_bundle.setdefault(app.get("bundleIdentifier"), []).append(app.get("name"))
+        url = app.get("downloadURL")
+        md = cache.get(url, {})
+        bundle = md.get("bundleIdentifier")
+        if bundle:
+            by_bundle.setdefault(bundle, []).append(app.get("name"))
     dupes = {k: v for k, v in by_bundle.items() if k and len(v) > 1}
     print(f"Applied real IPA metadata to {updated}/{len(apps)} apps; unresolved={len(apps)-updated}")
     print(f"Duplicate real bundle identifiers: {len(dupes)}")
