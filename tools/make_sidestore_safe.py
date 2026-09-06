@@ -65,6 +65,8 @@ def main():
             "developerName": clip(a.get("developerName") or "FlekSt0re", 80),
             "localizedDescription": clip(a.get("localizedDescription") or "FlekSt0re catalog app", 420),
             "iconURL": str(a.get("iconURL") or "https://flekstore.com/favicon.ico"),
+            "downloadURL": url,
+            "version": version,
             "versions": [item],
         }
         subtitle = clip(a.get("subtitle"), 90)
