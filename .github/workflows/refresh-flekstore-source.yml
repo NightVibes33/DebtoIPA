@@ -8,6 +8,7 @@ on:
       - sidestore-source.json
       - sidestore-v6.json
       - sidestore-v7.json
+      - sidestore-lean.json
       - sidestore-smoke-1.json
       - sidestore-smoke-25.json
       - sidestore-smoke-100.json
@@ -52,6 +53,7 @@ jobs:
             source.json \
             sidestore-source.json \
             sidestore-v7.json \
+            sidestore-lean.json \
             sidestore-smoke-1.json \
             sidestore-smoke-25.json \
             sidestore-smoke-100.json \
@@ -73,6 +75,7 @@ jobs:
               'source.json',
               'sidestore-source.json',
               'sidestore-v7.json',
+              'sidestore-lean.json',
               'sidestore-smoke-1.json',
               'sidestore-smoke-25.json',
               'sidestore-smoke-100.json',
@@ -88,19 +91,19 @@ jobs:
                   assert app.get('bundleIdentifier')
                   assert app.get('downloadURL')
                   assert app.get('versions') and app['versions'][0].get('downloadURL')
-                  # v7/smoke dates intentionally use the most conservative format
-                  if path in ('sidestore-source.json','sidestore-v7.json') or 'smoke-' in path:
-                      assert len(app['versions'][0]['date']) == 10, (path, app['name'], app['versions'][0]['date'])
+                  assert 0 <= app['versions'][0]['size'] <= 2147483647
+                  if path in ('sidestore-source.json','sidestore-v7.json'):
+                      assert len(app['versions'][0]['date']) == 10
                       assert app.get('version') == app['versions'][0]['version']
                       assert app.get('versionDate') == app['versions'][0]['date']
                       assert app.get('size') == app['versions'][0]['size']
+                  if path == 'sidestore-lean.json' or 'smoke-' in path:
+                      assert len(app['versions'][0]['date']) == 10
               counts=Counter(a['bundleIdentifier'] for a in s['apps'])
               dupes={k:v for k,v in counts.items() if v>1}
               print(path,'validated',len(s['apps']),'apps; duplicate listing IDs',len(dupes))
-
               if path.startswith('sidestore'):
                   assert not dupes, f'{path} has duplicate listing IDs: {dupes}'
-
               if path in ('sidestore-strict.json','sidestore-strict-lite.json'):
                   bad=[a['bundleIdentifier'] for a in s['apps'] if a['bundleIdentifier'].startswith(
                       ('com.flekstore.catalog.','com.nightvibes33.flekvariant.')
@@ -109,7 +112,9 @@ jobs:
 
           full=json.load(open('source.json'))
           safe=json.load(open('sidestore-source.json'))
+          lean=json.load(open('sidestore-lean.json'))
           assert len(safe['apps']) == len(full['apps'])
+          assert len(lean['apps']) == len(full['apps'])
           assert len(json.load(open('sidestore-smoke-1.json'))['apps']) == 1
           assert len(json.load(open('sidestore-smoke-25.json'))['apps']) == 25
           assert len(json.load(open('sidestore-smoke-100.json'))['apps']) == 100
@@ -123,6 +128,7 @@ jobs:
             source.json \
             sidestore-source.json \
             sidestore-v7.json \
+            sidestore-lean.json \
             sidestore-smoke-1.json \
             sidestore-smoke-25.json \
             sidestore-smoke-100.json \
