@@ -21,6 +21,15 @@ HEADERS = {
     "Accept": "application/json, text/plain, */*",
 }
 
+# Upstream FlekSt0re occasionally leaves catalog records pointing to deleted S3
+# objects. For open-source apps only, use the original developer's official IPA
+# release instead of a random mirror. Commercial apps are intentionally not
+# substituted here.
+RECOVERY_URLS = {
+    "KillMyOTA": "https://github.com/haxi0/KillMyOTA/releases/download/1.1/KillMyOTA-1.1.ipa",
+    "WDBFontOverwrite": "https://github.com/ginsudev/WDBFontOverwrite/releases/download/v1.10.8/WDBFontOverwrite.ipa",
+}
+
 
 def get_json(url, params=None, retries=2):
     last = None
@@ -143,9 +152,9 @@ def to_alt_app(summary, detail):
     name = str(pick(summary, "app_name", "name", default=pick(detail, "name", default=f"FlekSt0re App {app_id}"))).strip()
     version = str(pick(summary, "app_version", "version", default=pick(detail, "version", default="1.0"))).strip()
 
-    # CRITICAL: `/app/with-link` carries the real public S3 object URL. The detail
-    # endpoint carries only a bare filename; never let that overwrite this link.
-    download = normalize_url(pick(summary, "install_url", "downloadURL", "download_url"))
+    # `/app/with-link` carries the real public object URL. If that object was
+    # deleted and an original open-source developer release is known, use it.
+    download = RECOVERY_URLS.get(name) or normalize_url(pick(summary, "install_url", "downloadURL", "download_url"))
     if not download:
         return None
 
@@ -197,7 +206,7 @@ def validate_source(source):
         assert not extra_app, f"Unsupported app keys for {app.get('name')}: {sorted(extra_app)}"
         for req in ("name", "bundleIdentifier", "developerName", "localizedDescription", "iconURL", "versions", "downloadURL"):
             assert app.get(req) not in (None, ""), f"Missing {req} for {app.get('name')}"
-        assert app["downloadURL"].startswith("https://s3-storage.flekstore.com/ipa-library/"), f"non-S3 download URL for {app.get('name')}: {app['downloadURL']}"
+        assert app["downloadURL"].startswith("https://"), f"non-HTTPS download URL for {app.get('name')}: {app['downloadURL']}"
         assert isinstance(app["versions"], list) and app["versions"]
         for ver in app["versions"]:
             extra_ver = set(ver) - allowed_version
@@ -255,7 +264,7 @@ def main():
         json.dump(raw_samples, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
-    print(f"Wrote {OUT} with {len(alt_apps)} apps using real S3 IPA URLs ({os.path.getsize(OUT)} bytes)", flush=True)
+    print(f"Wrote {OUT} with {len(alt_apps)} apps using direct IPA URLs ({os.path.getsize(OUT)} bytes)", flush=True)
 
 
 if __name__ == "__main__":
