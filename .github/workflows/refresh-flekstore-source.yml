@@ -30,19 +30,22 @@ jobs:
       - name: Build AltSource JSON
         run: python tools/flekstore_alt_source.py
 
-      - name: Validate JSON
+      - name: Validate SideStore-compatible JSON
         run: |
           python -m json.tool source.json >/dev/null
           python - <<'PY'
           import json
           s=json.load(open('source.json'))
-          assert isinstance(s.get('apps'), list)
-          assert s['apps'], 'source contains zero apps'
+          allowed_source={'name','identifier','apps','news','sourceURL'}
+          assert not (set(s)-allowed_source), f"invalid source keys: {set(s)-allowed_source}"
+          assert isinstance(s.get('apps'), list) and s['apps']
           for app in s['apps']:
               assert app.get('bundleIdentifier')
+              assert app.get('downloadURL'), f"legacy downloadURL missing: {app.get('name')}"
               assert app.get('versions')
               assert app['versions'][0].get('downloadURL')
-          print('validated', len(s['apps']), 'apps')
+              assert 'screenshots' not in app
+          print('validated SideStore compatibility for', len(s['apps']), 'apps')
           PY
 
       - name: Commit refreshed source
