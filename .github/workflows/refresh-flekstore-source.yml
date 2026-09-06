@@ -7,6 +7,10 @@ on:
       - source.json
       - sidestore-source.json
       - sidestore-v6.json
+      - sidestore-v7.json
+      - sidestore-smoke-1.json
+      - sidestore-smoke-25.json
+      - sidestore-smoke-100.json
       - sidestore-strict.json
       - sidestore-strict-lite.json
       - flekstore-api-sample.json
@@ -38,18 +42,24 @@ jobs:
           python tools/flekstore_alt_source.py
           python tools/resolve_ipa_metadata.py
           python tools/make_sidestore_safe.py
-          cp sidestore-source.json sidestore-v6.json
+          cp sidestore-source.json sidestore-v7.json
           python tools/make_sidestore_strict.py
           python tools/diagnose_missing_flekstore.py
 
       - name: Validate feeds
         run: |
-          python -m json.tool source.json >/dev/null
-          python -m json.tool sidestore-source.json >/dev/null
-          python -m json.tool sidestore-v6.json >/dev/null
-          python -m json.tool sidestore-strict.json >/dev/null
-          python -m json.tool sidestore-strict-lite.json >/dev/null
-          python -m json.tool missing-app-diagnostics.json >/dev/null
+          for f in \
+            source.json \
+            sidestore-source.json \
+            sidestore-v7.json \
+            sidestore-smoke-1.json \
+            sidestore-smoke-25.json \
+            sidestore-smoke-100.json \
+            sidestore-strict.json \
+            sidestore-strict-lite.json \
+            missing-app-diagnostics.json; do
+            python -m json.tool "$f" >/dev/null
+          done
           python - <<'PY'
           import json,requests
           from collections import Counter
@@ -62,7 +72,10 @@ jobs:
           paths=(
               'source.json',
               'sidestore-source.json',
-              'sidestore-v6.json',
+              'sidestore-v7.json',
+              'sidestore-smoke-1.json',
+              'sidestore-smoke-25.json',
+              'sidestore-smoke-100.json',
               'sidestore-strict.json',
               'sidestore-strict-lite.json',
           )
@@ -75,6 +88,12 @@ jobs:
                   assert app.get('bundleIdentifier')
                   assert app.get('downloadURL')
                   assert app.get('versions') and app['versions'][0].get('downloadURL')
+                  # v7/smoke dates intentionally use the most conservative format
+                  if path in ('sidestore-source.json','sidestore-v7.json') or 'smoke-' in path:
+                      assert len(app['versions'][0]['date']) == 10, (path, app['name'], app['versions'][0]['date'])
+                      assert app.get('version') == app['versions'][0]['version']
+                      assert app.get('versionDate') == app['versions'][0]['date']
+                      assert app.get('size') == app['versions'][0]['size']
               counts=Counter(a['bundleIdentifier'] for a in s['apps'])
               dupes={k:v for k,v in counts.items() if v>1}
               print(path,'validated',len(s['apps']),'apps; duplicate listing IDs',len(dupes))
@@ -89,18 +108,29 @@ jobs:
                   assert not bad, f'{path} contains synthetic identities: {bad[:20]}'
 
           full=json.load(open('source.json'))
-          strict=json.load(open('sidestore-strict.json'))
-          lite=json.load(open('sidestore-strict-lite.json'))
-          assert len(strict['apps']) <= len(full['apps'])
-          assert len(lite['apps']) <= 100
-          assert len(lite['apps']) <= len(strict['apps'])
+          safe=json.load(open('sidestore-source.json'))
+          assert len(safe['apps']) == len(full['apps'])
+          assert len(json.load(open('sidestore-smoke-1.json'))['apps']) == 1
+          assert len(json.load(open('sidestore-smoke-25.json'))['apps']) == 25
+          assert len(json.load(open('sidestore-smoke-100.json'))['apps']) == 100
           PY
 
       - name: Commit refreshed source
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add source.json sidestore-source.json sidestore-v6.json sidestore-strict.json sidestore-strict-lite.json flekstore-api-sample.json ipa-metadata-cache.json missing-app-diagnostics.json
+          git add \
+            source.json \
+            sidestore-source.json \
+            sidestore-v7.json \
+            sidestore-smoke-1.json \
+            sidestore-smoke-25.json \
+            sidestore-smoke-100.json \
+            sidestore-strict.json \
+            sidestore-strict-lite.json \
+            flekstore-api-sample.json \
+            ipa-metadata-cache.json \
+            missing-app-diagnostics.json
           if git diff --cached --quiet; then
             echo 'No catalog changes'
           else
