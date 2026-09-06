@@ -10,32 +10,35 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Trace FlekSt0re download resolver
+      - name: Probe new FlekSt0re API
         run: |
           python - <<'PY'
-          import requests,re,urllib.parse
-          s=requests.Session()
-          h={'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1','Referer':'https://flekstore.com/pro_app/'}
-          r=s.get('https://flekstore.com/pro_app/',headers=h,timeout=30)
-          print('HTML',r.status_code,r.url,r.headers.get('content-type'),len(r.text))
-          scripts=re.findall(r'<script[^>]+src=["\']([^"\']+)',r.text,re.I)
-          print('SCRIPTS',scripts)
-          for src in scripts:
-            u=urllib.parse.urljoin(r.url,src)
+          import requests, json
+          urls=[
+            'https://nestapitest.flekstore.com/app/with-link?filter=updates&page=0&search=deck',
+            'https://nestapi.flekstore.com/app/with-link?filter=updates&page=0&search=deck',
+          ]
+          for url in urls:
+            print('\nURL',url)
             try:
-              j=s.get(u,headers=h,timeout=30)
-              text=j.text
-              print('\nSCRIPT',u,'status',j.status_code,'bytes',len(text))
-              for pat in ['install_url','getApp','downloadURL','download_url','\.ipa','/rest/','storage','cdn','LiveContainer','import']:
-                hits=[m.start() for m in re.finditer(pat,text,re.I)]
-                if hits:
-                  print('PATTERN',pat,'HITS',len(hits))
-                  for pos in hits[:12]:
-                    print(text[max(0,pos-350):min(len(text),pos+700)].replace('\n',' ')[:1100])
+              r=requests.get(url,timeout=30,headers={'User-Agent':'FlekDeck/1.0'})
+              print('STATUS',r.status_code,'TYPE',r.headers.get('content-type'),'LEN',len(r.content))
+              print(r.text[:20000])
+              try:
+                data=r.json()
+              except Exception:
+                continue
+              rows=data if isinstance(data,list) else data.get('data',[])
+              for row in rows:
+                if not isinstance(row,dict): continue
+                link=row.get('install_url')
+                if link:
+                  try:
+                    rr=requests.get(link,timeout=30,headers={'Range':'bytes=0-63','User-Agent':'SideStore/0.6'},allow_redirects=True)
+                    print('APP',row.get('app_id'),row.get('app_name'),'LINK',link)
+                    print('  STATUS',rr.status_code,'FINAL',rr.url,'TYPE',rr.headers.get('content-type'),'LEN',rr.headers.get('content-length'),'MAGIC',rr.content[:32])
+                  except Exception as e:
+                    print('  LINK_ERR',repr(e))
             except Exception as e:
-              print('SCRIPT_ERR',u,repr(e))
-          # Also inspect the HTML around any install/download refs
-          for pat in ['install_url','download','\.ipa','rest/']:
-            for m in list(re.finditer(pat,r.text,re.I))[:10]:
-              p=m.start(); print('HTMLPAT',pat,r.text[max(0,p-300):p+600].replace('\n',' '))
+              print('ERR',repr(e))
           PY
