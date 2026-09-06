@@ -1,0 +1,38 @@
+name: Find FlexDeck in FlekSt0re
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/find-flexdeck.yml
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query FlekSt0re catalog
+        run: |
+          python - <<'PY'
+          import requests, json
+          base='https://flekstore.com/rest/apps/getApps/'
+          headers={'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1','Referer':'https://flekstore.com/pro_app/','Accept':'application/json, text/plain, */*'}
+          terms=['FlexDeck','Flex Deck','flex','deck']
+          seen={}
+          for term in terms:
+              for filt in ['updates','all']:
+                  r=requests.get(base,params={'page':0,'search':term,'filter':filt},headers=headers,timeout=20)
+                  print('QUERY',term,filt,r.url,'STATUS',r.status_code)
+                  print(r.text[:12000])
+                  try:
+                      data=r.json(); rows=data.get('data',data) if isinstance(data,dict) else data
+                  except Exception:
+                      rows=[]
+                  if isinstance(rows,list):
+                      for row in rows:
+                          if isinstance(row,dict) and row.get('id'):
+                              seen[str(row['id'])]=row
+          print('MATCH_SUMMARIES',json.dumps(list(seen.values()),ensure_ascii=False))
+          for app_id,row in seen.items():
+              d=requests.get('https://flekstore.com/rest/apps/getApp',params={'id':app_id},headers=headers,timeout=20)
+              print('DETAIL',app_id,row.get('name'),d.status_code,d.text[:12000])
+          PY
