@@ -1,0 +1,480 @@
+{
+  "targets": {
+    "FlekDeck": {
+      "catalogRecordFound": true,
+      "appID": 1565,
+      "summary": {
+        "app_id": 1565,
+        "app_icon": "https://flekstore.com/img-storage/apps/1565/flekdeck.png",
+        "app_name": "FlekDeck",
+        "app_version": "0.1.0",
+        "app_short_description": "Run your apps inside FlekDeck",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa"
+      },
+      "detail": {
+        "id": 1565,
+        "icon": "https://flekstore.com/img-storage/apps/1565/flekdeck.png",
+        "name": "FlekDeck",
+        "developer": "FlekSt0re",
+        "version": "0.1.0",
+        "install_url": "flekdeck2.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/1565/photo_1787776030685.png",
+          "https://flekstore.com/img-storage/apps/1565/photo_1787776021709.png",
+          "https://flekstore.com/img-storage/apps/1565/photo_1787776013095.png",
+          "https://flekstore.com/img-storage/apps/1565/photo_1787776004083.png",
+          "https://flekstore.com/img-storage/apps/1565/photo_1787775994166.png",
+          "https://flekstore.com/img-storage/apps/1565/photo_1787775984846.png"
+        ],
+        "warning": "",
+        "description": "<div class=\"\"><i>If you used LiveContainer, then to save progress in applications/games, put FlecDeck on top (do not delete LiveContainer)</i>.</div><div class=\"\"><br></div><div class=\"\">Run your apps inside FlekDeck — a powerful app environment designed to feel like a second operating system.</div><div><br></div><div>FlekDeck brings a familiar Home Screen, built-in multitasking, fast app switching, a dedicated Installer, and extensive customization into one seamless experience.</div><div><br></div><div>Discover and install apps from your repositories, run multiple apps at the same time, customize your workspace, and switch between apps just like you’re used to on iOS.</div><div><br></div><div class=\"\">Built on LiveContainer and reimagined from the ground up, FlekDeck also includes dozens of compatibility and stability improvements for hundreds of apps.</div><div class=\"\"><br></div><div class=\"\"><a href=\"https://github.com/flekstore/FlekDeck/\">FlekDeck repo</a></div><div class=\"\"><a href=\"https://github.com/LiveContainer/LiveContainer\">LiveContainer repo</a></div><div><br></div>",
+        "downloads": 509,
+        "size": 15076800,
+        "date": "2026-09-06T11:49:00.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/1565/flekdeck.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/1565/flekdeck.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787776030685.png"
+        },
+        {
+          "field": "$.detail.photos[1]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787776021709.png"
+        },
+        {
+          "field": "$.detail.photos[2]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787776013095.png"
+        },
+        {
+          "field": "$.detail.photos[3]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787776004083.png"
+        },
+        {
+          "field": "$.detail.photos[4]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787775994166.png"
+        },
+        {
+          "field": "$.detail.photos[5]",
+          "url": "https://flekstore.com/img-storage/apps/1565/photo_1787775984846.png"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/FlekDeck.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/FlekDeck.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/FlekDeck1.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/FlekDeck1.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/FlekDeck2.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/FlekDeck2.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/FlekDeck3.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/FlekDeck3.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/flekdeck.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/flekdeck.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/flekdeck1.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/flekdeck1.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        },
+        "https://s3-storage.flekstore.com/ipa-library/flekdeck3.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/flekdeck3.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      }
+    },
+    "Halo: Spartan Assault": {
+      "catalogRecordFound": true,
+      "appID": 840,
+      "summary": {
+        "app_id": 840,
+        "app_icon": "https://flekstore.com/img-storage/apps/840/HaloSpartan_icon.png",
+        "app_name": "Halo: Spartan Assault",
+        "app_version": "1.1.1",
+        "app_short_description": "The legendary game series blocked on the AppStore.",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa"
+      },
+      "detail": {
+        "id": 840,
+        "icon": "https://flekstore.com/img-storage/apps/840/HaloSpartan_icon.png",
+        "name": "Halo: Spartan Assault",
+        "developer": "Microsoft",
+        "version": "1.1.1",
+        "install_url": "HaloSpartan.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/840/HaloSpartan1.jpg",
+          "https://flekstore.com/img-storage/apps/840/HaloSpartan2.jpg",
+          "https://flekstore.com/img-storage/apps/840/HaloSpartan3.jpg",
+          "https://flekstore.com/img-storage/apps/840/HaloSpartan4.jpg"
+        ],
+        "warning": "",
+        "description": "<div><span style=\"color: var(--f7-text-editor-text-color); font-size: var(--f7-text-editor-font-size); font-weight: var(--f7-text-editor-font-weight); background-color: var(--f7-text-editor-bg-color); font-family: var(--f7-font-family);\">Battle your way through 30 action-packed missions against the Covenant as you explore the origin of the Spartan Ops program featured in Halo 4.</span><br></div><div>Earn achievements, complete missions and compete against your friends for the top scores in the leaderboards.</div><div><br></div><div>It's time to join the assault, Spartan!</div><div><br></div><div>Top Features</div><div>• Epic campaign featuring 30 action packed levels with a brand new Halo story set just before the events of Halo 4.</div><div>• Command many of your favorite Halo weapons, vehicles, and armor abilities, and customize your Spartan to create the perfect Spartan warrior.</div><div>• Earn achievements, complete weekly challenges for XP and compete against your friends in leaderboards for ultimate bragging rights</div>",
+        "downloads": 511,
+        "size": 666402000,
+        "date": "2021-10-23T16:00:53.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan_icon.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan_icon.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan1.jpg"
+        },
+        {
+          "field": "$.detail.photos[1]",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan2.jpg"
+        },
+        {
+          "field": "$.detail.photos[2]",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan3.jpg"
+        },
+        {
+          "field": "$.detail.photos[3]",
+          "url": "https://flekstore.com/img-storage/apps/840/HaloSpartan4.jpg"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {}
+    },
+    "KillMyOTA": {
+      "catalogRecordFound": true,
+      "appID": 1065,
+      "summary": {
+        "app_id": 1065,
+        "app_icon": "https://flekstore.com/img-storage/apps/1065/KillMyOTA_icon.png",
+        "app_name": "KillMyOTA",
+        "app_version": "1.1",
+        "app_short_description": "Block OTA updates",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa"
+      },
+      "detail": {
+        "id": 1065,
+        "icon": "https://flekstore.com/img-storage/apps/1065/KillMyOTA_icon.png",
+        "name": "KillMyOTA",
+        "developer": "Helper iOS",
+        "version": "1.1",
+        "install_url": "KillMyOTA.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/1065/KillMyOTA1.png"
+        ],
+        "warning": "Only for iOS 15.0 - 15.7.1 and 16.0 - 16.1.2",
+        "description": "Block OTA updates",
+        "downloads": 72,
+        "size": 339440,
+        "date": "2023-03-05T12:52:05.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/1065/KillMyOTA_icon.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/1065/KillMyOTA_icon.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/1065/KillMyOTA1.png"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {}
+    },
+    "Night of the Full Moon": {
+      "catalogRecordFound": true,
+      "appID": 864,
+      "summary": {
+        "app_id": 864,
+        "app_icon": "https://flekstore.com/img-storage/apps/864/NotFM_icon.png",
+        "app_name": "Night of the Full Moon",
+        "app_version": "19.22",
+        "app_short_description": "Unlimited Coins • Unlimited Characters • Unlimited Mints.",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/NotFM.ipa"
+      },
+      "detail": {
+        "id": 864,
+        "icon": "https://flekstore.com/img-storage/apps/864/NotFM_icon.png",
+        "name": "Night of the Full Moon",
+        "developer": "Dangerous Pixel",
+        "version": "19.22",
+        "install_url": "NotFM.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/864/NotFM1.jpg",
+          "https://flekstore.com/img-storage/apps/864/NotFM2.jpg",
+          "https://flekstore.com/img-storage/apps/864/NotFM3.jpg",
+          "https://flekstore.com/img-storage/apps/864/NotFM4.jpg",
+          "https://flekstore.com/img-storage/apps/864/NotFM5.png"
+        ],
+        "warning": "Make sure that the original NotFM has been removed!",
+        "description": "<div class=\"\">&nbsp; &nbsp; &nbsp;<b><i>Warning.</i></b> The app may ask you for authorization in Chinese. This is to limit the use of games by Chinese children. \r</div><div>To continue enjoying the game you will need to find a Chinese ID card freely available. Or use one of the ones we have listed below\r</div><div>\r</div><div><br></div><div>441622199110014759\r</div><div>513224199002092689\r</div><div>320902198105287515</div><div><br></div>&nbsp; &nbsp; \"Night of the Full Moon\" is a stand-alone card game. There is no mandatory beginners guide, no internet connection, no brush map, no ten strokes. The plot will be played in the card battle. Each NPC and BOSS are given a mission and a temperament. Different choices will bring different endings.\n<div>\n</div><div>\n</div><h3>&nbsp; &nbsp; &nbsp;<i>Drama</i></h3><div>In order to find the missing grandmother, Little Red Riding Hood went alone to the Black Forest, where it was always dark and night. She is about to face the guardian of the forest elves, the ferocious werewolf, the sedentary witch, the strange villagers and the truth that slowly surfaced...\n</div><div>On the full moon night, the mysterious veil of the Black Forest will be unveiled one by one...\n</div><h3 class=\"\"><i>&nbsp; &nbsp; &nbsp;Features</i></h3><div class=\"\">• Mild strategy turn-based card battle\n</div><div class=\"\">• Six occupations, more than 500 cards free to match\n</div><div class=\"\">• Ninety-three mysterious opponents await your challenge\n</div><div class=\"\">• Randomly trigger unknown events during the adventure\n</div><div class=\"\">• Multiple plot options that affect your reputation and courage\n</div><div><br></div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div><div>\n</div>",
+        "downloads": 118,
+        "size": 865005471,
+        "date": "2021-12-17T16:15:22.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM_icon.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/NotFM.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM_icon.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM1.jpg"
+        },
+        {
+          "field": "$.detail.photos[1]",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM2.jpg"
+        },
+        {
+          "field": "$.detail.photos[2]",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM3.jpg"
+        },
+        {
+          "field": "$.detail.photos[3]",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM4.jpg"
+        },
+        {
+          "field": "$.detail.photos[4]",
+          "url": "https://flekstore.com/img-storage/apps/864/NotFM5.png"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/NotFM.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/NotFM.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {}
+    },
+    "VCUS": {
+      "catalogRecordFound": true,
+      "appID": 860,
+      "summary": {
+        "app_id": 860,
+        "app_icon": "https://flekstore.com/img-storage/apps/860/VCUS_icon.png",
+        "app_name": "VCUS",
+        "app_version": "2.0.222",
+        "app_short_description": "Vlog Templates, Slo-mo Effects.",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/VCUS.ipa"
+      },
+      "detail": {
+        "id": 860,
+        "icon": "https://flekstore.com/img-storage/apps/860/VCUS_icon.png",
+        "name": "VCUS",
+        "developer": "Dangerous Pixel",
+        "version": "2.0.222",
+        "install_url": "VCUS.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/860/VCUS1.jpg",
+          "https://flekstore.com/img-storage/apps/860/VCUS2.jpg",
+          "https://flekstore.com/img-storage/apps/860/VCUS3.jpg",
+          "https://flekstore.com/img-storage/apps/860/VCUS4.png"
+        ],
+        "warning": "",
+        "description": "&nbsp; &nbsp; VCUS is a stunning, easy-to-use editing application for Instagram Stories. We aim to provide our users with a creative, dynamic editing experience so you can create Stories for any type of business, with features that match the latest online styles and trends. Even if you are not a professional video editor, you can easily create captivating short videos with VCUS. More importantly, we created VCUS to be your key to achieving success with your business.<div><br><div></div><div></div><div class=\"\">&nbsp; &nbsp; In the newest version of VCUS, we have added many new features, such as dynamic Story templates, scheduled posts, highlight cover creation, and portrait beautification and makeup effects. We also upgraded the video editing experience and added text stickers, filters, transitions, and other features to make VCUS easier to use.\r</div><div class=\"\"><br></div><div class=\"\">• Animated Story Templates: More than 500 refined, professional video templates, perfect for restaurants, clothing stores, online services and many other commercial scenarios, to meet all your video needs.\r</div><div>• Slo-Mo Shooting: Cool slow-motion effects can give your videos a fresh, exciting look, and make it easier to create great videos and generate advertising ideas in seconds.\r</div><div>• A huge amount of music: We have added a ton of high-quality commercial use music for you to apply to your videos, with a large variety of music genres available.\r</div><div>• Scheduled Posts: VCUS can be your personal assistant, helping you easily schedule posts for the best marketing times to effectively increase the number of views for your Stories.\r</div><div>• Highlight Covers: We’ve included lots of exclusive, hand-drawn, matching cover designs for you to use, so you can always find suitable Highlight Covers for your Instagram Highlights.\r</div><div>• All-in-one video editing features: Segmenting, video speed, reverse, mirroring effects, and more rich video editing features to make your creative dreams come true.\r</div><div>• Portrait Beautification &amp; Makeup: Our fine skin retouching effects can make your skin look flawless, and our trendy virtual makeup, in a variety of styles, can help your beauty be highlighted in a more natural way.\r</div><div>• Text Animation &amp; Stickers: Interesting and creative sticker and text effects to help you add some fun and draw more attention to your Story.</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div><div>\r</div></div>",
+        "downloads": 381,
+        "size": 110326385,
+        "date": "2021-12-17T16:07:39.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS_icon.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/VCUS.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS_icon.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS1.jpg"
+        },
+        {
+          "field": "$.detail.photos[1]",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS2.jpg"
+        },
+        {
+          "field": "$.detail.photos[2]",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS3.jpg"
+        },
+        {
+          "field": "$.detail.photos[3]",
+          "url": "https://flekstore.com/img-storage/apps/860/VCUS4.png"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/VCUS.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/VCUS.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {}
+    },
+    "WDBFontOverwrite": {
+      "catalogRecordFound": true,
+      "appID": 1066,
+      "summary": {
+        "app_id": 1066,
+        "app_icon": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite_icon.png",
+        "app_name": "WDBFontOverwrite",
+        "app_version": "1.10.8",
+        "app_short_description": "Сhanging the font in the OS",
+        "app_isAdult": 0,
+        "install_url": "https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa"
+      },
+      "detail": {
+        "id": 1066,
+        "icon": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite_icon.png",
+        "name": "WDBFontOverwrite",
+        "developer": "IPA Library",
+        "version": "1.10.8",
+        "install_url": "WDBFontOverwrite.ipa",
+        "photos": [
+          "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite1.png",
+          "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite2.png",
+          "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite3.png"
+        ],
+        "warning": "Only for iOS 15.0 - 15.7.1 and 16.0 - 16.1.2",
+        "description": "Utility for changing the font in the OS.",
+        "downloads": 236,
+        "size": 5348316,
+        "date": "2023-03-05T12:52:14.000Z",
+        "isAdult": false,
+        "allowedWithoutLc": false
+      },
+      "exposedURLs": [
+        {
+          "field": "$.summary.app_icon",
+          "url": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite_icon.png"
+        },
+        {
+          "field": "$.summary.install_url",
+          "url": "https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa"
+        },
+        {
+          "field": "$.detail.icon",
+          "url": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite_icon.png"
+        },
+        {
+          "field": "$.detail.photos[0]",
+          "url": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite1.png"
+        },
+        {
+          "field": "$.detail.photos[1]",
+          "url": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite2.png"
+        },
+        {
+          "field": "$.detail.photos[2]",
+          "url": "https://flekstore.com/img-storage/apps/1066/WDBFontOverwrite3.png"
+        }
+      ],
+      "ipaProbes": {
+        "https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa": {
+          "status": 404,
+          "finalURL": "https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa",
+          "contentLength": null,
+          "contentType": "text/plain;charset=UTF-8"
+        }
+      },
+      "relatedObjectProbes": {}
+    }
+  }
+}
