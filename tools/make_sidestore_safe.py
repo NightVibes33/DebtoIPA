@@ -17,9 +17,6 @@ def safe_version(value):
 
 
 def safe_date(value):
-    # SideStore's docs explicitly recommend YYYY-MM-DD. FlekSt0re returns
-    # fractional-second timestamps, which are schema-valid strings but can be
-    # parser-hostile in older SideStore builds.
     s = str(value or "")
     m = re.search(r"\b(\d{4}-\d{2}-\d{2})\b", s)
     return m.group(1) if m else "2026-01-01"
@@ -37,19 +34,14 @@ def safe_size(value):
         n = int(float(value or 0))
     except Exception:
         n = 0
-    # Compatibility clamp for SideStore's persistence/model path. Some
-    # FlekSt0re IPAs are >2 GiB; keep metadata inside signed Int32 range.
     return min(max(0, n), INT32_MAX)
 
 
-def make_source(apps, name, identifier, source_url):
-    return {
-        "name": name,
-        "identifier": identifier,
-        "sourceURL": source_url,
-        "apps": apps,
-        "news": [],
-    }
+def make_source(apps, name, identifier, source_url=None):
+    out = {"name": name, "identifier": identifier, "apps": apps}
+    if source_url:
+        out["sourceURL"] = source_url
+    return out
 
 
 def main():
@@ -93,9 +85,6 @@ def main():
             "size": size,
         }
 
-        # Keep both AltSource v2 and SideStore's legacy top-level fields. Older
-        # SideStore releases have had compatibility bugs when only one form is
-        # present.
         apps.append({
             "name": name,
             "bundleIdentifier": bundle,
@@ -121,26 +110,63 @@ def main():
         "com.nightvibes33.flekstorelib.sidestore.v7",
         OUT_URL,
     )
+    full["news"] = []
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(full, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
 
-    # Tiny feeds isolate SideStore runtime crashes from catalog-content/size
-    # problems without modifying the full mirror.
+    # Full catalog, deliberately minimal. This keeps all apps while removing
+    # almost all optional strings/legacy metadata that SideStore would persist.
+    lean_apps = []
+    for a in apps:
+        v = a["versions"][0]
+        lean_apps.append({
+            "name": a["name"],
+            "bundleIdentifier": a["bundleIdentifier"],
+            "developerName": a["developerName"],
+            "localizedDescription": "FlekSt0re catalog app",
+            "iconURL": a["iconURL"],
+            # Retain top-level downloadURL for older SideStore compatibility.
+            "downloadURL": a["downloadURL"],
+            "versions": [{
+                "version": v["version"],
+                "date": v["date"],
+                "downloadURL": v["downloadURL"],
+                "size": v["size"],
+            }],
+        })
+    lean_path = "sidestore-lean.json"
+    lean_url = f"https://raw.githubusercontent.com/NightVibes33/DebtoIPA/flekstore-alt-source/{lean_path}"
+    lean = make_source(
+        lean_apps,
+        "FlekSt0re Lib Mirror (SideStore Lean)",
+        "com.nightvibes33.flekstorelib.sidestore.lean.v8",
+        lean_url,
+    )
+    with open(lean_path, "w", encoding="utf-8") as f:
+        json.dump(lean, f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+
     for count in (1, 25, 100):
         path = f"sidestore-smoke-{count}.json"
         url = f"https://raw.githubusercontent.com/NightVibes33/DebtoIPA/flekstore-alt-source/{path}"
         smoke = make_source(
-            apps[:count],
+            lean_apps[:count],
             f"FlekSt0re SideStore Smoke {count}",
-            f"com.nightvibes33.flekstorelib.smoke.{count}.v7",
+            f"com.nightvibes33.flekstorelib.smoke.{count}.v8",
             url,
         )
         with open(path, "w", encoding="utf-8") as f:
             json.dump(smoke, f, ensure_ascii=False, separators=(",", ":"))
             f.write("\n")
 
-    print("WROTE", OUT, "APPS", len(apps), "UNIQUE_IDS", len(set(ids)), "INT32_SIZE_CLAMP", INT32_MAX)
+    print(
+        "WROTE", OUT,
+        "APPS", len(apps),
+        "LEAN_APPS", len(lean_apps),
+        "UNIQUE_IDS", len(set(ids)),
+        "INT32_SIZE_CLAMP", INT32_MAX,
+    )
 
 
 if __name__ == "__main__":
