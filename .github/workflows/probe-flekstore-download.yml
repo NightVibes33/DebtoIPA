@@ -10,28 +10,32 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe direct IPA responses
+      - name: Trace FlekSt0re download resolver
         run: |
           python - <<'PY'
-          import requests
-          urls=[
-            'https://flekstore.com/flekdeck2.ipa',
-            'https://flekstore.com/NotBoring.ipa',
-            'https://flekstore.com/fresco.ipa',
-          ]
-          uas=[
-            ('plain',{}),
-            ('ios',{'User-Agent':'SideStore/0.6 CFNetwork Darwin'}),
-            ('browser',{'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1','Referer':'https://flekstore.com/pro_app/'}),
-          ]
-          for url in urls:
-            print('\nURL',url)
-            for name,h in uas:
-              try:
-                r=requests.get(url,headers={**h,'Range':'bytes=0-63'},allow_redirects=True,timeout=30)
-                print(name,'status',r.status_code,'final',r.url)
-                print('type',r.headers.get('content-type'),'len',r.headers.get('content-length'),'disp',r.headers.get('content-disposition'),'range',r.headers.get('content-range'))
-                print('magic',r.content[:32])
-              except Exception as e:
-                print(name,'ERR',repr(e))
+          import requests,re,urllib.parse
+          s=requests.Session()
+          h={'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 Version/27.0 Mobile/15E148 Safari/604.1','Referer':'https://flekstore.com/pro_app/'}
+          r=s.get('https://flekstore.com/pro_app/',headers=h,timeout=30)
+          print('HTML',r.status_code,r.url,r.headers.get('content-type'),len(r.text))
+          scripts=re.findall(r'<script[^>]+src=["\']([^"\']+)',r.text,re.I)
+          print('SCRIPTS',scripts)
+          for src in scripts:
+            u=urllib.parse.urljoin(r.url,src)
+            try:
+              j=s.get(u,headers=h,timeout=30)
+              text=j.text
+              print('\nSCRIPT',u,'status',j.status_code,'bytes',len(text))
+              for pat in ['install_url','getApp','downloadURL','download_url','\.ipa','/rest/','storage','cdn','LiveContainer','import']:
+                hits=[m.start() for m in re.finditer(pat,text,re.I)]
+                if hits:
+                  print('PATTERN',pat,'HITS',len(hits))
+                  for pos in hits[:12]:
+                    print(text[max(0,pos-350):min(len(text),pos+700)].replace('\n',' ')[:1100])
+            except Exception as e:
+              print('SCRIPT_ERR',u,repr(e))
+          # Also inspect the HTML around any install/download refs
+          for pat in ['install_url','download','\.ipa','rest/']:
+            for m in list(re.finditer(pat,r.text,re.I))[:10]:
+              p=m.start(); print('HTMLPAT',pat,r.text[max(0,p-300):p+600].replace('\n',' '))
           PY
