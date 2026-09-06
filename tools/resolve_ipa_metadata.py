@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
+import io
 import json
 import os
 import plistlib
 import re
+import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from urllib.parse import urlparse
 
+import requests
 from remotezip import RemoteZip
 
 SOURCE = os.environ.get("SOURCE", "source.json")
 CACHE = os.environ.get("CACHE", "ipa-metadata-cache.json")
 WORKERS = int(os.environ.get("WORKERS", "16"))
+MAX_GITHUB_FALLBACK = int(os.environ.get("MAX_GITHUB_FALLBACK", str(150 * 1024 * 1024)))
 
 
 def load_cache():
@@ -25,7 +30,6 @@ def _main_info_plist(names):
     """Find the main .app Info.plist even in oddly wrapped/repacked IPAs."""
     normalized = [(n, n.replace("\\", "/")) for n in names]
 
-    # Normal IPA, or an IPA wrapped in one or more leading directories.
     preferred = [
         (original, norm)
         for original, norm in normalized
@@ -35,8 +39,6 @@ def _main_info_plist(names):
         preferred.sort(key=lambda item: (item[1].count("/"), len(item[1]), item[1].casefold()))
         return preferred[0][0]
 
-    # Some repacks omit Payload entirely. Accept only a direct .app Info.plist,
-    # never extension/watch/app-clip/framework plists.
     excluded = ("/plugins/", "/watch/", "/appclips/", "/frameworks/", "/extensions/")
     fallback = []
     for original, norm in normalized:
@@ -53,12 +55,7 @@ def _main_info_plist(names):
     raise RuntimeError("main .app/Info.plist not found in IPA central directory")
 
 
-def extract(url):
-    # RemoteZip reads only ZIP directory + requested Info.plist ranges, rather
-    # than downloading the entire IPA.
-    with RemoteZip(url) as z:
-        plist_path = _main_info_plist(z.namelist())
-        raw = z.read(plist_path)
+def _parse_plist(raw, plist_path, method):
     p = plistlib.loads(raw)
     bundle = str(p.get("CFBundleIdentifier") or "").strip()
     if not bundle:
@@ -69,7 +66,50 @@ def extract(url):
         "buildVersion": str(p.get("CFBundleVersion") or "").strip(),
         "minOSVersion": str(p.get("MinimumOSVersion") or "").strip(),
         "infoPlistPath": plist_path,
+        "verificationMethod": method,
     }
+
+
+def _github_full_download(url):
+    # GitHub release-assets currently reject RemoteZip's range pattern. For
+    # known public GitHub release URLs, download the IPA once and inspect it
+    # locally. Keep this bounded so an accidental giant asset cannot consume a runner.
+    with requests.get(url, timeout=180, stream=True, allow_redirects=True) as r:
+        r.raise_for_status()
+        header = r.headers.get("Content-Length")
+        if header and int(header) > MAX_GITHUB_FALLBACK:
+            raise RuntimeError(f"GitHub IPA exceeds fallback limit: {header} bytes")
+        buf = io.BytesIO()
+        total = 0
+        for chunk in r.iter_content(chunk_size=1024 * 1024):
+            if not chunk:
+                continue
+            total += len(chunk)
+            if total > MAX_GITHUB_FALLBACK:
+                raise RuntimeError(f"GitHub IPA exceeds fallback limit: >{MAX_GITHUB_FALLBACK} bytes")
+            buf.write(chunk)
+    buf.seek(0)
+    with zipfile.ZipFile(buf) as z:
+        plist_path = _main_info_plist(z.namelist())
+        raw = z.read(plist_path)
+    return _parse_plist(raw, plist_path, "full-download")
+
+
+def extract(url):
+    try:
+        # Normal path: only fetch ZIP directory + Info.plist byte ranges.
+        with RemoteZip(url) as z:
+            plist_path = _main_info_plist(z.namelist())
+            raw = z.read(plist_path)
+        return _parse_plist(raw, plist_path, "remote-range")
+    except Exception as range_exc:
+        host = urlparse(url).netloc.lower()
+        if host not in {"github.com", "www.github.com"}:
+            raise range_exc
+        try:
+            return _github_full_download(url)
+        except Exception as full_exc:
+            raise RuntimeError(f"range failed ({range_exc}); full GitHub fallback failed ({full_exc})") from full_exc
 
 
 def main():
@@ -99,6 +139,7 @@ def main():
                 try:
                     cache[url] = fut.result()
                     resolved += 1
+                    print(f"VERIFIED metadata {name}: {cache[url]['bundleIdentifier']} via {cache[url].get('verificationMethod')}", flush=True)
                 except Exception as exc:
                     cache[url] = {"error": str(exc)}
                     failed += 1
@@ -106,7 +147,6 @@ def main():
                 if (resolved + failed) % 25 == 0:
                     print(f"Resolved {resolved + failed}/{len(pending)} (ok={resolved}, bad={failed})", flush=True)
 
-    # Apply verified metadata to the full LiveContainer-oriented source itself.
     updated = 0
     for app in apps:
         url = app.get("downloadURL")
