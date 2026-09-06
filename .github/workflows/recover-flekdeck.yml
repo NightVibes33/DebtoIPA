@@ -17,10 +17,10 @@ jobs:
       - name: Checkout official FlekDeck source
         run: git clone --recursive https://github.com/flekstore/FlekDeck.git FlekDeck
 
-      - name: Select Xcode 16.4
+      - name: Select Xcode 26.6
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.4'
+          xcode-version: '26.6'
 
       - name: Build unsigned FlekDeck
         working-directory: FlekDeck
