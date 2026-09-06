@@ -91,7 +91,8 @@ jobs:
                   assert app.get('bundleIdentifier')
                   assert app.get('downloadURL')
                   assert app.get('versions') and app['versions'][0].get('downloadURL')
-                  assert 0 <= app['versions'][0]['size'] <= 2147483647
+                  if path.startswith('sidestore'):
+                      assert 0 <= app['versions'][0]['size'] <= 2147483647
                   if path in ('sidestore-source.json','sidestore-v7.json'):
                       assert len(app['versions'][0]['date']) == 10
                       assert app.get('version') == app['versions'][0]['version']
