@@ -1,0 +1,3201 @@
+{
+  "https://s3-storage.flekstore.com/ipa-library/8BallPool.ipa": {
+    "buildVersion": "5313",
+    "bundleIdentifier": "com.miniclip.8ballpoolmult",
+    "infoPlistPath": "Payload/pool.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "56.28.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AICalorieTracker.ipa": {
+    "buildVersion": "2607240146",
+    "bundleIdentifier": "com.yazio.ios.YAZIO",
+    "infoPlistPath": "Payload/YAZIO.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "26.30.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AIChatbot.ipa": {
+    "buildVersion": "1071",
+    "bundleIdentifier": "com.aichatbot.assistant",
+    "infoPlistPath": "Payload/chachachat.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.31"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AIDA.ipa": {
+    "buildVersion": "908",
+    "bundleIdentifier": "com.finalwire.aida64",
+    "infoPlistPath": "Payload/AIDA64_c3.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.61"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AIMarvels.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.hitpaw.photoenhancer",
+    "infoPlistPath": "Payload/PhotoEnhancer.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.94.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AdVenture.ipa": {
+    "buildVersion": "9.19.0.2877",
+    "bundleIdentifier": "com.kongregate.mobile.adventurecapitalist",
+    "infoPlistPath": "Payload/AdCap.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "9.19.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Afterlight.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Agar_io.ipa": {
+    "buildVersion": "886",
+    "bundleIdentifier": "com.miniclip.agar.io",
+    "infoPlistPath": "Payload/agar.io.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "26.6.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Airt.ipa": {
+    "buildVersion": "38",
+    "bundleIdentifier": "co.appnation.artgenerator",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AlohaVPN.ipa": {
+    "buildVersion": "7",
+    "bundleIdentifier": "com.alohabrowser.alohabrowser",
+    "infoPlistPath": "Payload/AlohaBrowserApp.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "8.7.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AltMarket.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.altmarketapp.app",
+    "infoPlistPath": "Payload/AltMarket.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Altos.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AmongUs.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.innersloth.amongus",
+    "infoPlistPath": "Payload/AmongUs.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2024.11.26"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AngryBirdsReloaded.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AppCommander.ipa": {
+    "buildVersion": "Release",
+    "bundleIdentifier": "ca.bomberfish.AppCommander",
+    "infoPlistPath": "Payload/AppCommander.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Appabetical.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/AppsManager.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.tigisoftware.ADManager",
+    "infoPlistPath": "Payload/ADManager.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ArcherHunter.ipa": {
+    "buildVersion": "5537",
+    "bundleIdentifier": "co.imba.archero",
+    "infoPlistPath": "Payload/ArcherHunter.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.48.5537"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ArkRecode.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.nerversoft.ark.recode",
+    "infoPlistPath": "Payload/ArkReCode.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "2.0.0.107528"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Awaria.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.gleports.Awaria",
+    "infoPlistPath": "Payload/Awaria.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BASEBALL9.ipa": {
+    "buildVersion": "542",
+    "bundleIdentifier": "us.kr.baseballnine",
+    "infoPlistPath": "Payload/Baseball9.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "3.9.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BHInsta.ipa": {
+    "buildVersion": "876143997",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "16.3",
+    "version": "415.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BOOM.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BabaIsYou.ipa": {
+    "buildVersion": "206.0",
+    "bundleIdentifier": "com.hempuli.baba",
+    "infoPlistPath": "Payload/Chowdren.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "206.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BadlandParty.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BalanceMeditation.ipa": {
+    "buildVersion": "2332",
+    "bundleIdentifier": "com.elevateapp.kamino.kamino",
+    "infoPlistPath": "Payload/kamino.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.210.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Balatro.ipa": {
+    "buildVersion": "92",
+    "bundleIdentifier": "com.playstack.balatroarcade",
+    "infoPlistPath": "Payload/Balatro.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Bazaart1.ipa": {
+    "buildVersion": "1338",
+    "bundleIdentifier": "co.bazaart.app",
+    "infoPlistPath": "Payload/bazaart.app/Info.plist",
+    "minOSVersion": "16",
+    "version": "26.3.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Bearable.ipa": {
+    "buildVersion": "3733",
+    "bundleIdentifier": "co.codeleap.bearable",
+    "infoPlistPath": "Payload/Bearable.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "1.0.589"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Beatstar.ipa": {
+    "buildVersion": "36.1.0.9403",
+    "bundleIdentifier": "com.spaceapegames.beatstar",
+    "infoPlistPath": "Payload/Beatstar.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "36.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Blacklist.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BlizzardBoardKFD.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.AppInstalleriOS.BlizzardBoard-KFD",
+    "infoPlistPath": "Payload/BlizzardBoard KFD.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BloonsTD6.ipa": {
+    "buildVersion": "11937",
+    "bundleIdentifier": "com.ninjakiwi.bloonstd6",
+    "infoPlistPath": "Payload/BloonsTD6.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "56.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BridgeConstr.ipa": {
+    "buildVersion": "656",
+    "bundleIdentifier": "com.headupgames.bridgeconstructor-arcade",
+    "infoPlistPath": "Payload/BridgeConstr.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "13.0.656"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/BuddyBudget.ipa": {
+    "buildVersion": "2102",
+    "bundleIdentifier": "com.iPwners.Plonkan",
+    "infoPlistPath": "Payload/Buddy.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "13.43"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CCEnabler.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CPUZ1.ipa": {
+    "buildVersion": "141",
+    "bundleIdentifier": "com.benchu.ARMCPUZ",
+    "infoPlistPath": "Payload/ARMCPUZ.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.7.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CSR2.ipa": {
+    "buildVersion": "6.7.0.564459",
+    "bundleIdentifier": "com.naturalmotion.customstreetracer2",
+    "infoPlistPath": "Payload/customstreetracer2.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "6.7.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CalendarPlanner.ipa": {
+    "buildVersion": "21060501",
+    "bundleIdentifier": "com.podfactor.pod",
+    "infoPlistPath": "Payload/My Calendar.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.106.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Calm.ipa": {
+    "buildVersion": "33960",
+    "bundleIdentifier": "com.calm.calmapp",
+    "infoPlistPath": "Payload/Calm.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "6.84"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Captions.ipa": {
+    "buildVersion": "577",
+    "bundleIdentifier": "boomer.Smart-Video",
+    "infoPlistPath": "Payload/Captions.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "13.20.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CarParking1.ipa": {
+    "buildVersion": "132",
+    "bundleIdentifier": "com.aidana.cardriving.ios",
+    "infoPlistPath": "Payload/CarParking.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "4.9.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CarrotWeather.ipa": {
+    "buildVersion": "6.8.0",
+    "bundleIdentifier": "com.grailr.CARROTweather",
+    "infoPlistPath": "Payload/CARROTweather.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "6.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ChatX.ipa": {
+    "buildVersion": "139",
+    "bundleIdentifier": "com.app.ChatGPTX",
+    "infoPlistPath": "Payload/ChatX.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "200"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ChickenButt14.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.leminlimez.Chicken-Butt",
+    "infoPlistPath": "Payload/Chicken Butt.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ChickenButtAll.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.leminlimez.Chicken-Butt",
+    "infoPlistPath": "Payload/Chicken Butt.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ClarityMental.ipa": {
+    "buildVersion": "254",
+    "bundleIdentifier": "com.moodtools.thoughtdiary",
+    "infoPlistPath": "Payload/thoughtdiary.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "5.5.25"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Classicplayer.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CleanMyPhone.ipa": {
+    "buildVersion": "14597",
+    "bundleIdentifier": "com.macpaw.iosgemini",
+    "infoPlistPath": "Payload/CMMM.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "2.13.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CleanUpPhone.ipa": {
+    "buildVersion": "862",
+    "bundleIdentifier": "com.codeway.cleanerplus",
+    "infoPlistPath": "Payload/Clean-Gallery.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "6.12.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CloverPit.ipa": {
+    "buildVersion": "10",
+    "bundleIdentifier": "com.PanikArcade.CloverPit",
+    "infoPlistPath": "Payload/CloverPit.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.3.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CollaNote.ipa": {
+    "buildVersion": "6",
+    "bundleIdentifier": "net.quochuywdm.collanote496",
+    "infoPlistPath": "Payload/CollaNote.app/Info.plist",
+    "minOSVersion": "17.6",
+    "version": "4.0.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ColoringBook.ipa": {
+    "buildVersion": "3107",
+    "bundleIdentifier": "com.impalastudios.drawingcoloringbook",
+    "infoPlistPath": "Payload/Coloringbook.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "1.5.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ColoringBookPigment.ipa": {
+    "buildVersion": "633",
+    "bundleIdentifier": "com.pixite.pigment",
+    "infoPlistPath": "Payload/Pigment.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "3.10"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/CommentReply.ipa": {
+    "buildVersion": "32",
+    "bundleIdentifier": "comments.social.reply",
+    "infoPlistPath": "Payload/CommentReply.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.1.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Cowabunga.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.leemin.Cowabunga",
+    "infoPlistPath": "Payload/Cowabunga.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "10.3.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Cuphead2.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.GLESign.Cuphead",
+    "infoPlistPath": "Payload/Cuphead.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DOOM.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DOOM2.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DREDGE.ipa": {
+    "buildVersion": "755",
+    "bundleIdentifier": "com.blacksaltgames.dredge",
+    "infoPlistPath": "Payload/DREDGE.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.5.16"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DSManagerPro.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Dazz.ipa": {
+    "buildVersion": "17",
+    "bundleIdentifier": "dazz.camera.vintagecamera",
+    "infoPlistPath": "Payload/DazzCamera.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "2.17.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DeadCells.ipa": {
+    "buildVersion": "18",
+    "bundleIdentifier": "com.playdigious.deadcells.applearcade",
+    "infoPlistPath": "Payload/DeadCellsAppleArcade.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "3.3.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Dehancer.ipa": {
+    "buildVersion": "814",
+    "bundleIdentifier": "com.dehancer.film.ios-app",
+    "infoPlistPath": "Payload/DehancerLiquidGlass.app/Info.plist",
+    "minOSVersion": "16.1.1",
+    "version": "6.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DemonSlayer.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.301.zddsen",
+    "infoPlistPath": "Payload/lianghan.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DeusExGo.ipa": {
+    "buildVersion": "41",
+    "bundleIdentifier": "com.squareenixmontreal.deusexgo",
+    "infoPlistPath": "Payload/DeusExGO.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "2.3.21"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DiceyDungeons.ipa": {
+    "buildVersion": "4085",
+    "bundleIdentifier": "com.terrycavanaghgames.diceydungeonsarcade",
+    "infoPlistPath": "Payload/diceydungeons.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.1.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DirtyJIT.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DisneySolitaire.ipa": {
+    "buildVersion": "1309",
+    "bundleIdentifier": "com.superplaystudios.disneysolitairedreams",
+    "infoPlistPath": "Payload/DisneySolitaire.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.5.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DockTransparent.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DocumentsFileManager.ipa": {
+    "buildVersion": "8.19.5.1428",
+    "bundleIdentifier": "com.readdle.ReaddleDocsIPad",
+    "infoPlistPath": "Payload/Documents.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "8.19.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DollyZoom.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Dopamine.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.opa334.Dopamine",
+    "infoPlistPath": "Payload/Dopamine.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.4.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DragonsRise.ipa": {
+    "buildVersion": "1.112.8",
+    "bundleIdentifier": "com.ludia.dragons",
+    "infoPlistPath": "Payload/Dragons-prod-remote-nocheat.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.112.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DreamReader.ipa": {
+    "buildVersion": "12",
+    "bundleIdentifier": "us.appnation.dreamapp",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DuetDisplay.ipa": {
+    "buildVersion": "3.1.7",
+    "bundleIdentifier": "com.kairos.duet",
+    "infoPlistPath": "Payload/duet.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "3.1.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Dune.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "io.voodoo.dune",
+    "infoPlistPath": "Payload/Dune.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "5.5.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DungeonCrawler.ipa": {
+    "buildVersion": "88",
+    "bundleIdentifier": "com.strayfawnstudio.dungeonclawlermobile",
+    "infoPlistPath": "Payload/DungeonClawler.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/DynamicCow.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EarnToDieRougue.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.notdoppler.earntodierogue",
+    "infoPlistPath": "Payload/EarntoDieRogue.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.23.234"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EeveeSpotify.ipa": {
+    "buildVersion": "910001151",
+    "bundleIdentifier": "com.spotify.client",
+    "infoPlistPath": "Payload/Spotify.app/Info.plist",
+    "minOSVersion": "16.1",
+    "version": "9.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EeveeSpotifyRevived.ipa": {
+    "buildVersion": "912802258",
+    "bundleIdentifier": "com.spotify.client",
+    "infoPlistPath": "Payload/Spotify.app/Info.plist",
+    "minOSVersion": "16.1",
+    "version": "9.1.28"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Electronics.ipa": {
+    "buildVersion": "9",
+    "bundleIdentifier": "com.daveyhollenberg.Electronics-Toolkit",
+    "infoPlistPath": "Payload/Electronics Toolkit.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ElevateBrain.ipa": {
+    "buildVersion": "4548",
+    "bundleIdentifier": "com.elevateapp.elevate",
+    "infoPlistPath": "Payload/Elevate.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "5.237.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Endel.ipa": {
+    "buildVersion": "1000003930",
+    "bundleIdentifier": "com.endel.endel",
+    "infoPlistPath": "Payload/Endel.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "4.49.27"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EnhanceFox2.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Enki.ipa": {
+    "buildVersion": "781",
+    "bundleIdentifier": "PHCXZHD53T.com.enki.insights",
+    "infoPlistPath": "Payload/Enki.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "2.40.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EnterGungeon.ipa": {
+    "buildVersion": "1052",
+    "bundleIdentifier": "com.devolverdigital.enterthegungeon",
+    "infoPlistPath": "Payload/EnterTheGungeon.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.0.527"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/EpikAI.ipa": {
+    "buildVersion": "7.3.0.4",
+    "bundleIdentifier": "com.snowcorp.epik",
+    "infoPlistPath": "Payload/EPIK.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "7.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FM20.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FNAF.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.scottgames.fivenights",
+    "infoPlistPath": "Payload/Five_Nights_at_Freddys.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.0.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FNAFultimate.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.clickteam.ultimatecustomnight",
+    "infoPlistPath": "Payload/FNaF_7_Ultimate_Custom_Night.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FaceLab.ipa": {
+    "buildVersion": "295",
+    "bundleIdentifier": "com.photo.beautytuneapp",
+    "infoPlistPath": "Payload/BeautyTune.app/Info.plist",
+    "minOSVersion": "18",
+    "version": "2.90"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Facetune.ipa": {
+    "buildVersion": "9858",
+    "bundleIdentifier": "com.lightricks.Facetune2",
+    "infoPlistPath": "Payload/Facetune.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "26.23"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FakeSocialPost.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.woopss.faker5",
+    "infoPlistPath": "Payload/Faker5.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FakerCalls.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.woopss.faker3",
+    "infoPlistPath": "Payload/Faker3.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FakerMessages.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.woopss.faker2",
+    "infoPlistPath": "Payload/Faker2.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FileConverter.ipa": {
+    "buildVersion": "2064",
+    "bundleIdentifier": "com.icecoldapps.fileconverter",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "12.1.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FileSwitcherPro.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Filmr.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FinalFantasy.ipa": {
+    "buildVersion": "1.1.5",
+    "bundleIdentifier": "com.square-enix.FinalFantasy",
+    "infoPlistPath": "Payload/ff1_dev.app/Info.plist",
+    "minOSVersion": "7.0",
+    "version": "1.1.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FindAir.ipa": {
+    "buildVersion": "2026.2.2.1006",
+    "bundleIdentifier": "co.airapps.finderbot",
+    "infoPlistPath": "Payload/Findbot.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "2026.2.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FindMyAirPods.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FintessAIGYM.ipa": {
+    "buildVersion": "369",
+    "bundleIdentifier": "com.jakemor.firness-ai",
+    "infoPlistPath": "Payload/FitnessAI.app/Info.plist",
+    "minOSVersion": "16.4",
+    "version": "17.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Fishdom.ipa": {
+    "buildVersion": "3529700",
+    "bundleIdentifier": "com.playrix.fishdom-freeplay",
+    "infoPlistPath": "Payload/Fishdom.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "10.0.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Fitia.ipa": {
+    "buildVersion": "1081",
+    "bundleIdentifier": "com.ulisesolave.Fitia",
+    "infoPlistPath": "Payload/Fitia.app/Info.plist",
+    "minOSVersion": "16",
+    "version": "24.2.18"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FitnessB.ipa": {
+    "buildVersion": "1.9.27",
+    "bundleIdentifier": "com.vgfit.fitnessvip",
+    "infoPlistPath": "Payload/FitnessBodybuildingVGFIT.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.9.27"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FitnessPoint.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.mosesyan.ilya.fitnesspointpro",
+    "infoPlistPath": "Payload/Fitness Point Pro.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "7.6.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Flacbox.ipa": {
+    "buildVersion": "7.2.66",
+    "bundleIdentifier": "com.leshko.flap",
+    "infoPlistPath": "Payload/Flacbox.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "7.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/FlightTracker.ipa": {
+    "buildVersion": "17775",
+    "bundleIdentifier": "com.iaftt.flightplusfree",
+    "infoPlistPath": "Payload/Flight Tracker.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "8.7.19"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Flightradar.ipa": {
+    "buildVersion": "202608300513",
+    "bundleIdentifier": "se.resenatverket.FlightRadar24-Free",
+    "infoPlistPath": "Payload/FlightradarFree.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "11.10.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Flixhub.ipa": {
+    "buildVersion": "8",
+    "bundleIdentifier": "com.flixhub.co",
+    "infoPlistPath": "Payload/Flixhub.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Flower.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Focos.ipa": {
+    "buildVersion": "6317",
+    "bundleIdentifier": "com.focos",
+    "infoPlistPath": "Payload/Focos.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "2.11.37"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Fortnite.ipa": {
+    "buildVersion": "57316517.3.4",
+    "bundleIdentifier": "com.epicgames.FortniteGame",
+    "infoPlistPath": "Payload/FortniteClient-IOS-Shipping.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "42.00.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Frontiers.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GameDevTycoon.ipa": {
+    "buildVersion": "162",
+    "bundleIdentifier": "com.greenheartgames.gdtmobile",
+    "infoPlistPath": "Payload/GameDevTycoon.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.6.12"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Gardenscapes.ipa": {
+    "buildVersion": "9.8.5",
+    "bundleIdentifier": "com.playrix.gardenscapes-m3-ios",
+    "infoPlistPath": "Payload/g.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "9.8.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GettingOverIt.ipa": {
+    "buildVersion": "6",
+    "bundleIdentifier": "net.Foddy.GettingOverIt",
+    "infoPlistPath": "Payload/GettingOverIt.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GloryAges.ipa": {
+    "buildVersion": "12",
+    "bundleIdentifier": "com.notriplea.gloryagesvikings",
+    "infoPlistPath": "Payload/GloryAges-Vikings.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "0.1.054"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GlowUp.ipa": {
+    "buildVersion": "4.2.1.1",
+    "bundleIdentifier": "com.snowcorp.glowup",
+    "infoPlistPath": "Payload/GlowUp.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "4.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GoCut.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Goodnight.ipa": {
+    "buildVersion": "1.1",
+    "bundleIdentifier": "com.flekstore.Goodnight",
+    "infoPlistPath": "Payload/GoodNight.app/Info.plist",
+    "minOSVersion": "7.0",
+    "version": "1.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Gradient.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/GraveyardKeeper.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.tinybuildgames.graveyardkeeper",
+    "infoPlistPath": "Payload/graveyardkeeper.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.129"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HYPERSPEKTIV.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HabitKit.ipa": {
+    "buildVersion": "188",
+    "bundleIdentifier": "com.roehl.habitkit",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.17.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/HaloSpartan.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HarryPotter.ipa": {
+    "buildVersion": "6.4.3",
+    "bundleIdentifier": "com.tinyco.potter",
+    "infoPlistPath": "Payload/potter.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "6.4.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HeadsUp.ipa": {
+    "buildVersion": "3146",
+    "bundleIdentifier": "com.wb.Ellen.HeadsUp",
+    "infoPlistPath": "Payload/Heads Up!.app/Info.plist",
+    "minOSVersion": "11.4",
+    "version": "5.1.27"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Heritcoin.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.heritcoin.coinScan",
+    "infoPlistPath": "Payload/QianBiScan.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "3.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HeroesAndCastles.ipa": {
+    "buildVersion": "6",
+    "bundleIdentifier": "com.foursakenmedia.heroesandcastles2",
+    "infoPlistPath": "Payload/heroesandcastles2.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "1.4.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HevyWorkout.ipa": {
+    "buildVersion": "3233073",
+    "bundleIdentifier": "com.hevyapp.hevy",
+    "infoPlistPath": "Payload/Hevy.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "3.1.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Hitman.ipa": {
+    "buildVersion": "374734.68547.33101",
+    "bundleIdentifier": "store.ipa.hitmanbloodmoney-ios",
+    "infoPlistPath": "Payload/ipastore.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Homescapes.ipa": {
+    "buildVersion": "10100219",
+    "bundleIdentifier": "com.playrix.gardenscapes-sweethome",
+    "infoPlistPath": "Payload/h.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "9.1.100"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Homeworkouts.ipa": {
+    "buildVersion": "274",
+    "bundleIdentifier": "com.abishkking.maleworkout",
+    "infoPlistPath": "Payload/homeworkout.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.49.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HotPot.ipa": {
+    "buildVersion": "5",
+    "bundleIdentifier": "com.lxqd.hotpotiver",
+    "infoPlistPath": "Payload/HotPot.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "5.3.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HotWheels.ipa": {
+    "buildVersion": "3572.9846",
+    "bundleIdentifier": "com.budgestudios.HotWheelsUnlimited",
+    "infoPlistPath": "Payload/HotWheelsUnlimited.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2025.3.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HotlineMiami.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.gleports.hotlinemiami",
+    "infoPlistPath": "Payload/HotlineMiami1.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "0.6.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HouseFlipper.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.imaginalis.HouseFlipperMobile",
+    "infoPlistPath": "Payload/HouseFlipper.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.690"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HumanFallFlat.ipa": {
+    "buildVersion": "316",
+    "bundleIdentifier": "com.505games.humanfallflat",
+    "infoPlistPath": "Payload/HumanFallFlat.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/HungryShark.ipa": {
+    "buildVersion": "14.3.0",
+    "bundleIdentifier": "com.fgol.HungrySharkEvolution",
+    "infoPlistPath": "Payload/HungryShark.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "14.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ImagineArt.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.vyro.Imagine",
+    "infoPlistPath": "Payload/ImagineArt.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "3.0.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/InKiller.ipa": {
+    "buildVersion": "826175880",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "407.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/InShot.ipa": {
+    "buildVersion": "166",
+    "bundleIdentifier": "com.camerasideas.InstaShot",
+    "infoPlistPath": "Payload/InstaShot.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.98.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/InfinityBladeOne.ipa": {
+    "buildVersion": "7982.136",
+    "bundleIdentifier": "com.chairentertainment.birthright",
+    "infoPlistPath": "Payload/SwordGame.app/Info.plist",
+    "minOSVersion": "6.0",
+    "version": "1.4.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Injustice21.ipa": {
+    "buildVersion": "1438123",
+    "bundleIdentifier": "com.wb.Injustice.Brawler2017",
+    "infoPlistPath": "Payload/Injustice2Mobile.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "6.7.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Instasize.ipa": {
+    "buildVersion": "7.0.310",
+    "bundleIdentifier": "InstaSize",
+    "infoPlistPath": "Payload/Instasize.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "7.0.310"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Instories.ipa": {
+    "buildVersion": "1470",
+    "bundleIdentifier": "ylee.studio.instories",
+    "infoPlistPath": "Payload/Instories.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "5.30.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/IsaacRebirth.ipa": {
+    "buildVersion": "9",
+    "bundleIdentifier": "com.Nicalis.Isaac-iOS",
+    "infoPlistPath": "Payload/The_Binding_of_Isaac_Rebirth.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/JurassicWorld.ipa": {
+    "buildVersion": "1.92.14",
+    "bundleIdentifier": "com.ludia.jurassicworld",
+    "infoPlistPath": "Payload/JurassicWorld-prod-remote-nocheat.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.92.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/KFD-KYSOTA.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "org.haxi0.KYSOTA",
+    "infoPlistPath": "Payload/KYSOTA.app/Info.plist",
+    "minOSVersion": "16.2",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/KapiCam.ipa": {
+    "buildVersion": "671",
+    "bundleIdentifier": "com.future.kapi",
+    "infoPlistPath": "Payload/kapi-inter.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.38.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/KillMyOTA.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Kodi.ipa": {
+    "buildVersion": "20251031-a3a448d26b",
+    "bundleIdentifier": "org.xbmc.kodi-ios",
+    "infoPlistPath": "Payload/Kodi.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "21.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LEGODC.ipa": {
+    "buildVersion": "1.9.8",
+    "bundleIdentifier": "com.wb.LEGOBatman2",
+    "infoPlistPath": "Payload/LEGO_SH1.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.9.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LSWSaga.ipa": {
+    "buildVersion": "2.2.3",
+    "bundleIdentifier": "com.wb.LEGOStarWars",
+    "infoPlistPath": "Payload/SagaIOS.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.2.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LUTStudio.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.solveit.lut-studio",
+    "infoPlistPath": "Payload/LUT-Studio.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "4.0.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Lake.ipa": {
+    "buildVersion": "644",
+    "bundleIdentifier": "com.lake.coloring",
+    "infoPlistPath": "Payload/Lake.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "3.35.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Lampa.ipa": {
+    "buildVersion": "76",
+    "bundleIdentifier": "com.lampa.photo",
+    "infoPlistPath": "Payload/Lampa.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "2.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LeosFortune.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LifeSum.ipa": {
+    "buildVersion": "1168",
+    "bundleIdentifier": "com.sillens.iShape",
+    "infoPlistPath": "Payload/iShape.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "22.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LightLeap.ipa": {
+    "buildVersion": "2145",
+    "bundleIdentifier": "com.lightricks.Enlight-Photos",
+    "infoPlistPath": "Payload/Owl.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "1.22.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Lightroom.ipa": {
+    "buildVersion": "11.4.21.247",
+    "bundleIdentifier": "com.adobe.lrmobile",
+    "infoPlistPath": "Payload/LrMobile.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "11.4.21"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Limbo.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.playdeadgames.limbo.ios",
+    "infoPlistPath": "Payload/LIMBO.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.2.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LineCamera.ipa": {
+    "buildVersion": "18.5.5.2",
+    "bundleIdentifier": "jp.naver.linecamera",
+    "infoPlistPath": "Payload/LINECamera.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "18.5.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Lingvo.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LivePassApp.ipa": {
+    "buildVersion": "36",
+    "bundleIdentifier": "com.livedebrid.livepass",
+    "infoPlistPath": "Payload/LivePass.app/Info.plist",
+    "minOSVersion": "16.4",
+    "version": "1.9.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LoFiCam.ipa": {
+    "buildVersion": "3.11.0.5",
+    "bundleIdentifier": "com.paha.LoFiCam",
+    "infoPlistPath": "Payload/LoFiCam.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "3.11.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LostInPlay.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.snapbreak.lipaa",
+    "infoPlistPath": "Payload/LostinPlay.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.0.2053"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LuckBeLandlord.ipa": {
+    "buildVersion": "1.2.15",
+    "bundleIdentifier": "com.trampolinetales.luckbealandlord",
+    "infoPlistPath": "Payload/LBAL.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.2.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LumaFusion.ipa": {
+    "buildVersion": "3413",
+    "bundleIdentifier": "com.luma-touch.LumaFusion",
+    "infoPlistPath": "Payload/LumaFusion.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "5.3.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LusfulOlymp.ipa": {
+    "buildVersion": "652",
+    "bundleIdentifier": "com.barhatgames.lol.erolabs",
+    "infoPlistPath": "Payload/LustfulOlympLegends.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.2.322"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/LustGoddes.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.brawea.chickgoddess",
+    "infoPlistPath": "Payload/LustGoddess.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "13.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MADFUT.ipa": {
+    "buildVersion": "8",
+    "bundleIdentifier": "com.trivela.madfut",
+    "infoPlistPath": "Payload/MADFUT.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Machinarium.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MacroFactor.ipa": {
+    "buildVersion": "847",
+    "bundleIdentifier": "com.sbs.diet",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "15.5",
+    "version": "5.7.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MadOutTwo.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.MadOut.BIG",
+    "infoPlistPath": "Payload/MadOut2.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "20.45"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MagicApp.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.findmy.MagicApp",
+    "infoPlistPath": "Payload/MagicApp.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.12"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MagicEraser.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.hhp.magicEraser",
+    "infoPlistPath": "Payload/magicEraser.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "3.14.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MagicandGoddess.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.enadventure.dashios",
+    "infoPlistPath": "Payload/Magic and Goddess.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MarvelContest.ipa": {
+    "buildVersion": "1429558",
+    "bundleIdentifier": "com.kabam.marvelbattle",
+    "infoPlistPath": "Payload/Champions.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "58.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MattelMatch.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.uken.mattel.match",
+    "infoPlistPath": "Payload/MattelMatch.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "10.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Melodia.ipa": {
+    "buildVersion": "117",
+    "bundleIdentifier": "co.appnation.aimusic",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "3.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MergeCooking.ipa": {
+    "buildVersion": "1035001",
+    "bundleIdentifier": "com.merge.cooking.theme.restaurant.food",
+    "infoPlistPath": "Payload/MergeCooking.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.35.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MergeDragons2.ipa": {
+    "buildVersion": "1371",
+    "bundleIdentifier": "com.gramgames.mergedragons",
+    "infoPlistPath": "Payload/MergeDragons.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "13.13.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Minecraft.ipa": {
+    "buildVersion": "1.21.132.01",
+    "bundleIdentifier": "com.mojang.minecraftpe",
+    "infoPlistPath": "Payload/minecraftpe.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.21.132"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MinutesAI.ipa": {
+    "buildVersion": "68",
+    "bundleIdentifier": "ventures.slam.minutes",
+    "infoPlistPath": "Payload/minutes.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "1.12.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MockupUI.ipa": {
+    "buildVersion": "204",
+    "bundleIdentifier": "com.hasankassem.mockup",
+    "infoPlistPath": "Payload/Mockup.app/Info.plist",
+    "minOSVersion": "15",
+    "version": "4.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Moises1.ipa": {
+    "buildVersion": "13",
+    "bundleIdentifier": "ai.moises",
+    "infoPlistPath": "Payload/Moises.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.97.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MonopolyBoard.ipa": {
+    "buildVersion": "91",
+    "bundleIdentifier": "com.marmalade.monopoly",
+    "infoPlistPath": "Payload/Monopoly.app/Info.plist",
+    "minOSVersion": "15.2",
+    "version": "1.15.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MonumentValleyTwo.ipa": {
+    "buildVersion": "3.10.604",
+    "bundleIdentifier": "com.ustwo.monumentvalley2",
+    "infoPlistPath": "Payload/Monument2.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "3.10.604"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MoonlyMoonPhase.ipa": {
+    "buildVersion": "1180",
+    "bundleIdentifier": "com.moonly.Moonly",
+    "infoPlistPath": "Payload/Moonly.app/Info.plist",
+    "minOSVersion": "16.2",
+    "version": "2.7.9"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MortalKombat.ipa": {
+    "buildVersion": "1440187",
+    "bundleIdentifier": "com.wb.MK.Brawler2015",
+    "infoPlistPath": "Payload/MKMobile.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "7.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Motionleap.ipa": {
+    "buildVersion": "1905",
+    "bundleIdentifier": "com.lightricks.Enlight-Phoenix",
+    "infoPlistPath": "Payload/Phoenix.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "1.9.38"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MovieBoxPro.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.xd.mbp31",
+    "infoPlistPath": "Payload/MovieBox.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "15.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Mubert.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "ru.at.Mubert",
+    "infoPlistPath": "Payload/Mubert iOS.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "4.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/MyFitnessPal.ipa": {
+    "buildVersion": "75039",
+    "bundleIdentifier": "com.myfitnesspal.mfp",
+    "infoPlistPath": "Payload/MyFitnessPal.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "26.23.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Neonvideoeditor.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Nicegram1.ipa": {
+    "buildVersion": "392",
+    "bundleIdentifier": "app.nicegram",
+    "infoPlistPath": "Payload/Telegram.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.9.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NightSky.ipa": {
+    "buildVersion": "11.2",
+    "bundleIdentifier": "com.icandiapps.nightsky",
+    "infoPlistPath": "Payload/Night Sky.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "11.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NoCameraSound.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NoFusionCam.ipa": {
+    "buildVersion": "155",
+    "bundleIdentifier": "com.grey.swiftcamera",
+    "infoPlistPath": "Payload/No Fusion.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "2.5.56"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NotBoring.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.andyworks.streaks",
+    "infoPlistPath": "Payload/streaks.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "3.33"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NotBoringVibes.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.andyworks.vibes",
+    "infoPlistPath": "Payload/vibes.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "1.24"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NotBoringWeather.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.andyworks.weather",
+    "infoPlistPath": "Payload/simple-weather.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "3.50"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NotFM.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/NotFM.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NotabilityAI.ipa": {
+    "buildVersion": "7118",
+    "bundleIdentifier": "com.gingerlabs.Notability",
+    "infoPlistPath": "Payload/Notability.app/Info.plist",
+    "minOSVersion": "17.7",
+    "version": "16.11"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/NowhereProphet.ipa": {
+    "buildVersion": "2952574",
+    "bundleIdentifier": "com.nomorerobots.nowhereprophet",
+    "infoPlistPath": "Payload/NowhereProphet.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.081"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ObjectRemover.ipa": {
+    "buildVersion": "35",
+    "bundleIdentifier": "us.appnation.watermarkremover",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OctupusFeast.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.twodestudios.octopusfeast",
+    "infoPlistPath": "Payload/OctopusFeast.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.15.13"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Oddmar.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OldOS.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OnePiece.ipa": {
+    "buildVersion": "64100",
+    "bundleIdentifier": "jp.co.bandainamcoent.BNEI0297",
+    "infoPlistPath": "Payload/Bounty.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "64100"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OnePieceBlackOcean.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.tfhz301.enbz",
+    "infoPlistPath": "Payload/ConquerorΓÇÖs Call.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "7.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OnePieceDreamCompass.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.ly.xxg.on1e",
+    "infoPlistPath": "Payload/MyLuaGame-mobile.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/OrnetPP.ipa": {
+    "buildVersion": "4.0.2.1",
+    "bundleIdentifier": "ch.b-eng.tor",
+    "infoPlistPath": "Payload/TorBrowser.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PACMAN.ipa": {
+    "buildVersion": "571",
+    "bundleIdentifier": "jp.co.bandainamcoent.BNEI0360",
+    "infoPlistPath": "Payload/PM-PR.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "4.5.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PDFExpert.ipa": {
+    "buildVersion": "7.24.1.1254",
+    "bundleIdentifier": "com.readdle.PDFExpert5",
+    "infoPlistPath": "Payload/PDFExpert.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "7.24.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PPSSPPGold.ipa": {
+    "buildVersion": "10017.1.491",
+    "bundleIdentifier": "org.ppsspp.ppsspp-gold",
+    "infoPlistPath": "Payload/PPSSPP.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "10017.1.491"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PainterEye.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "HUTAR.PaintingAR",
+    "infoPlistPath": "Payload/PaintingAR.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "4.5.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PeachyPro.ipa": {
+    "buildVersion": "180",
+    "bundleIdentifier": "com.camerasideas.Peachy",
+    "infoPlistPath": "Payload/Peachy.app/Info.plist",
+    "minOSVersion": "16.1",
+    "version": "2.13.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PerfectVideoLite.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PewDiePieTuber.ipa": {
+    "buildVersion": "2.85.0.0",
+    "bundleIdentifier": "com.outerminds.tubular",
+    "infoPlistPath": "Payload/PewDiePieTuberSimulator.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.85.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Phocus.ipa": {
+    "buildVersion": "7524",
+    "bundleIdentifier": "com.ahmetserdarkaradeniz.Phocus",
+    "infoPlistPath": "Payload/Phocus.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "3.4.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Phonto.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PhotoLab2.ipa": {
+    "buildVersion": "13583",
+    "bundleIdentifier": "com.photo",
+    "infoPlistPath": "Payload/pho.to.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "3.12.36"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Photoleap.ipa": {
+    "buildVersion": "6700",
+    "bundleIdentifier": "com.lightricks.Enlight-Editor",
+    "infoPlistPath": "Payload/Enlight.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "2.120"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Photomyne.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Photoroom_AI.ipa": {
+    "buildVersion": "2374",
+    "bundleIdentifier": "com.dr1ven.eraser",
+    "infoPlistPath": "Payload/Photoroom.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "2026.25.02"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Photoshop.ipa": {
+    "buildVersion": "26.9.1.8701",
+    "bundleIdentifier": "com.adobe.PSMobile",
+    "infoPlistPath": "Payload/PS Express.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "26.9.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PhotoshopFull.ipa": {
+    "buildVersion": "20260204.716",
+    "bundleIdentifier": "com.adobe.photoshop.ios",
+    "infoPlistPath": "Payload/Adobe Photoshop.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "7.3.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PianoTiles.ipa": {
+    "buildVersion": "250328.0",
+    "bundleIdentifier": "com.kooapps.pianotiles2arcade",
+    "infoPlistPath": "Payload/Piano Tiles 2.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Picsew.ipa": {
+    "buildVersion": "3206",
+    "bundleIdentifier": "com.sugarmo.ScrollClip",
+    "infoPlistPath": "Payload/Picsew.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "3.9.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Pilgrims.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Pixelmator.ipa": {
+    "buildVersion": "20241028.1658",
+    "bundleIdentifier": "com.pixelmatorteam.pixelmator.touch",
+    "infoPlistPath": "Payload/Pixelmator.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "3.1.10"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PlaceGuesser.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.mobivalley.LookAroundApp",
+    "infoPlistPath": "Payload/LookAround.app/Info.plist",
+    "minOSVersion": "17.6",
+    "version": "1.50.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PlantIdent.ipa": {
+    "buildVersion": "3176",
+    "bundleIdentifier": "co.theplanty.plant.identification.care",
+    "infoPlistPath": "Payload/Planty.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.23.39"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Planta.ipa": {
+    "buildVersion": "938",
+    "bundleIdentifier": "com.stromming.Plants",
+    "infoPlistPath": "Payload/Planta.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "3.103.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Play.ipa": {
+    "buildVersion": "2024-12-01",
+    "bundleIdentifier": "com.virtualapplications.play",
+    "infoPlistPath": "Payload/Play.app/Info.plist",
+    "minOSVersion": "12.2",
+    "version": "0.68"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PocketBuild.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "moonbear.PocketBuild",
+    "infoPlistPath": "Payload/PocketBuild.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "4.11"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PocketPool.ipa": {
+    "buildVersion": "1.0.2",
+    "bundleIdentifier": "com.ketchapp.pocketpool",
+    "infoPlistPath": "Payload/pocketpool.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PokemonCafe.ipa": {
+    "buildVersion": "4.20.0",
+    "bundleIdentifier": "jp.pokemon.pokemoncafemix",
+    "infoPlistPath": "Payload/tart.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "4.20.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PokemonChampionDuel.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.cracity.pock",
+    "infoPlistPath": "Payload/MyLuaGame-mobile.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PokemonEchos.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.301.zd3dsen",
+    "infoPlistPath": "Payload/PokeLegends.app/Info.plist",
+    "minOSVersion": "12",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PokemonExplorers.ipa": {
+    "buildVersion": "100",
+    "bundleIdentifier": "com.301.hbjpmen",
+    "infoPlistPath": "Payload/SAcetest.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PokerHero.ipa": {
+    "buildVersion": "6",
+    "bundleIdentifier": "com.gemini.dash.deck",
+    "infoPlistPath": "Payload/PokerHero.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.8.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Polarr.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "co.polarr.ppe",
+    "infoPlistPath": "Payload/PPE iOS.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "6.12.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Ppsspp.ipa": {
+    "buildVersion": "",
+    "bundleIdentifier": "org.ppsspp.ppsspp",
+    "infoPlistPath": "Payload/PPSSPP.app/Info.plist",
+    "minOSVersion": "",
+    "version": ""
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PrefsChanger.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PrequelPhoto.ipa": {
+    "buildVersion": "260466",
+    "bundleIdentifier": "com.aiarlabs.prequel",
+    "infoPlistPath": "Payload/Prequel.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "2.97.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PrinceofPersia.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.ubisoft.princeofpersia.thelostcrown.mobile.action.adventure.platform",
+    "infoPlistPath": "Payload/PrinceofPersiaTheLostCrown.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "1.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Procam2.ipa": {
+    "buildVersion": "1.0",
+    "bundleIdentifier": "gemini.ProCam-2",
+    "infoPlistPath": "Payload/ProCam.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "14.6.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Procreate.ipa": {
+    "buildVersion": "37783",
+    "bundleIdentifier": "au.com.savageinteractive.procreate-pocket",
+    "infoPlistPath": "Payload/Procreate.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.0.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Provenance.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Prune.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/PurePKG.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "uwu.lrdsnow.purepkg",
+    "infoPlistPath": "Payload/PurePKG.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Quake3.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RYUGRAM.ipa": {
+    "buildVersion": "1021301964",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "439.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RadarBotPro.ipa": {
+    "buildVersion": "212",
+    "bundleIdentifier": "com.iteration-mobile.radarbot-free-ww",
+    "infoPlistPath": "Payload/Radarbot.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "9.41"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RaymanMini.ipa": {
+    "buildVersion": "1.5788",
+    "bundleIdentifier": "com.ubisoft.raymanair",
+    "infoPlistPath": "Payload/ios_UA_Engine_retail.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.13"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ReCollide.ipa": {
+    "buildVersion": "252",
+    "bundleIdentifier": "com.di0301.yx",
+    "infoPlistPath": "Payload/ProductName.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "2.2.52"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Reface.ipa": {
+    "buildVersion": "11988",
+    "bundleIdentifier": "com.neocortext.doublicatapp",
+    "infoPlistPath": "Payload/Reface.app/Info.plist",
+    "minOSVersion": "26.0",
+    "version": "6.9.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Reigns.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RenovateAI.ipa": {
+    "buildVersion": "535",
+    "bundleIdentifier": "app.renovateai",
+    "infoPlistPath": "Payload/RenovateAI.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "5.1.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Reports.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ResSet16.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ResSetKFD.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.uwu.kfdicks16",
+    "infoPlistPath": "Payload/KFDicks16.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.1.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RetroCam.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RickandMorty.ipa": {
+    "buildVersion": "25",
+    "bundleIdentifier": "com.turner.pocketmorties",
+    "infoPlistPath": "Payload/PocketMortys.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.41.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Rider.ipa": {
+    "buildVersion": "207200.4",
+    "bundleIdentifier": "com.ketchapp.rider",
+    "infoPlistPath": "Payload/Rider.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.07.200"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Rocket.ipa": {
+    "buildVersion": "1045455911",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "16.3",
+    "version": "443.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RocketLeage.ipa": {
+    "buildVersion": "457072",
+    "bundleIdentifier": "com.psyonixllc.mesa",
+    "infoPlistPath": "Payload/RL2D.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.8.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RolleCoasterTycoon.ipa": {
+    "buildVersion": "395776000",
+    "bundleIdentifier": "com.atari.mobile.rctempire",
+    "infoPlistPath": "Payload/RCTTouch.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "3.51.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RoyalKingdom.ipa": {
+    "buildVersion": "32492",
+    "bundleIdentifier": "com.dreamgames.royalkingdom",
+    "infoPlistPath": "Payload/RoyalKingdom.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "32492"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/RoyalMatch.ipa": {
+    "buildVersion": "37743",
+    "bundleIdentifier": "com.dreamgames.royalmatch",
+    "infoPlistPath": "Payload/RoyalMatch.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "37743"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SCRL.ipa": {
+    "buildVersion": "13",
+    "bundleIdentifier": "com.dopedevelopment.Panels",
+    "infoPlistPath": "Payload/SCRL.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "9.51"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ScannerPro.ipa": {
+    "buildVersion": "8.33.3.1672",
+    "bundleIdentifier": "com.readdle.Scanner",
+    "infoPlistPath": "Payload/ScannerPro.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "8.33.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ScoreHero2.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.firsttouch.hero2",
+    "infoPlistPath": "Payload/Hero.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "2.81"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SevenDeadlySins.ipa": {
+    "buildVersion": "28400",
+    "bundleIdentifier": "com.netmarble.nanagb",
+    "infoPlistPath": "Payload/nanagb.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "2.84.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ShadowFight3.ipa": {
+    "buildVersion": "11341",
+    "bundleIdentifier": "com.nekki.shadowfight3",
+    "infoPlistPath": "Payload/ShadowFight3.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.45.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SharkWorld.ipa": {
+    "buildVersion": "8.1.6",
+    "bundleIdentifier": "com.ubisoft.hungrysharkworld",
+    "infoPlistPath": "Payload/hungrysharkworld.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "8.1.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ShovelKnightDig.ipa": {
+    "buildVersion": "8150",
+    "bundleIdentifier": "com.yachtclubgames.skdig",
+    "infoPlistPath": "Payload/ShovelKnightDig.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.1.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Shred.ipa": {
+    "buildVersion": "510",
+    "bundleIdentifier": "com.shred.shredlabs",
+    "infoPlistPath": "Payload/SHRED.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "5.4.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SimplyGuitar.ipa": {
+    "buildVersion": "3248",
+    "bundleIdentifier": "com.joytunes.SimplyGuitar",
+    "infoPlistPath": "Payload/SimplyGuitar.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "10.29.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SimplyPiano.ipa": {
+    "buildVersion": "27922",
+    "bundleIdentifier": "com.joytunes.asla",
+    "infoPlistPath": "Payload/SimplyPiano.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "9.10.90"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SimplySing.ipa": {
+    "buildVersion": "1017",
+    "bundleIdentifier": "com.joytunes.Sing",
+    "infoPlistPath": "Payload/SimplySing.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "3.0.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SimsFreePlay.ipa": {
+    "buildVersion": "115.0.270767",
+    "bundleIdentifier": "com.ea.sims3deluxe.ipad.bv",
+    "infoPlistPath": "Payload/SIMS3_UNIVERSAL.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "115.0.270767"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SnapEdit.ipa": {
+    "buildVersion": "2272",
+    "bundleIdentifier": "com.sfun.snapedit",
+    "infoPlistPath": "Payload/SnapEdit.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "6.26.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SneakySasquatch.ipa": {
+    "buildVersion": "1005",
+    "bundleIdentifier": "com.rac7.SneakySasquatch",
+    "infoPlistPath": "Payload/Sasquatch.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.1.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SniperArena.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SnowAI.ipa": {
+    "buildVersion": "15.3.10.6",
+    "bundleIdentifier": "com.campmobile.snow",
+    "infoPlistPath": "Payload/SNOW.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "15.3.10"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SoloKnight.ipa": {
+    "buildVersion": "169",
+    "bundleIdentifier": "com.Shimmer.SoloKnightIOS",
+    "infoPlistPath": "Payload/SoloKnight.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.1.707"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SoulKnight.ipa": {
+    "buildVersion": "1515",
+    "bundleIdentifier": "com.ChillyRoom.DungeonShooter",
+    "infoPlistPath": "Payload/SoulKnight.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "8.5.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Spark.ipa": {
+    "buildVersion": "2.11.23.30",
+    "bundleIdentifier": "com.readdle.smartemail",
+    "infoPlistPath": "Payload/Spark.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.11.23"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Splice.ipa": {
+    "buildVersion": "4039",
+    "bundleIdentifier": "com.path36.SpliceFree",
+    "infoPlistPath": "Payload/Splice.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "4.28.65"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Standoff2.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.th3project.STANDLEO",
+    "infoPlistPath": "Payload/STANDLEO.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/StardewValley.ipa": {
+    "buildVersion": "0.1",
+    "bundleIdentifier": "com.concernedape.stardewvalleyarcade",
+    "infoPlistPath": "Payload/StardewValley.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "16.15.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Stateio.ipa": {
+    "buildVersion": "93",
+    "bundleIdentifier": "io.state.fight",
+    "infoPlistPath": "Payload/State.io.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/StatusMagic.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/StreetsOfRageFour.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.playdigious.streetsofrage4",
+    "infoPlistPath": "Payload/SOR4.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.3.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Subnautica2.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.UnknownWorlds.Subnautica",
+    "infoPlistPath": "Payload/Subnautica.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.21.82617"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SubnauticaBelowZero.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.UnknownWorlds.SubnauticaBelowZero",
+    "infoPlistPath": "Payload/SubnauticaBelowZero.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.22.54939"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Subtitles.ipa": {
+    "buildVersion": "77988",
+    "bundleIdentifier": "com.tappdev.subtitles",
+    "infoPlistPath": "Payload/Video Subtitles.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SubwayCity.ipa": {
+    "buildVersion": "48838",
+    "bundleIdentifier": "com.sybogames.subway.surfers.game",
+    "infoPlistPath": "Payload/SubwayCity.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.5.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Sudoku.ipa": {
+    "buildVersion": "1.1.0.730",
+    "bundleIdentifier": "com.mobilityware.SudokuAA",
+    "infoPlistPath": "Payload/SudokuAA.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SummaryAI.ipa": {
+    "buildVersion": "145",
+    "bundleIdentifier": "io.labhouse.audioapp",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.1.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SummitFilza.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SuperGoalSoccer.ipa": {
+    "buildVersion": "246",
+    "bundleIdentifier": "com.soccer.football.kick.crazy",
+    "infoPlistPath": "Payload/SuperGoal.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "0.2.46"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/SuperLeapDay.ipa": {
+    "buildVersion": "43",
+    "bundleIdentifier": "com.nitrome.leapday2",
+    "infoPlistPath": "Payload/SuperLeapDay.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TMNTShredder.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.playdigious.tmnt",
+    "infoPlistPath": "Payload/TMNT.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.2.15"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TOPUS.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.topus.app",
+    "infoPlistPath": "Payload/TOPUS.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.0.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Tachimanga.ipa": {
+    "buildVersion": "486",
+    "bundleIdentifier": "com.mangacrush.ios",
+    "infoPlistPath": "Payload/Tachimanga.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.19"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Teleprompter.ipa": {
+    "buildVersion": "1451",
+    "bundleIdentifier": "matekovacs.Teleprompter",
+    "infoPlistPath": "Payload/Teleprompter.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "12.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Tempo.ipa": {
+    "buildVersion": "1000",
+    "bundleIdentifier": "com.quvideo.VISO",
+    "infoPlistPath": "Payload/VivaLite.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "4.50.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TheOregonTrail.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TheRunner.ipa": {
+    "buildVersion": "1.0",
+    "bundleIdentifier": "com.ah4ma.runner",
+    "infoPlistPath": "Payload/The Runner.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TheWolf.ipa": {
+    "buildVersion": "4.0.2.3",
+    "bundleIdentifier": "com.swiftappskom.thewolfrpg",
+    "infoPlistPath": "Payload/TheWolf.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "4.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TimeLockerPlus.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "3Tank.TimeLockerPlus",
+    "infoPlistPath": "Payload/TimeLockerPlus.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.4.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TipsyTravel.ipa": {
+    "buildVersion": "4288",
+    "bundleIdentifier": "app.tripsy.ios",
+    "infoPlistPath": "Payload/Tripsy.app/Info.plist",
+    "minOSVersion": "18",
+    "version": "3.9.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Transformers.ipa": {
+    "buildVersion": "26.0.1723",
+    "bundleIdentifier": "com.backflipstudios.transformersearthwars",
+    "infoPlistPath": "Payload/Transformers.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "26.0.1723"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TravelTown.ipa": {
+    "buildVersion": "78805",
+    "bundleIdentifier": "io.randomco.travel",
+    "infoPlistPath": "Payload/TravelTown.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.12.1402"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TrollBox.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "live.cclerc.trollbox",
+    "infoPlistPath": "Payload/TrollBox.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TrollTools.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TrueSkate.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.trueaxis.skate",
+    "infoPlistPath": "Payload/True Skate.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.5.91"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Tumblr.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TwitterNeobird.ipa": {
+    "buildVersion": "10",
+    "bundleIdentifier": "com.atebits.Tweetie2",
+    "infoPlistPath": "Payload/Twitter.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "12.9"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/TypeAI.ipa": {
+    "buildVersion": "91",
+    "bundleIdentifier": "com.codeway.AIKeyboard",
+    "infoPlistPath": "Payload/ai-keyboard.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "3.3.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/UltimateGolf.ipa": {
+    "buildVersion": "737764",
+    "bundleIdentifier": "com.hypgames.ultimategolf",
+    "infoPlistPath": "Payload/UltimateGolf.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "5.06.00"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Undertale.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.jockeholm.undertale",
+    "infoPlistPath": "Payload/UNDERTALE.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "2.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Unfold.ipa": {
+    "buildVersion": "60339",
+    "bundleIdentifier": "com.moonlab.unfoldstories",
+    "infoPlistPath": "Payload/Unfold.app/Info.plist",
+    "minOSVersion": "16.6",
+    "version": "8.163.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VCUS.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/VCUS.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Valorant.ipa": {
+    "buildVersion": "1511",
+    "bundleIdentifier": "com.tencent.tmgp.codev",
+    "infoPlistPath": "Payload/CodeV.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VampireSurvivors.ipa": {
+    "buildVersion": "32735722",
+    "bundleIdentifier": "com.poncle.VampireSurvivors",
+    "infoPlistPath": "Payload/VampireSurvivors.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.13.109"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VanishBar.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VeryLittleNightmares.ipa": {
+    "buildVersion": "116",
+    "bundleIdentifier": "eu.bandainamcoent.verylittlenightmares",
+    "infoPlistPath": "Payload/VLN.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.2.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Videoleap.ipa": {
+    "buildVersion": "6523",
+    "bundleIdentifier": "com.lightricks.Enlight-Video",
+    "infoPlistPath": "Payload/Video.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "2.84"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VivaCut.ipa": {
+    "buildVersion": "5985",
+    "bundleIdentifier": "com.vivacut.videoeditor",
+    "infoPlistPath": "Payload/VivaCut.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.5.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VlogNow.ipa": {
+    "buildVersion": "4540",
+    "bundleIdentifier": "com.frontrow.vlog",
+    "infoPlistPath": "Payload/VN.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "2.19.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/VocalRemover.ipa": {
+    "buildVersion": "15",
+    "bundleIdentifier": "co.appnation.vocalremover",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/WDBFontOverwrite.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WDBRemoveThreeAppLimit.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WarhammerTacticus.ipa": {
+    "buildVersion": "1598",
+    "bundleIdentifier": "com.snowprintstudios.tacticus",
+    "infoPlistPath": "Payload/Tacticus.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.34.30"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Watusi1.ipa": {
+    "buildVersion": "1044029620",
+    "bundleIdentifier": "net.whatsapp.WhatsApp",
+    "infoPlistPath": "Payload/WhatsApp.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "26.32.75"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WatusiBusiness2.ipa": {
+    "buildVersion": "1044030866",
+    "bundleIdentifier": "net.whatsapp.WhatsAppSMB",
+    "infoPlistPath": "Payload/WhatsApp.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "26.32.75"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Whitelist.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WizardyVariants.ipa": {
+    "buildVersion": "18092",
+    "bundleIdentifier": "jp.co.drecom.wizardry.daphne",
+    "infoPlistPath": "Payload/WizDaphne.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.28.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/WordsOfWonders.ipa": {
+    "buildVersion": "55691527",
+    "bundleIdentifier": "com.fugo.wow",
+    "infoPlistPath": "Payload/WoW.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "5.3.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Worms3.ipa": {
+    "buildVersion": "1.24",
+    "bundleIdentifier": "com.team17.worms3",
+    "infoPlistPath": "Payload/Worms3iPhone.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.24"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/YTkiller.ipa": {
+    "buildVersion": "21.30.5",
+    "bundleIdentifier": "com.google.ios.youtube",
+    "infoPlistPath": "Payload/YouTube.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "21.30.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/YTlite.ipa": {
+    "buildVersion": "21.21.3",
+    "bundleIdentifier": "com.google.ios.youtube",
+    "infoPlistPath": "Payload/YouTube.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "21.21.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/YTmusic1.ipa": {
+    "buildVersion": "9.23.4",
+    "bundleIdentifier": "com.google.ios.youtubemusic",
+    "infoPlistPath": "Payload/YouTubeMusic.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "9.23.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/YaMusic2.ipa": {
+    "buildVersion": "155127",
+    "bundleIdentifier": "ru.yandex.mobile.music",
+    "infoPlistPath": "Payload/Maple.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "671"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/YouCut.ipa": {
+    "buildVersion": "19",
+    "bundleIdentifier": "com.shantanu.YouCut",
+    "infoPlistPath": "Payload/YouCut.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.28.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Zinitevi2.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/Zoomerang.ipa": {
+    "buildVersion": "12",
+    "bundleIdentifier": "com.yantech.zoomerang",
+    "infoPlistPath": "Payload/Zoomerang.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "3.3.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/adobepremier.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/adobescan.ipa": {
+    "buildVersion": "20251218.133957",
+    "bundleIdentifier": "com.adobe.scan.ios",
+    "infoPlistPath": "Payload/Adobe Scan.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "25.12.18"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/alienInvasion.ipa": {
+    "buildVersion": "4.47.01",
+    "bundleIdentifier": "com.multicastgames.venomSurvive",
+    "infoPlistPath": "Payload/AlienInvasion.app/Info.plist",
+    "minOSVersion": "15",
+    "version": "4.47.01"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/angrybirds.ipa": {
+    "buildVersion": "40081029",
+    "bundleIdentifier": "com.rovio.baba",
+    "infoPlistPath": "Payload/AngryBirds2.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "4.0.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/archero.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.habby.archero",
+    "infoPlistPath": "Payload/Archero.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "8.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/b612.ipa": {
+    "buildVersion": "15.3.5.0",
+    "bundleIdentifier": "com.linecorp.b612",
+    "infoPlistPath": "Payload/Global.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "15.3.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ballXPit.ipa": {
+    "buildVersion": "299",
+    "bundleIdentifier": "com.devolverdigital.ballxpit",
+    "infoPlistPath": "Payload/BALLxPIT.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.299"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/battleCats.ipa": {
+    "buildVersion": "15.5.0",
+    "bundleIdentifier": "jp.co.ponos.battlecatsen",
+    "infoPlistPath": "Payload/battlecatsen.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "15.5.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/bhtiktok.ipa": {
+    "buildVersion": "458026",
+    "bundleIdentifier": "com.zhiliaoapp.musically",
+    "infoPlistPath": "Payload/TikTok.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "45.8.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/boxBoxClub.ipa": {
+    "buildVersion": "440",
+    "bundleIdentifier": "club.boxbox.widgets-ios",
+    "infoPlistPath": "Payload/BoxBoxClub.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "5.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/braintestTwo.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.unicostudio.braintest2",
+    "infoPlistPath": "Payload/BrainTest2.app/Info.plist",
+    "minOSVersion": "12.5",
+    "version": "1.20.37"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/brawl1.ipa": {
+    "buildVersion": "68.279",
+    "bundleIdentifier": "nt.nb.ios",
+    "infoPlistPath": "Payload/NB.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "68.279"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/busuu.ipa": {
+    "buildVersion": "26526",
+    "bundleIdentifier": "com.busuu.english.app",
+    "infoPlistPath": "Payload/Busuu.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "30.25.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/candy.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.midasplayer.apps.candycrushsaga",
+    "infoPlistPath": "Payload/candycrushsaga.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.335.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/carXDrift3.ipa": {
+    "buildVersion": "5",
+    "bundleIdentifier": "com.carx-tech.carxdr3",
+    "infoPlistPath": "Payload/CarXDriftRacing3.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "0.15.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/catsAndSoup.ipa": {
+    "buildVersion": "727",
+    "bundleIdentifier": "com.hidea.cat",
+    "infoPlistPath": "Payload/CatsSoup.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "4.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/chai.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.beauchamp.Messenger.external",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "20260523.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/chani.ipa": {
+    "buildVersion": "20",
+    "bundleIdentifier": "com.chaninicholas.chaniapp",
+    "infoPlistPath": "Payload/CHANI.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "2.7.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/chatsmith.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "co.vulcanlabs.moodtracker",
+    "infoPlistPath": "Payload/Chat Smith.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "8.251222.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/coconote.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.bbauman.Scripty",
+    "infoPlistPath": "Payload/Coconote.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "2.50"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/crsel.ipa": {
+    "buildVersion": "70",
+    "bundleIdentifier": "com.frameoneapps.Crsel",
+    "infoPlistPath": "Payload/Crsel.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "1.4.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/cutecut.ipa": {
+    "buildVersion": "1892",
+    "bundleIdentifier": "com.mobivio.cutecutpro",
+    "infoPlistPath": "Payload/CuteCUT.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "1.8.10"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/cuttherope.ipa": {
+    "buildVersion": "2214",
+    "bundleIdentifier": "com.paladinstudios.ctr",
+    "infoPlistPath": "Payload/CuttheRope.app/Info.plist",
+    "minOSVersion": "13",
+    "version": "1.5.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/darkroom.ipa": {
+    "buildVersion": "73006",
+    "bundleIdentifier": "co.bergen.Darkroom",
+    "infoPlistPath": "Payload/Darkroom.app/Info.plist",
+    "minOSVersion": "18.4",
+    "version": "7.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/delta.ipa": {
+    "buildVersion": "102",
+    "bundleIdentifier": "com.rileytestut.Delta",
+    "infoPlistPath": "Payload/Delta.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "1.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/doubleh3lix.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "org.tihmstar.doubleH3lix",
+    "infoPlistPath": "Payload/doubleH3lix.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/dragonballsaga.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.301.zdlzen",
+    "infoPlistPath": "Payload/Legends Reborn.app/Info.plist",
+    "minOSVersion": "12.1",
+    "version": "1.0.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/duolingo.ipa": {
+    "buildVersion": "7.138.0.15",
+    "bundleIdentifier": "com.duolingo.DuolingoMobile",
+    "infoPlistPath": "Payload/DuolingoMobile.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "7.138.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/elgato.ipa": {
+    "buildVersion": "91",
+    "bundleIdentifier": "com.elgato.streamdeck-ios",
+    "infoPlistPath": "Payload/Stream Deck.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.2.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/fallguy.ipa": {
+    "buildVersion": "7711",
+    "bundleIdentifier": "uk.co.mediatonic.fallguys",
+    "infoPlistPath": "Payload/FallGuys.app/Info.plist",
+    "minOSVersion": "7.0",
+    "version": "21.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/fallout.ipa": {
+    "buildVersion": "4521093",
+    "bundleIdentifier": "com.bethsoft.falloutshelter",
+    "infoPlistPath": "Payload/FalloutShelter.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "2.5.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/fitbod.ipa": {
+    "buildVersion": "16522",
+    "bundleIdentifier": "com.fitbod",
+    "infoPlistPath": "Payload/fitbod.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "7.13.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa": {
+    "error": "404 Client Error: Not Found for url: https://s3-storage.flekstore.com/ipa-library/flekdeck2.ipa"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/flstudio.ipa": {
+    "buildVersion": "1152",
+    "bundleIdentifier": "com.imageline.FLStudioMobileHD",
+    "infoPlistPath": "Payload/FL Studio Mobile.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "4.10.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/fnaf4.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.scottgames.fnaf4",
+    "infoPlistPath": "Payload/Five_Nights_at_Freddys_4.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "2.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/fresco.ipa": {
+    "buildVersion": "7.3.1.2885",
+    "bundleIdentifier": "com.adobe.fresco.ios",
+    "infoPlistPath": "Payload/Gemini_retail.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "7.3.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ftpclient.ipa": {
+    "buildVersion": "3.2.1.0",
+    "bundleIdentifier": "com.LessIsMoreDevelopment.FTPClient",
+    "infoPlistPath": "Payload/FTP Client Pro.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "3.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/geometry.ipa": {
+    "buildVersion": "2.2.0.6.0",
+    "bundleIdentifier": "com.robtop.geometryjump",
+    "infoPlistPath": "Payload/GeometryJump.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.206"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/graphingcalculator.ipa": {
+    "buildVersion": "3",
+    "bundleIdentifier": "com.incpt.mobis.GraphingCalculator84UMPlus",
+    "infoPlistPath": "Payload/GraphingCalculator84.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/grimoire.ipa": {
+    "buildVersion": "7",
+    "bundleIdentifier": "com.e301n.mjwy",
+    "infoPlistPath": "Payload/MJ.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/grimsoul.ipa": {
+    "buildVersion": "803010792",
+    "bundleIdentifier": "fantasy.survival.game.rpg",
+    "infoPlistPath": "Payload/GrimSoul.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "8.3.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/gtasa.ipa": {
+    "buildVersion": "2025.0311.1526",
+    "bundleIdentifier": "com.rockstargames.gta3sa",
+    "infoPlistPath": "Payload/gtasa.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "2.2.21"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/h3lix.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "org.tihmstar.h3lix",
+    "infoPlistPath": "Payload/h3lix.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/halideThree.ipa": {
+    "buildVersion": "2668999",
+    "bundleIdentifier": "camera.lux.halide.mkii",
+    "infoPlistPath": "Payload/Halide.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.5.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/heartforlikee.ipa": {
+    "buildVersion": "1458",
+    "bundleIdentifier": "com.lema.LikeeApp",
+    "infoPlistPath": "Payload/HeartApp.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "3.62.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/hideio.ipa": {
+    "buildVersion": "25004",
+    "bundleIdentifier": "com.igenesoft.hide",
+    "infoPlistPath": "Payload/hide.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "25.0.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/hollowknight.ipa": {
+    "buildVersion": "5",
+    "bundleIdentifier": "com.GLESign.HollowKnight",
+    "infoPlistPath": "Payload/HollowKnight.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "1.5.78.11833"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/hottube.ipa": {
+    "buildVersion": "19",
+    "bundleIdentifier": "com.c1d3r.Hot-Tub",
+    "infoPlistPath": "Payload/Hot Tub.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2.1.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/iChan.ipa": {
+    "buildVersion": "5316",
+    "bundleIdentifier": "com.astafiev.app",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "3.10.8170248"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/iTranslate.ipa": {
+    "buildVersion": "504",
+    "bundleIdentifier": "com.outerspaceapps.itranslate",
+    "infoPlistPath": "Payload/iTranslatev2.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "17.4.74"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/imgAI.ipa": {
+    "buildVersion": "5901225",
+    "bundleIdentifier": "com.idevtal.Wallpapers",
+    "infoPlistPath": "Payload/Wallpapers.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "5.90"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/inds.ipa": {
+    "buildVersion": "120",
+    "bundleIdentifier": "net.nerd.iNDS",
+    "infoPlistPath": "Payload/iNDS.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "1.10.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/infuse.ipa": {
+    "buildVersion": "8.4.5690",
+    "bundleIdentifier": "com.firecore.infuse",
+    "infoPlistPath": "Payload/infuse.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "8.4.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/instakiller.ipa": {
+    "buildVersion": "787013352",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "396.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ipogo2.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.nianticlabs.pokemongo",
+    "infoPlistPath": "Payload/PokmonGO.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "0.427.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/irealpro.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.massimobiolcati.iRealBook",
+    "infoPlistPath": "Payload/iReal Pro.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "2021.12"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/iscanner.ipa": {
+    "buildVersion": "2089.0.17",
+    "bundleIdentifier": "net.iscannerapp.pro",
+    "infoPlistPath": "Payload/iScanner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "5.27"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/itorrent1.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.xitrix.iTorrent2",
+    "infoPlistPath": "Payload/iTorrent.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "2.0.14"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/jetpack.ipa": {
+    "buildVersion": "1.70.1.61876601",
+    "bundleIdentifier": "com.halfbrick.jetpack",
+    "infoPlistPath": "Payload/jetpack.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.70.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/kfdkannafont.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.34306.kannafont",
+    "infoPlistPath": "Payload/Kanna font destroy.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "1.10.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/kfdkannafont14ProMax.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.34306.kannafont",
+    "infoPlistPath": "Payload/Kanna font destroy.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "1.10.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/lastday.ipa": {
+    "buildVersion": "965",
+    "bundleIdentifier": "zombie.survival.craft.z",
+    "infoPlistPath": "Payload/LastDayOnEarthSurvival.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.51.6"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/locchange.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.parkm.locchange",
+    "infoPlistPath": "Payload/locchange.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/luminar.ipa": {
+    "buildVersion": "3287",
+    "bundleIdentifier": "com.skylum.luminaripad",
+    "infoPlistPath": "Payload/Luminar.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "4.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/mimo.ipa": {
+    "buildVersion": "48993",
+    "bundleIdentifier": "com.getmimo.mimo",
+    "infoPlistPath": "Payload/Mimo.app/Info.plist",
+    "minOSVersion": "17.0",
+    "version": "12.24.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/miniFootbal.ipa": {
+    "buildVersion": "2659",
+    "bundleIdentifier": "com.miniclip.minifootball",
+    "infoPlistPath": "Payload/MiniFootball.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "3.14.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/misakakfd.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.straight-tamago.misakaRS",
+    "infoPlistPath": "Payload/misaka.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "8.2.4 Beta"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/mojo.ipa": {
+    "buildVersion": "20319766",
+    "bundleIdentifier": "archery.storify",
+    "infoPlistPath": "Payload/Mojo.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.276.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/momentCam.ipa": {
+    "buildVersion": "49",
+    "bundleIdentifier": "com.momentinc.procamera",
+    "infoPlistPath": "Payload/MomentCapture-iOS.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "1.1.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/movaviclips.ipa": {
+    "buildVersion": "4672",
+    "bundleIdentifier": "com.movavi.clips",
+    "infoPlistPath": "Payload/Clip&Go.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "3.43.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/musamemPRO.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.musamem.studio",
+    "infoPlistPath": "Payload/PocketVideo.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/nesemu.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.explusalpha.NesEmu",
+    "infoPlistPath": "Payload/NesEmu.app/Info.plist",
+    "minOSVersion": "4.2",
+    "version": "1.5.29"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/nestopia.ipa": {
+    "buildVersion": "1.0",
+    "bundleIdentifier": "com.macbuildserver.Nestopia",
+    "infoPlistPath": "Payload/Nestopia.app/Info.plist",
+    "minOSVersion": "6.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/nfsNoLimit.ipa": {
+    "buildVersion": "8.6.010",
+    "bundleIdentifier": "com.ea.nfs2014.bv",
+    "infoPlistPath": "Payload/NFSNoLimits_UNIVERSAL.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "8.6.01"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/noteful.ipa": {
+    "buildVersion": "129",
+    "bundleIdentifier": "com.noteful-technologies.noteful",
+    "infoPlistPath": "Payload/Noteful.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/persona.ipa": {
+    "buildVersion": "2338",
+    "bundleIdentifier": "com.tickettothemoon.video.persona",
+    "infoPlistPath": "Payload/Persona.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.15.26"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/picsart.ipa": {
+    "buildVersion": "30701",
+    "bundleIdentifier": "com.picsart.studio",
+    "infoPlistPath": "Payload/Picsart.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "30.7.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pictureThis.ipa": {
+    "buildVersion": "4639904",
+    "bundleIdentifier": "cn.danatech.xingseus",
+    "infoPlistPath": "Payload/PictureThis.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "5.32.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/plague.ipa": {
+    "buildVersion": "2602",
+    "bundleIdentifier": "com.ndemiccreations.plagueinc",
+    "infoPlistPath": "Payload/Plague.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.21"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/planesLive.ipa": {
+    "buildVersion": "1000095",
+    "bundleIdentifier": "com.apalonapps.planesfree",
+    "infoPlistPath": "Payload/FlightRadarFree.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "3.10.53"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/plenixclash.ipa": {
+    "buildVersion": "17.360.16",
+    "bundleIdentifier": "co.plenixclash.server.o",
+    "infoPlistPath": "Payload/Clash of Clans.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "17.360.16"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/plusinst.ipa": {
+    "buildVersion": "485526738",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "288.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pokemonRemake.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.kdcz.cps.tta001",
+    "infoPlistPath": "Payload/PokemonRemake.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "2.3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pokemonSunMoon.ipa": {
+    "buildVersion": "600",
+    "bundleIdentifier": "com.kdryen.cps.cpsiostta001",
+    "infoPlistPath": "Payload/Poke╠ümon Sun Moon.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "6.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/poolMaster_igd.ipa": {
+    "buildVersion": "25",
+    "bundleIdentifier": "com.ball.pool.billiards2.eyu",
+    "infoPlistPath": "Payload/eyu.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.18.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/posi0nKFD.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.lrdsnow.test3",
+    "infoPlistPath": "Payload/posi0nKFD.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/posi0nKFD_A16.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.lrdsnow.test3",
+    "infoPlistPath": "Payload/posi0nKFD.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/ppgirlfriend.ipa": {
+    "buildVersion": "96",
+    "bundleIdentifier": "com.cerisegames.pdti",
+    "infoPlistPath": "Payload/PP: Tropical Island.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.1.96"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/premierAdobe.ipa": {
+    "buildVersion": "29",
+    "bundleIdentifier": "com.adobe.premiere.ios",
+    "infoPlistPath": "Payload/Premiere.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "26.15.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/purekfd.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "uwu.lrdsnow.purekfd",
+    "infoPlistPath": "Payload/PureKFD.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "5.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/push.ipa": {
+    "buildVersion": "35",
+    "bundleIdentifier": "com.ADPTVLTD.push",
+    "infoPlistPath": "Payload/PUSH.app/Info.plist",
+    "minOSVersion": "16.4",
+    "version": "4.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pvz2.ipa": {
+    "buildVersion": "13.4.1",
+    "bundleIdentifier": "com.popcap.ios.PvZ2",
+    "infoPlistPath": "Payload/PvZ2.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1002"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pvzfusion.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.GLESign.PlantsVsZombiesRH",
+    "infoPlistPath": "Payload/PlantsVsZombiesRH.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/pythonista.ipa": {
+    "buildVersion": "330025",
+    "bundleIdentifier": "com.omz-software.Pythonista3",
+    "infoPlistPath": "Payload/Pythonista3.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "3.3"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/raid.ipa": {
+    "buildVersion": "131090",
+    "bundleIdentifier": "com.plarium.raidlegends",
+    "infoPlistPath": "Payload/Raid.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "11.70.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/regram.ipa": {
+    "buildVersion": "1045455915",
+    "bundleIdentifier": "com.burbn.instagram",
+    "infoPlistPath": "Payload/Instagram.app/Info.plist",
+    "minOSVersion": "16.3",
+    "version": "443.1.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/repo.ipa": {
+    "buildVersion": "0",
+    "bundleIdentifier": "com.Neznayaka.R.E.P.O",
+    "infoPlistPath": "Payload/R.E.P.O.app/Info.plist",
+    "minOSVersion": "12.0",
+    "version": "0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/roblox.ipa": {
+    "buildVersion": "2.733.988",
+    "bundleIdentifier": "com.gloop.deltamobile",
+    "infoPlistPath": "Payload/Roblox.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "2.733.988"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/sao.ipa": {
+    "buildVersion": "33",
+    "bundleIdentifier": "jp.co.bandainamcoent.BNEI0409",
+    "infoPlistPath": "Payload/SAOVS.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "1.0.20"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/shadowfight.ipa": {
+    "buildVersion": "134",
+    "bundleIdentifier": "com.nekki.shadowfight",
+    "infoPlistPath": "Payload/ShadowFight2.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.46.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/shark.ipa": {
+    "buildVersion": "875193976",
+    "bundleIdentifier": "com.facebook.Messenger",
+    "infoPlistPath": "Payload/Messenger.app/Info.plist",
+    "minOSVersion": "15.1",
+    "version": "547.0.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/shazam.ipa": {
+    "buildVersion": "2441",
+    "bundleIdentifier": "com.laxus.shazam",
+    "infoPlistPath": "Payload/Shazam.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "11.9.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/signalvpn.ipa": {
+    "buildVersion": "244",
+    "bundleIdentifier": "co.innovative.Sofast",
+    "infoPlistPath": "Payload/Signal Secure.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.1.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/sixpack.ipa": {
+    "buildVersion": "450",
+    "bundleIdentifier": "com.abishkking.sixpack",
+    "infoPlistPath": "Payload/SixPack.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.45.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/sleepcycle.ipa": {
+    "buildVersion": "25914",
+    "bundleIdentifier": "com.lexwarelabs.goodmorning",
+    "infoPlistPath": "Payload/GoodMorning.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "6.25.35"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/smash_igd.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.mediocre.smashhit",
+    "infoPlistPath": "Payload/smashhit.app/Info.plist",
+    "minOSVersion": "15.6",
+    "version": "1.5.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/source.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.ytzong.ViewSource",
+    "infoPlistPath": "Payload/Source.app/Info.plist",
+    "minOSVersion": "14.0",
+    "version": "3.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/spoofer2.ipa": {
+    "buildVersion": "0.716",
+    "bundleIdentifier": "com.nianticlabs.pokemongo",
+    "infoPlistPath": "Payload/PokmonGO.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "0.427.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/starve.ipa": {
+    "buildVersion": "123343",
+    "bundleIdentifier": "com.kleientertainment.dontstarvepocket",
+    "infoPlistPath": "Payload/dontstarve.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.36"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/stickWarLegacy.ipa": {
+    "buildVersion": "69",
+    "bundleIdentifier": "com.stickpage.stickwar",
+    "infoPlistPath": "Payload/StickWarLegacy.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "2026.1.932"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/subway.ipa": {
+    "buildVersion": "93372",
+    "bundleIdentifier": "com.kiloo.subwaysurfers",
+    "infoPlistPath": "Payload/SubwaySurf.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "3.66.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/summertimesaga.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.a7raj.SummertimeSaga",
+    "infoPlistPath": "Payload/SummertimeSaga.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "0.20.16"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/swipewipe1.ipa": {
+    "buildVersion": "4",
+    "bundleIdentifier": "com.aoklab.fewerphotos",
+    "infoPlistPath": "Payload/fewerphoto.app/Info.plist",
+    "minOSVersion": "18.0",
+    "version": "3.4.12"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/tabsPocket.ipa": {
+    "buildVersion": "72",
+    "bundleIdentifier": "com.landfall.tabspocketedition",
+    "infoPlistPath": "Payload/TABSPocketEdition.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.0.84"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/tanks.ipa": {
+    "buildVersion": "896",
+    "bundleIdentifier": "com.boombitgames.TanksALot",
+    "infoPlistPath": "Payload/TanksALot.app/Info.plist",
+    "minOSVersion": "8.0",
+    "version": "6.901"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/taptitans.ipa": {
+    "buildVersion": "8.1.2.0",
+    "bundleIdentifier": "com.gamehivecorp.taptitans2",
+    "infoPlistPath": "Payload/TapTitans2.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "8.1.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/templyAI.ipa": {
+    "buildVersion": "601",
+    "bundleIdentifier": "com.templyvideo.Temply",
+    "infoPlistPath": "Payload/Temply.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "8.3.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/timecap.ipa": {
+    "buildVersion": "566",
+    "bundleIdentifier": "com.ziggycrane.timecap",
+    "infoPlistPath": "Payload/Runner.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.23.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/tocaBoca.ipa": {
+    "buildVersion": "111062",
+    "bundleIdentifier": "com.tocaboca.tocalifeworld",
+    "infoPlistPath": "Payload/TocaWorld.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.137.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/toonblast.ipa": {
+    "buildVersion": "23267",
+    "bundleIdentifier": "net.peakgames.toonblast",
+    "infoPlistPath": "Payload/ToonBlast.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "23267"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/township.ipa": {
+    "buildVersion": "38.1.1",
+    "bundleIdentifier": "com.playrix.township-ios",
+    "infoPlistPath": "Payload/t.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "38.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/truecaller.ipa": {
+    "buildVersion": "26.16.5",
+    "bundleIdentifier": "com.truesoftware.TrueCallerOther",
+    "infoPlistPath": "Payload/Truecaller.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "26.16.5"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/uncover.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "science.xnu.undecimus",
+    "infoPlistPath": "Payload/unc0ver.app/Info.plist",
+    "minOSVersion": "11.0",
+    "version": "8.0.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/uplens.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "app.uplens",
+    "infoPlistPath": "Payload/Uplens.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "4.2.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/uyoutube.ipa": {
+    "buildVersion": "19.49.7",
+    "bundleIdentifier": "com.google.ios.youtube",
+    "infoPlistPath": "Payload/YouTube.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "19.49.7"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/veed.ipa": {
+    "buildVersion": "5509",
+    "bundleIdentifier": "io.veed.appstore",
+    "infoPlistPath": "Payload/Veed Captions.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "8.12.0"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/vidlist.ipa": {
+    "buildVersion": "1",
+    "bundleIdentifier": "com.vh.vhub",
+    "infoPlistPath": "Payload/VidList.app/Info.plist",
+    "minOSVersion": "14.6",
+    "version": "2.1.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/vintage.ipa": {
+    "buildVersion": "5",
+    "bundleIdentifier": "com.appfever.vintage",
+    "infoPlistPath": "Payload/Vintage Design.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "5.2.1"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/vsco1.ipa": {
+    "buildVersion": "401049",
+    "bundleIdentifier": "co.visualsupply.cam",
+    "infoPlistPath": "Payload/VSCO.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "461.6.4"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/wallpapers.ipa": {
+    "buildVersion": "85",
+    "bundleIdentifier": "com.wallpaperscraft.wallpapers.pro",
+    "infoPlistPath": "Payload/wallpapers pro.app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "2.8"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/warpedkart.ipa": {
+    "buildVersion": "9052.201197",
+    "bundleIdentifier": "com.electricsquare.atlas-testflight",
+    "infoPlistPath": "Payload/Warped Kart Racers.app/Info.plist",
+    "minOSVersion": "13.0",
+    "version": "1.01"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/warplane1.ipa": {
+    "buildVersion": "2",
+    "bundleIdentifier": "com.DL.war.planes.inc.torpedo.bomber.fighter.aircraft.ww2",
+    "infoPlistPath": "Payload/Warplaneinc..app/Info.plist",
+    "minOSVersion": "10.0",
+    "version": "1.53"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/whereismywater.ipa": {
+    "buildVersion": "1.8.2.3",
+    "bundleIdentifier": "com.disney.wheresmywater2",
+    "infoPlistPath": "Payload/WheresMyWater.app/Info.plist",
+    "minOSVersion": "9.0",
+    "version": "1.8.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/wolframalpha.ipa": {
+    "error": "top-level Payload/*.app/Info.plist not found"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/xina.ipa": {
+    "buildVersion": "1.1.6.2",
+    "bundleIdentifier": "com.xina.jailbreak",
+    "infoPlistPath": "Payload/XinaA12.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "1.1.6.2"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/youtubeOled.ipa": {
+    "buildVersion": "20.50.10",
+    "bundleIdentifier": "com.google.ios.youtube",
+    "infoPlistPath": "Payload/YouTube.app/Info.plist",
+    "minOSVersion": "16.0",
+    "version": "20.50.10"
+  },
+  "https://s3-storage.flekstore.com/ipa-library/zooba1.ipa": {
+    "buildVersion": "44644",
+    "bundleIdentifier": "com.fungames.battleroyale",
+    "infoPlistPath": "Payload/Zooba.app/Info.plist",
+    "minOSVersion": "15.0",
+    "version": "6.27.1"
+  }
+}
