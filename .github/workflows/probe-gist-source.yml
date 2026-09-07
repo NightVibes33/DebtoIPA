@@ -1,0 +1,57 @@
+name: Probe Gist Source
+
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/probe-gist-source.yml
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe raw Gist variants
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import requests
+          urls = [
+              'https://gist.githubusercontent.com/NightVibes3/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/source.json',
+              'https://gist.githubusercontent.com/NightVibes33/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/source.json',
+              'https://gist.github.com/NightVibes3/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/source.json',
+              'https://gist.github.com/NightVibes33/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/source.json',
+              'https://gist.github.com/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/source.json',
+              'https://gist.github.com/abb16b0d0c9bbcfe3fad3d9e7835ae3c/raw/',
+          ]
+          for u in urls:
+              try:
+                  r=requests.get(u,allow_redirects=True,timeout=20)
+                  print('PROBE',r.status_code,len(r.content),u,'->',r.url)
+                  if r.ok and r.content:
+                      open('source-original.json','wb').write(r.content)
+                      print('FOUND_URL',u)
+                      print(r.text[:1000])
+                      break
+              except Exception as e:
+                  print('ERROR',u,repr(e))
+          else:
+              raise SystemExit('No Gist URL variant resolved')
+          PY
+
+      - name: Validate JSON
+        run: |
+          python3 -m json.tool source-original.json >/dev/null
+          python3 - <<'PY'
+          import json
+          s=json.load(open('source-original.json'))
+          print('TOP_LEVEL_KEYS', sorted(s.keys()))
+          print('APP_COUNT', len(s.get('apps', [])))
+          for i,a in enumerate(s.get('apps',[])[:20]):
+              print('APP',i,a.get('name'),sorted(a.keys()))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: probed-gist-source
+          path: source-original.json
