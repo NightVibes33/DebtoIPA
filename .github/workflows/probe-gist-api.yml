@@ -1,0 +1,37 @@
+name: Probe Gist API
+
+on:
+  push:
+    branches: [flekstore-alt-source]
+    paths:
+      - .github/workflows/probe-gist-api.yml
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Gist API and page
+        env:
+          GIST_ID: abb16b0d0c9bbcfe3fad3d9e7835ae3c
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, requests, json
+          gid=os.environ['GIST_ID']
+          for u in [
+              f'https://api.github.com/gists/{gid}',
+              f'https://gist.github.com/{gid}',
+              f'https://gist.github.com/NightVibes3/{gid}',
+              f'https://gist.github.com/NightVibes33/{gid}',
+          ]:
+              r=requests.get(u,allow_redirects=True,timeout=20,headers={'Accept':'application/vnd.github+json','User-Agent':'sidestore-gist-probe'})
+              print('URL',u,'STATUS',r.status_code,'FINAL',r.url,'BYTES',len(r.content))
+              print(r.text[:3000])
+              if u.startswith('https://api.github.com/') and r.ok:
+                  data=r.json()
+                  print('OWNER', (data.get('owner') or {}).get('login'))
+                  print('FILES', list((data.get('files') or {}).keys()))
+                  for name,f in (data.get('files') or {}).items():
+                      print('FILE',name,'RAW_URL',f.get('raw_url'),'SIZE',f.get('size'),'TRUNCATED',f.get('truncated'))
+          PY
